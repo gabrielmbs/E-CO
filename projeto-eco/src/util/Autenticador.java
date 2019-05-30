@@ -14,16 +14,8 @@ public class Autenticador {
     }
 
     public static void validaDNI(String parametro) {
-
-        if (parametro.contains("-")) {
-            for (String num : parametro.split("-")) {
-                try {
-                    Double.parseDouble(num);
-
-                } catch (NumberFormatException | NullPointerException nfe) {
-                    throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni invalido");
-                }
-            }
+        if (!parametro.matches("[0-9-]+")){
+            throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni invalido");
         }
     }
 }

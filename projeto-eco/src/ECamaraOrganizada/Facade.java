@@ -40,4 +40,13 @@ public class Facade {
     public String exibirBase(){
         return "";
     }
+
+    public void limparSistema(){
+
+    }
+
+    public void salvarSistema(){
+
+    }
 }
+
