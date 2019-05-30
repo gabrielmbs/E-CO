@@ -61,4 +61,18 @@ public class PessoaController {
         this.deputados.put(DNI, new Deputado(pessoa.getNome(), DNI, pessoa.getEstado(), pessoa.getInteresses(),
                             pessoa.getPartido(), dataDeInicio));
     }
+
+
+    public String exibirPessoa(String dni) {
+        Autenticador.validaString(dni, "Erro ao exibir pessoa: dni nao pode ser vazio ou nulo");
+        Autenticador.validaDNI(dni, "Erro ao exibir pessoa: dni invalido");
+        if (!this.pessoas.containsKey(dni)) {
+            throw new IllegalArgumentException("Erro ao exibir pessoa: pessoa nao encontrada");
+        }
+        if (this.deputados.containsKey(dni)) {
+            return this.deputados.get(dni).toString();
+        }
+        return this.pessoas.get(dni).toString();
+
+    }
 }
