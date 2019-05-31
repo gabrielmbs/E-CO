@@ -4,7 +4,9 @@ import easyaccept.EasyAccept;
 
 public class Facade {
     public static void main(String[] args) {
-        args = new String[]{"ECamaraOrganizada.Facade", "easyaccept_tests/use_case_1.txt"};
+        args = new String[]{"ECamaraOrganizada.Facade", "easyaccept_tests/use_case_1.txt",
+                            "easyaccept_tests/use_case_2.txt", "easyaccept_tests/use_case_3.txt",
+                            "easyaccept_tests/use_case_4.txt"};
         EasyAccept.main(args);
     }
 
@@ -26,19 +28,19 @@ public class Facade {
     }
 
     public void cadastrarDeputado(String DNI, String dataDeInicio){
-
+        this.pessoaController.cadastrarDeputado(DNI, dataDeInicio);
     }
 
     public String exibirPessoa(String DNI){
-        return "";
+        return this.pessoaController.exibirPessoa(DNI);
     }
 
     public void cadastrarPartido(String partido){
-
+        this.base.cadastrarPartido(partido);
     }
 
     public String exibirBase(){
-        return "";
+        return this.base.exibirBase();
     }
 
     public void limparSistema(){
@@ -46,6 +48,10 @@ public class Facade {
     }
 
     public void salvarSistema(){
+
+    }
+
+    public void carregarSistema(){
 
     }
 }

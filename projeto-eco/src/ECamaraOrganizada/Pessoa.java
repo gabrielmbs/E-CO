@@ -37,15 +37,20 @@ public class Pessoa {
         return partido;
     }
 
+    //Formato: Nome - DNI (Estado) [ - PARTIDO ] [ - Interesses ]
+    //Exemplo: Matheus G. - 123456789-0 (PB) - Interesses: ensino superior, cooperativismo
     @Override
     public String toString() {
-        return "Pessoa{" +
-                "nome='" + nome + '\'' +
-                ", dni='" + dni + '\'' +
-                ", estado='" + estado + '\'' +
-                ", interesses='" + interesses + '\'' +
-                ", partido='" + partido + '\'' +
-                '}';
+        if( ( !"".equals(this.interesses) ) && (this.partido != null)) {
+            return this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + this.partido +
+                    " - " + "Interesses: " + this.interesses;
+        } else if( (this.partido != null) && ("".equals(this.interesses)) ) {
+            return this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + this.partido;
+        } else if( (this.partido == null) && (!"".equals(this.interesses)) ){
+            return this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + "Interesses: " + this.interesses;
+        }
+        return this.nome + " - " + this.dni + " (" + this.estado + ")";
+
     }
 
     @Override
