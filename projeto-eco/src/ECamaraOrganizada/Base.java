@@ -34,4 +34,9 @@ public class Base {
 
         return resultado.substring(0, (resultado.length() - 1));
     }
+
+    public Set<String> getBase() {
+        return base;
+    }
+
 }
