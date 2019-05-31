@@ -8,12 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PessoaController {
-    private Map<String, Pessoa> pessoas;
-    private Map<String, Deputado> deputados;
+    private Map<String, Pessoa> pessoas;;
 
     public PessoaController(){
         this.pessoas = new HashMap<>();
-        this.deputados = new HashMap<>();
     }
 
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses) {
@@ -58,8 +56,7 @@ public class PessoaController {
         Autenticador.validaData(dataDeInicio);
 
         Pessoa pessoa = this.pessoas.get(DNI);
-        this.deputados.put(DNI, new Deputado(pessoa.getNome(), DNI, pessoa.getEstado(), pessoa.getInteresses(),
-                            pessoa.getPartido(), dataDeInicio));
+        pessoa.viraDeputado(dataDeInicio);
     }
 
 
@@ -68,9 +65,6 @@ public class PessoaController {
         Autenticador.validaDNI(dni, "Erro ao exibir pessoa: dni invalido");
         if (!this.pessoas.containsKey(dni)) {
             throw new IllegalArgumentException("Erro ao exibir pessoa: pessoa nao encontrada");
-        }
-        if (this.deputados.containsKey(dni)) {
-            return this.deputados.get(dni).toString();
         }
         return this.pessoas.get(dni).toString();
 
