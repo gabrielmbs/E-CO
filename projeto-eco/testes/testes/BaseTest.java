@@ -28,10 +28,6 @@ class BaseTest {
     }
 
     @Test
-    void construtorBaseTest(){
-        assertEquals(HashSet.class, this.base.getBase().getClass());
-    }
-    @Test
     void cadastrarPartidoNullPointerTest() {
         assertThrows(NullPointerException.class, () -> this.base.cadastrarPartido(null));
     }
