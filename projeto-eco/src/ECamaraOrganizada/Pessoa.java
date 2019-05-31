@@ -3,11 +3,12 @@ package ECamaraOrganizada;
 import java.util.Objects;
 
 public class Pessoa {
-    protected String nome;
-    protected String dni;
-    protected String estado;
-    protected String interesses;
-    protected String partido;
+    private String nome;
+    private String dni;
+    private String estado;
+    private String interesses;
+    private String partido;
+    private Funcao funcao;
 
     public Pessoa(String nome, String dni, String estado, String interesses) {
         this.nome = nome;
@@ -21,31 +22,35 @@ public class Pessoa {
         this.partido = partido;
     }
 
-    public String getNome() {
-        return nome;
+    public void viraDeputado(String dataInicio){
+        this.funcao = new Deputado(dataInicio);
     }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public String getInteresses() {
-        return interesses;
-    }
-
-    public String getPartido() {
-        return partido;
-    }
-
+    
     @Override
     public String toString() {
-        return "Pessoa{" +
-                "nome='" + nome + '\'' +
-                ", dni='" + dni + '\'' +
-                ", estado='" + estado + '\'' +
-                ", interesses='" + interesses + '\'' +
-                ", partido='" + partido + '\'' +
-                '}';
+        if(this.funcao == null){
+            if( ( !"".equals(this.interesses) ) && (this.partido != null)) {
+                return this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + this.partido +
+                        " - " + "Interesses: " + this.interesses;
+            } else if( (this.partido != null) && ("".equals(this.interesses)) ) {
+                return this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + this.partido;
+            } else if( (this.partido == null) && (!"".equals(this.interesses)) ){
+                return this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + "Interesses: " + this.interesses;
+            }
+            return this.nome + " - " + this.dni + " (" + this.estado + ")";
+        }else{
+            if((!"".equals(this.interesses) ) && (this.partido != null)) {
+                return "POL: " + this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + this.partido +
+                        " - " + "Interesses: " + this.interesses + " - "  + this.funcao.exibirDeputado();
+            } else if((this.partido != null) && ("".equals(this.interesses))) {
+                return "POL: " + this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + this.partido
+                        + " - "  + this.funcao.exibirDeputado();
+            } else if((this.partido == null) && (!"".equals(this.interesses))){
+                return "POL: " + this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + "Interesses: " + this.interesses
+                        + " - " + this.funcao.exibirDeputado();
+            }
+            return "POL: " + this.nome + " - " + this.dni + " (" + this.estado + ")" + this.funcao.exibirDeputado();
+        }
     }
 
     @Override
@@ -59,5 +64,9 @@ public class Pessoa {
     @Override
     public int hashCode() {
         return Objects.hash(dni);
+    }
+
+    public String getPartido() {
+        return partido;
     }
 }

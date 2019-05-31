@@ -1,20 +1,19 @@
 package ECamaraOrganizada;
 
-public class Deputado extends Pessoa {
+public class Deputado implements Funcao{
     private int numeroDeLeis;
     private String dataInicio;
 
-    public Deputado(String nome, String dni, String estado, String interesses, String partido, String dataInicio) {
-        super(nome, dni, estado, interesses, partido);
+    public Deputado(String dataInicio) {
         this.dataInicio = dataInicio;
         this.numeroDeLeis = 0;
     }
 
     @Override
-    public String toString() {
-        return "Deputado{" +
-                "numeroDeLeis=" + numeroDeLeis +
-                ", dataInicio='" + dataInicio + '\'' +
-                '}';
+    public String exibirDeputado() {
+        String dia = this.dataInicio.substring(0,2);
+        String mes = this.dataInicio.substring(2,4);
+        String ano = this.dataInicio.substring(4);
+        return dia + "/" + mes + "/" + ano + " - " + this.numeroDeLeis + " Leis";
     }
 }
