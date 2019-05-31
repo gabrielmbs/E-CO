@@ -1,12 +1,8 @@
 package util;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
 
 public class Autenticador {
     private static void validaStringNula(String parametro, String mensagem) {
