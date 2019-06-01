@@ -25,8 +25,7 @@ public class Pessoa {
     public void viraDeputado(String dataInicio){
         this.funcao = new Deputado(dataInicio);
     }
-    //Formato: Nome - DNI (Estado) [ - PARTIDO ] [ - Interesses ]
-    //Exemplo: Matheus G. - 123456789-0 (PB) - Interesses: ensino superior, cooperativismo
+
     @Override
     public String toString() {
         if(this.funcao == null){
