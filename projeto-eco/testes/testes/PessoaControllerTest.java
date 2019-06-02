@@ -12,8 +12,14 @@ class PessoaControllerTest {
     @BeforeEach
     void criaPessoaController() {
         this.pessoaController = new PessoaController();
+        // sem interesse e sem partido
         this.pessoaController.cadastrarPessoa("Jonas", "12345678-9", "PB", "");
+        // com interesse e sem partido
+        this.pessoaController.cadastrarPessoa("Jonas", "12345678-0", "PB", "educação");
+        // sem interesse e com partido
         this.pessoaController.cadastrarPessoa("Jonas", "12345678-1", "PB", "", "PT");
+        // com interesse e com partido
+        this.pessoaController.cadastrarPessoa("Jonas", "12345678-6", "PB", "educação", "PT");
     }
 
     @Test
@@ -299,5 +305,78 @@ class PessoaControllerTest {
     void cadastrarPessoaComPartidoComInteresse() {
         this.pessoaController.cadastrarPessoa("Juan", "98765432-1", "RJ", "Educação",
                 "PT");
+    }
+
+    @Test
+    void testExibirPessoaDniNulo(){
+        assertThrows(NullPointerException.class, () -> this.pessoaController.exibirPessoa(null));
+    }
+
+    @Test
+    void testExibirPessoaDniVazio(){
+        assertThrows(IllegalArgumentException.class, () -> this.pessoaController.exibirPessoa(" "));
+    }
+
+    @Test
+    void testExibirPessoaDniInvalidoInvalidoComEspaco(){
+        assertThrows(IllegalArgumentException.class, () -> this.pessoaController.exibirPessoa(" 12345678"));
+    }
+
+    @Test
+    void testExibirPessoaDniInvalidoInvalidoComLetra(){
+        assertThrows(IllegalArgumentException.class, () -> this.pessoaController.exibirPessoa("A12345678"));
+    }
+
+    @Test
+    void testExibirPessoaDniInvalidoInvalidoComCaractereEspecial(){
+        assertThrows(IllegalArgumentException.class, () -> this.pessoaController.exibirPessoa(".%12345678"));
+    }
+
+    @Test
+    void testExibirPessoaDniInvalidoInvalidoSemTraco(){
+        assertThrows(IllegalArgumentException.class, () -> this.pessoaController.exibirPessoa("123456781"));
+    }
+
+    @Test
+    void testExibirPessoaInexistente(){
+        assertThrows(IllegalArgumentException.class, () -> this.pessoaController.exibirPessoa("12345228-3"));
+    }
+
+    @Test
+    void testExibirPessoaSemInteresseESemPartido(){
+        String esperado = "Jonas - 12345678-9 (PB)";
+        assertEquals(esperado, this.pessoaController.exibirPessoa("12345678-9"));
+    }
+
+    @Test
+    void testExibirPessoaComInteresseESemPartido(){
+        String esperado = "Jonas - 12345678-0 (PB) - Interesses: educação";
+        assertEquals(esperado, this.pessoaController.exibirPessoa("12345678-0"));
+    }
+
+    @Test
+    void testExibirPessoaSemInteresseEComPartido(){
+        String esperado = "Jonas - 12345678-1 (PB) - PT";
+        assertEquals(esperado, this.pessoaController.exibirPessoa("12345678-1"));
+    }
+
+    @Test
+    void testExibirPessoaComInteresseEComPartido(){
+        String esperado = "Jonas - 12345678-6 (PB) - PT - Interesses: educação";
+        assertEquals(esperado, this.pessoaController.exibirPessoa("12345678-6"));
+    }
+
+    @Test
+    void testExibirDeputadoSemInteresse(){
+        this.pessoaController.cadastrarDeputado("12345678-1", "20102018");
+        String esperado = "POL: Jonas - 12345678-1 (PB) - PT - 20/10/2018 - 0 Leis";
+        assertEquals(esperado, this.pessoaController.exibirPessoa("12345678-1"));
+    }
+
+    @Test
+    void testExibirDeputadoComInteresse(){
+        this.pessoaController.cadastrarDeputado("12345678-6", "20102018");
+        String esperado = "POL: Jonas - 12345678-6 (PB) - PT - Interesses: educação - 20/10/2018 - 0 Leis";
+        assertEquals(esperado, this.pessoaController.exibirPessoa("12345678-6"));
     }
 }

@@ -53,7 +53,8 @@ public class PessoaController {
             throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa sem partido");
         }
         Autenticador.validaString(dataDeInicio, "Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
-        Autenticador.validaData(dataDeInicio);
+        Autenticador.validaDataInvalida(dataDeInicio, "Erro ao cadastrar deputado: data invalida");
+        Autenticador.validaDataFutura(dataDeInicio, "Erro ao cadastrar deputado: data futura");
 
         Pessoa pessoa = this.pessoas.get(DNI);
         pessoa.viraDeputado(dataDeInicio);
