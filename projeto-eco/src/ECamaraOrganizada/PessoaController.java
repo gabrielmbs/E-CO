@@ -42,7 +42,7 @@ public class PessoaController {
     }
 
     public void cadastrarDeputado(String DNI, String dataDeInicio) {
-        Autenticador.validaString(DNI, "Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
+        Autenticador.validaString(DNI, "Erro ao cadastrar deputado: dni nao pode ser vazio ou nulo");
         Autenticador.validaDNI(DNI, "Erro ao cadastrar deputado: dni invalido");
         if (!this.pessoas.containsKey(DNI)) {
             throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa nao encontrada");
