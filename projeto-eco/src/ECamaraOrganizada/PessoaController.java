@@ -2,8 +2,6 @@ package ECamaraOrganizada;
 
 import util.Autenticador;
 
-import java.awt.dnd.DnDConstants;
-import java.io.DataInput;
 import java.util.HashMap;
 import java.util.Map;
 

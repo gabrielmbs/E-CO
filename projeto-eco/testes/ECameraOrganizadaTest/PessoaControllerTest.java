@@ -1,4 +1,4 @@
-package testes;
+package ECameraOrganizadaTest;
 
 import ECamaraOrganizada.PessoaController;
 import org.junit.jupiter.api.BeforeEach;
