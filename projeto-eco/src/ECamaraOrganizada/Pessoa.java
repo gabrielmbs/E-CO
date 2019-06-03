@@ -1,5 +1,7 @@
 package ECamaraOrganizada;
 
+import util.Autenticador;
+
 import java.util.Objects;
 
 public class Pessoa {
@@ -11,6 +13,11 @@ public class Pessoa {
     private Funcao funcao;
 
     public Pessoa(String nome, String dni, String estado, String interesses) {
+        Autenticador.validaString(dni, "Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
+        Autenticador.validaDNI(dni, "Erro ao cadastrar pessoa: dni invalido");
+        Autenticador.validaString(nome, "Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
+        Autenticador.validaString(estado, "Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
+
         this.nome = nome;
         this.dni = dni;
         this.estado = estado;
@@ -19,10 +26,16 @@ public class Pessoa {
 
     public Pessoa(String nome, String dni, String estado, String interesses, String partido) {
         this(nome, dni, estado, interesses);
+
+        Autenticador.validaString(partido, "Erro ao cadastrar pessoa: partido nao pode ser vazio ou nulo");
         this.partido = partido;
     }
 
     public void viraDeputado(String dataInicio) {
+        Autenticador.validaString(dataInicio, "Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
+        Autenticador.validaDataInvalida(dataInicio, "Erro ao cadastrar deputado: data invalida");
+        Autenticador.validaDataFutura(dataInicio, "Erro ao cadastrar deputado: data futura");
+
         this.funcao = new Deputado(dataInicio);
     }
 
