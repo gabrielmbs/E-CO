@@ -42,7 +42,7 @@ public class Pessoa {
 
     /**
      * Os métodos construtores a seguir são sobrecarregados de modo
-     * a podermos instanciar uma pessoa que pessoa filiação a algum partido
+     * a podermos instanciar uma pessoa que possua filiação a algum partido
      * ou não.
      */
 
