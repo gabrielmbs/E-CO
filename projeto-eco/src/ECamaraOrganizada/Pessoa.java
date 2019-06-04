@@ -47,6 +47,9 @@ public class Pessoa {
      */
     private Funcao funcao;
 
+    /**
+     * Atributo que será utilizado para validacoes.
+     */
     private Validador validador;
 
     /**
@@ -75,8 +78,7 @@ public class Pessoa {
     public Pessoa(String nome, String dni, String estado, String interesses) {
         this.validador = new Validador();
 
-        this.validador.validaString(dni, "Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
-        this.validador.validaDNI(dni, "Erro ao cadastrar pessoa: dni invalido");
+        this.validador.validaDNI(dni, "Erro ao cadastrar pessoa: ");
         this.validador.validaString(nome, "Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
         this.validador.validaString(estado, "Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
 
