@@ -32,7 +32,7 @@ public class Deputado implements Funcao{
     }
 
     @Override
-    public String exibirDeputado() {
+    public String exibir() {
         String dia = this.dataInicio.substring(0,2);
         String mes = this.dataInicio.substring(2,4);
         String ano = this.dataInicio.substring(4);

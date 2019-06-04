@@ -130,23 +130,23 @@ public class Pessoa {
     @Override
     public String toString() {
         if (this.funcao == null) {
-            return exibePessoa();
+            return exibirPessoa();
         } else {
-            return exibeDeputado();
+            return exibirDeputado();
         }
     }
 
-    private String exibeDeputado() {
+    private String exibirDeputado() {
         if ((!"".equals(this.interesses.trim()))) {
             return "POL: " + this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + this.partido +
-                    " - " + "Interesses: " + this.interesses + " - " + this.funcao.exibirDeputado();
+                    " - " + "Interesses: " + this.interesses + " - " + this.funcao.exibir();
         }else{
             return "POL: " + this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + this.partido
-                    + " - " + this.funcao.exibirDeputado();
+                    + " - " + this.funcao.exibir();
         }
     }
 
-    private String exibePessoa() {
+    private String exibirPessoa() {
         if ((!"".equals(this.interesses.trim())) && (this.partido != null)) {
             return this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + this.partido +
                     " - " + "Interesses: " + this.interesses;

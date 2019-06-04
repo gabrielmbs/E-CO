@@ -1,5 +1,5 @@
 package ECamaraOrganizada;
 
 public interface Funcao {
-    public String exibirDeputado();
+    public String exibir();
 }
