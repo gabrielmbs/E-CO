@@ -118,6 +118,7 @@ public class Pessoa {
         this.funcao = new Deputado(dataInicio);
     }
 
+
     @Override
     public String toString() {
         if (this.funcao == null) {
@@ -149,6 +150,16 @@ public class Pessoa {
         return this.nome + " - " + this.dni + " (" + this.estado + ")";
     }
 
+    /**
+     * Método que sobreescreve o método equals de Objects para se enquadrar nos moldes
+     * da classe Pessoa. Uma pessoa é igual a outra pessoa se ambas possuírem dni iguais.
+     *
+     * @param o parâmetro a ser comparado, para
+     *          verificar se algum outro Object Pessoa é igual ou não a ele.
+     *
+     * @return true, se os objetos Pessoa forem iguais, false, se os objetos Pessoa forem diferentes
+     *                                                    ou se o objeto passado como parâmetro for null.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -157,11 +168,24 @@ public class Pessoa {
         return Objects.equals(dni, pessoa.dni);
     }
 
+    /**
+     * Método que sobreescreve o método hashcode de Objects para se enquadrar nos moldes
+     * da classe Pessoa. Uma pessoa é igual a outra se ambas possuírem o mesmo dni,
+     * portanto devem possuir o mesmo hashcode.
+     *
+     * @return um inteiro gerado automaticamente pelo método hashCode.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(dni);
     }
 
+    /**
+     * Acessador desenvolvido com intuito de garantir acesso ao
+     * partido da pessoa.
+     *
+     * @return retorna o valor do partido da pessoa.
+     */
     public String getPartido() {
         return partido;
     }
