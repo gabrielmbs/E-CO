@@ -20,7 +20,7 @@ public class CamaraController {
     private Set<String> base;
 
     /**
-     * Variavel para validacoes.
+     * Atributo que será utilizado para validacoes.
      */
     private Validador validador;
 
