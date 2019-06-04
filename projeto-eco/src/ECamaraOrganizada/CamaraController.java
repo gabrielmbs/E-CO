@@ -48,8 +48,9 @@ public class CamaraController {
      */
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses) {
         validaCadastrarPessoa(nome, dni, estado);
-        validaDni(dni);
-
+        if(existePessoa(dni)){
+            throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni ja cadastrado");
+        }
         this.pessoas.put(dni, new Pessoa(nome, dni, estado, interesses));
         return true;
     }
@@ -82,23 +83,11 @@ public class CamaraController {
      */
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
         validaCadastrarPessoa(nome, dni, estado);
-        validaDni(dni);
-
+        if(existePessoa(dni)){
+            throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni ja cadastrado");
+        }
         this.pessoas.put(dni, new Pessoa(nome, dni, estado, interesses, partido));
         return true;
-    }
-
-    private void validaDni(String dni) {
-        if (this.pessoas.containsKey(dni)) {
-            throw new NullPointerException("Erro ao cadastrar pessoa: dni ja cadastrado");
-        }
-    }
-
-    private void validaCadastrarPessoa(String nome, String dni, String estado) {
-        this.validador.validaString(nome, "Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
-        this.validador.validaString(dni, "Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
-        this.validador.validaString(estado, "Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
-        this.validador.validaDNI(dni, "Erro ao cadastrar pessoa: dni invalido");
     }
 
     /**
@@ -119,26 +108,13 @@ public class CamaraController {
      * @param dataDeInicio data de ínicio do mandato do deputado.
      */
     public void cadastrarDeputado(String dni, String dataDeInicio) {
-        this.validador.validaString(dni, "Erro ao cadastrar deputado: dni nao pode ser vazio ou nulo");
-        this.validador.validaDNI(dni, "Erro ao cadastrar deputado: dni invalido");
-        if (!this.pessoas.containsKey(dni)) {
-            throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa nao encontrada");
-        }
-        if(this.pessoas.get(dni).getPartido() == null){
-            throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa sem partido");
-        }
-        this.validador.validaString(dataDeInicio, "Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
-        this.validador.validaDataInvalida(dataDeInicio, "Erro ao cadastrar deputado: data invalida");
-        this.validador.validaDataFutura(dataDeInicio, "Erro ao cadastrar deputado: data futura");
-
+        validaCadastrarDeputado(dni, dataDeInicio);
         Pessoa pessoa = this.pessoas.get(dni);
         pessoa.viraDeputado(dataDeInicio);
     }
 
-
     public String exibirPessoa(String dni) {
-        this.validador.validaString(dni, "Erro ao exibir pessoa: dni nao pode ser vazio ou nulo");
-        this.validador.validaDNI(dni, "Erro ao exibir pessoa: dni invalido");
+        this.validador.validaDNI(dni, "Erro ao exibir pessoa: ");
         if (!this.pessoas.containsKey(dni)) {
             throw new IllegalArgumentException("Erro ao exibir pessoa: pessoa nao encontrada");
         }
@@ -178,5 +154,27 @@ public class CamaraController {
         }
 
         return resultado.substring(0, (resultado.length() - 1));
+    }
+
+    private void validaCadastrarPessoa(String nome, String dni, String estado) {
+        this.validador.validaString(nome, "Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
+        this.validador.validaString(dni, "Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
+        this.validador.validaString(estado, "Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
+        this.validador.validaDNI(dni, "Erro ao cadastrar pessoa: ");
+    }
+
+    private void validaCadastrarDeputado(String dni, String dataDeInicio) {
+        this.validador.validaDNI(dni, "Erro ao cadastrar deputado: ");
+        if(!existePessoa(dni)){
+            throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa nao encontrada");
+        }
+        if(this.pessoas.get(dni).getPartido() == null){
+            throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa sem partido");
+        }
+        this.validador.validaData(dataDeInicio, "Erro ao cadastrar deputado: ");
+    }
+
+    private boolean existePessoa(String dni){
+        return this.pessoas.containsKey(dni);
     }
 }
