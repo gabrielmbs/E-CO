@@ -130,7 +130,16 @@ public class Pessoa {
         this.funcao = new Deputado(dataInicio);
     }
 
-    
+    /**
+     * Retorna a String que representa uma pessoa e a respectiva funcao
+     * do mesmo. As informações sobre partido ou interesses são optativos
+     * para pessoas.
+     *
+     * A represetacao segue o formato "Nome - DNI (Estado) [ - PARTIDO ]
+     *  [ - Interesses ]"
+     *
+     * @return a representação em String de uma pessoa.
+     */
     @Override
     public String toString() {
         String representacao = this.nome + " - " + this.dni + " (" + this.estado + ")";
