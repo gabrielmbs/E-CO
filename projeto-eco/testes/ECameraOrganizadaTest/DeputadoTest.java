@@ -32,6 +32,6 @@ class DeputadoTest {
 
     @Test
     void exibirDeputado() {
-//        assertEquals("03/10/2011 - 0 Leis", this.deputado.exibirDeputado());
+        assertEquals("03/10/2011 - 0 Leis", this.deputado.exibir());
     }
 }
