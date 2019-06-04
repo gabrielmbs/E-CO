@@ -240,13 +240,13 @@ class CamaraControllerTest {
 
     @Test
     void cadastraPessoaDniJaCadastrado() {
-        assertThrows(NullPointerException.class, () -> this.camaraController.cadastrarPessoa("Jonas",
+        assertThrows(IllegalArgumentException.class, () -> this.camaraController.cadastrarPessoa("Jonas",
                 "12345678-9", "PB", ""));
     }
 
     @Test
     void cadastraPessoaComPartidoDniJaCadastrado() {
-        assertThrows(NullPointerException.class, () -> this.camaraController.cadastrarPessoa("Jonas",
+        assertThrows(IllegalArgumentException.class, () -> this.camaraController.cadastrarPessoa("Jonas",
                 "12345678-1", "PB", "", "PT"));
     }
 

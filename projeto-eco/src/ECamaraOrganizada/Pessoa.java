@@ -124,8 +124,7 @@ public class Pessoa {
      */
     public void viraDeputado(String dataInicio) {
         this.validador.validaString(dataInicio, "Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
-        this.validador.validaDataInvalida(dataInicio, "Erro ao cadastrar deputado: data invalida");
-        this.validador.validaDataFutura(dataInicio, "Erro ao cadastrar deputado: data futura");
+        this.validador.validaData(dataInicio, "Erro ao cadastrar deputado: ");
 
         this.funcao = new Deputado(dataInicio);
     }
