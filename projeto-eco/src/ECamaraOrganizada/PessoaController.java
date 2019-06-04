@@ -12,11 +12,70 @@ public class PessoaController {
         this.pessoas = new HashMap<>();
     }
 
+    /**
+     * Os métodos cadastrarPessoa a seguir são sobrecarregados de modo
+     * a podermos cadastrar no sistema uma pessoa que possua filiação a algum partido
+     * ou não.
+     *
+     * Método responsável por cadastrar uma pessoa no sistema, cujos dados (nome, dni, estado e interesses),
+     * todos do tipo String, são passados como parâmetro.
+     *
+     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
+     * e IllegalArgumentExeception serão lançadas, respectivamente.
+     *
+     * Caso a pessoa já tenha sido cadastrada, o que é checado por meio da existência ou não de uma chave no Mapa
+     * que armazena pessoas (se existe, ela já foi cadastrada, senão, ainda não foi cadastrada) a operação é abortada e
+     * lança-se uma exceção. Caso contrário, ela será adicionada ao Mapa que armazena pessoas.
+     *
+     * Ademais, checa-se se o dni passado é válido (composto apenas de números
+     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
+     * uma exceção com uma mensagem indicando que o dni é inválido.
+     *
+     * @param nome nome da pessoa a ser cadastrada.
+     * @param dni dni da pessa a ser cadastrada.
+     * @param estado estado da pessoa a ser cadastrada.
+     * @param interesses interesses da pessoa a ser cadastrada.
+     * @return true, se a pessoa foi cadastrada com êxito.
+     */
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses) {
         validaCadastrarPessoa(nome, dni, estado);
         validaDni(dni);
 
         this.pessoas.put(dni, new Pessoa(nome, dni, estado, interesses));
+        return true;
+    }
+
+    /**
+     * O método cadastrarPessoa a seguir e o método cadastrarPessoa anterior são sobrecarregados de modo
+     * a podermos cadastrar no sistema uma pessoa que possua filiação a algum partido
+     * ou não.
+     *
+     * Método responsável por cadastrar uma pessoa no sistema, cujos dados (nome, dni, estado, interesses e partido),
+     * todos do tipo String, são passados como parâmetro.
+     *
+     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
+     * e IllegalArgumentExeception serão lançadas, respectivamente.
+     *
+     * Caso a pessoa já tenha sido cadastrada, o que é checado por meio da existência ou não de uma chave no Mapa
+     * que armazena pessoas (se existe, ela já foi cadastrada, senão, ainda não foi cadastrada) a operação é abortada e
+     * lança-se uma exceção. Caso contrário, ela será adicionada ao Mapa que armazena pessoas.
+     *
+     * Ademais, checa-se se o dni passado é válido (composto apenas de números
+     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
+     * uma exceção com uma mensagem indicando que o dni é inválido.
+     *
+     * @param nome nome da pessoa a ser cadastrada.
+     * @param dni dni da pessa a ser cadastrada.
+     * @param estado estado da pessoa a ser cadastrada.
+     * @param interesses interesses da pessoa a ser cadastrada.
+     * @param partido partido que a pessoa a ser cadastrada é filiada.
+     * @return true, se a pessoa foi cadastrada com êxito.
+     */
+    public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
+        validaCadastrarPessoa(nome, dni, estado);
+        validaDni(dni);
+
+        this.pessoas.put(dni, new Pessoa(nome, dni, estado, interesses, partido));
         return true;
     }
 
@@ -31,14 +90,6 @@ public class PessoaController {
         Validador.validaString(dni, "Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
         Validador.validaString(estado, "Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
         Validador.validaDNI(dni, "Erro ao cadastrar pessoa: dni invalido");
-    }
-
-    public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
-        validaCadastrarPessoa(nome, dni, estado);
-        validaDni(dni);
-
-        this.pessoas.put(dni, new Pessoa(nome, dni, estado, interesses, partido));
-        return true;
     }
 
     public void cadastrarDeputado(String DNI, String dataDeInicio) {
