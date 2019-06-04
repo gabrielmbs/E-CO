@@ -92,20 +92,37 @@ public class PessoaController {
         Validador.validaDNI(dni, "Erro ao cadastrar pessoa: dni invalido");
     }
 
-    public void cadastrarDeputado(String DNI, String dataDeInicio) {
-        Validador.validaString(DNI, "Erro ao cadastrar deputado: dni nao pode ser vazio ou nulo");
-        Validador.validaDNI(DNI, "Erro ao cadastrar deputado: dni invalido");
-        if (!this.pessoas.containsKey(DNI)) {
+    /**
+     * Método responsável por cadastrar um deputado no sistema, cujos dados (dni e dataInicio), todos do tipo String,
+     * são passados como parâmetro.
+     *
+     * Ademais, checa-se se o dni passado é válido (composto apenas de números
+     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
+     * uma exceção com uma mensagem indicando que o dni é inválido.
+     *
+     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
+     * e IllegalArgumentExeception serão lançadas, respectivamente.
+     *
+     * Caso a pessoa que vier a se tornar deputado não exista, é lançada uma exceção. Além disso, caso a pessoa não
+     * tiver partido, também será lançada uma exceção.
+     *
+     * @param dni dni da pessoa a se tornar deputado.
+     * @param dataDeInicio data de ínicio do mandato do deputado.
+     */
+    public void cadastrarDeputado(String dni, String dataDeInicio) {
+        Validador.validaString(dni, "Erro ao cadastrar deputado: dni nao pode ser vazio ou nulo");
+        Validador.validaDNI(dni, "Erro ao cadastrar deputado: dni invalido");
+        if (!this.pessoas.containsKey(dni)) {
             throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa nao encontrada");
         }
-        if(this.pessoas.get(DNI).getPartido() == null){
+        if(this.pessoas.get(dni).getPartido() == null){
             throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa sem partido");
         }
         Validador.validaString(dataDeInicio, "Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
         Validador.validaDataInvalida(dataDeInicio, "Erro ao cadastrar deputado: data invalida");
         Validador.validaDataFutura(dataDeInicio, "Erro ao cadastrar deputado: data futura");
 
-        Pessoa pessoa = this.pessoas.get(DNI);
+        Pessoa pessoa = this.pessoas.get(dni);
         pessoa.viraDeputado(dataDeInicio);
     }
 

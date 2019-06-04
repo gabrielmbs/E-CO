@@ -3,6 +3,7 @@ package ECamaraOrganizada;
 import util.Validador;
 
 import java.util.Objects;
+
 /**
  * Representação de uma pessoa, caracterizada pelo seu nome, dni, estado,
  * intereses, partido (todos do tipo String) e funcao que sinaliza para o sistema
@@ -12,26 +13,32 @@ import java.util.Objects;
  *
  */
 public class Pessoa {
+
     /**
      * Nome da pessoa.
      */
     private String nome;
+
     /**
      * DNI da pessoa.
      */
     private String dni;
+
     /**
      * Estado de origem da pessoa.
      */
     private String estado;
+
     /**
      * Temas que a pessoa demonstra interesse.
      */
     private String interesses;
+
     /**
      * Partido (caso possua) ao qual a pessoa é filiada.
      */
     private String partido;
+
     /**
      * Atributo que sinaliza para o sistema
      * que a pessoa é "pessoa normal" ou deputado,
@@ -108,7 +115,8 @@ public class Pessoa {
      * Recebe a data de início (do tipo String) do mandato do Deputado. Checa-se
      * se a data passada como parâmetro é nula ou vazia, se é uma data válida
      * ou se é uma data futura à data de hoje.
-     * @param dataInicio
+     *
+     * @param dataInicio data de ínicio do mandato do deputado.
      */
     public void viraDeputado(String dataInicio) {
         Validador.validaString(dataInicio, "Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
@@ -122,23 +130,23 @@ public class Pessoa {
     @Override
     public String toString() {
         if (this.funcao == null) {
-            return exibePessoa();
+            return exibirPessoa();
         } else {
-            return exibeDeputado();
+            return exibirDeputado();
         }
     }
 
-    private String exibeDeputado() {
+    private String exibirDeputado() {
         if ((!"".equals(this.interesses.trim()))) {
             return "POL: " + this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + this.partido +
-                    " - " + "Interesses: " + this.interesses + " - " + this.funcao.exibirDeputado();
+                    " - " + "Interesses: " + this.interesses + " - " + this.funcao.exibir();
         }else{
             return "POL: " + this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + this.partido
-                    + " - " + this.funcao.exibirDeputado();
+                    + " - " + this.funcao.exibir();
         }
     }
 
-    private String exibePessoa() {
+    private String exibirPessoa() {
         if ((!"".equals(this.interesses.trim())) && (this.partido != null)) {
             return this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + this.partido +
                     " - " + "Interesses: " + this.interesses;
@@ -154,11 +162,10 @@ public class Pessoa {
      * Método que sobreescreve o método equals de Objects para se enquadrar nos moldes
      * da classe Pessoa. Uma pessoa é igual a outra pessoa se ambas possuírem dni iguais.
      *
-     * @param o parâmetro a ser comparado, para
-     *          verificar se algum outro Object Pessoa é igual ou não a ele.
+     * @param o parâmetro a ser comparado, para verificar se algum outro Object Pessoa é igual ou não a ele.
      *
-     * @return true, se os objetos Pessoa forem iguais, false, se os objetos Pessoa forem diferentes
-     *                                                    ou se o objeto passado como parâmetro for null.
+     * @return true, se os objetos Pessoa forem iguais, false, se os objetos Pessoa forem diferentes ou se o objeto
+     * passado como parâmetro for null.
      */
     @Override
     public boolean equals(Object o) {
