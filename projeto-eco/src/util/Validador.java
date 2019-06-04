@@ -17,12 +17,12 @@ public class Validador {
         }
     }
 
-    public static void validaString(String string, String msg){
+    public void validaString(String string, String msg){
         validaStringNula(string, msg);
         validaStringVazia(string, msg);
     }
 
-    public static void validaDNI(String parametro, String mensagem) {
+    public void validaDNI(String parametro, String mensagem) {
         if (!parametro.matches("[0-9-]+")){
             throw new IllegalArgumentException(mensagem);
         }
@@ -32,7 +32,7 @@ public class Validador {
         return ano % 4 == 0 && (ano % 400 == 0 || ano % 100 != 0);
     }
 
-    public static void validaDataInvalida(String data, String msg){
+    public void validaDataInvalida(String data, String msg){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
         try {
             LocalDate.parse(data, formatter);
@@ -48,7 +48,7 @@ public class Validador {
         }
     }
 
-    public static void validaDataFutura(String data, String msg){
+    public void validaDataFutura(String data, String msg){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
         LocalDate dataDoSistema = LocalDate.now();
         LocalDate dataAtual = LocalDate.parse(data, formatter);
