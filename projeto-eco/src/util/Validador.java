@@ -5,13 +5,13 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Validador {
-    private static void validaStringNula(String parametro, String mensagem) {
+    private void validaStringNula(String parametro, String mensagem) {
         if (parametro == null) {
             throw new NullPointerException(mensagem);
         }
     }
 
-    private static void validaStringVazia(String parametro, String mensagem) {
+    private  void validaStringVazia(String parametro, String mensagem) {
         if (parametro.trim().equals("")) {
             throw new IllegalArgumentException(mensagem);
         }

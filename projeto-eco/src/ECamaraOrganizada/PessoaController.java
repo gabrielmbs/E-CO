@@ -6,10 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PessoaController {
-    private Map<String, Pessoa> pessoas;;
+    private Map<String, Pessoa> pessoas;
+    private Validador validador;
 
     public PessoaController(){
         this.pessoas = new HashMap<>();
+        this.validador = new Validador();
     }
 
     /**
