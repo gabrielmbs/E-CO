@@ -1,15 +1,21 @@
 package ECamaraOrganizada;
 
 import util.Validador;
-
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import java.util.Map;
 
-public class PessoaController {
-    private Map<String, Pessoa> pessoas;;
+public class CamaraController {
+    private Map<String, Pessoa> pessoas;
 
-    public PessoaController(){
+    private Set<String> base;
+
+    public CamaraController(){
         this.pessoas = new HashMap<>();
+        this.base = new HashSet<>();
     }
 
     /**
@@ -135,5 +141,26 @@ public class PessoaController {
         }
         return this.pessoas.get(dni).toString();
 
+    }
+
+    public void cadastrarPartido(String partido) {
+        Validador.validaString(partido, "Erro ao cadastrar partido: partido nao pode ser vazio ou nulo");
+        this.base.add(partido);
+    }
+
+    public String exibirBase() {
+        List<String> listaPartidos = new ArrayList<>(this.base);
+        listaPartidos.sort(String::compareTo);
+
+        if (listaPartidos.size() == 0) {
+            return "";
+        }
+
+        String resultado = "";
+        for (String partido : listaPartidos) {
+            resultado += partido + ",";
+        }
+
+        return resultado.substring(0, (resultado.length() - 1));
     }
 }
