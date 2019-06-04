@@ -32,25 +32,28 @@ public class Autenticador {
         return ano % 4 == 0 && (ano % 400 == 0 || ano % 100 != 0);
     }
 
-    public static void validaData(String data){
+    public static void validaDataInvalida(String data, String msg){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
         try {
-            LocalDate d = LocalDate.parse(data, formatter);
+            LocalDate.parse(data, formatter);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Erro ao cadastrar deputado: data invalida");
+            throw new IllegalArgumentException(msg);
         }
 
         int dia = Integer.parseInt(data.substring(0,2));
         int mes = Integer.parseInt(data.substring(2,4));
         int ano = Integer.parseInt(data.substring(4));
         if(dia == 29 && mes == 2 && !ehBissexto(ano)){
-            throw new IllegalArgumentException("Erro ao cadastrar deputado: data invalida");
+            throw new IllegalArgumentException(msg);
         }
+    }
 
+    public static void validaDataFutura(String data, String msg){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
         LocalDate dataDoSistema = LocalDate.now();
         LocalDate dataAtual = LocalDate.parse(data, formatter);
         if(dataDoSistema.isBefore(dataAtual)){
-            throw new IllegalArgumentException("Erro ao cadastrar deputado: data futura");
+            throw new IllegalArgumentException(msg);
         }
     }
 }
