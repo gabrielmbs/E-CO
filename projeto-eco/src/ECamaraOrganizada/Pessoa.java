@@ -3,6 +3,7 @@ package ECamaraOrganizada;
 import util.Validador;
 
 import java.util.Objects;
+
 /**
  * Representação de uma pessoa, caracterizada pelo seu nome, dni, estado,
  * intereses, partido (todos do tipo String) e funcao que sinaliza para o sistema
@@ -12,26 +13,32 @@ import java.util.Objects;
  *
  */
 public class Pessoa {
+
     /**
      * Nome da pessoa.
      */
     private String nome;
+
     /**
      * DNI da pessoa.
      */
     private String dni;
+
     /**
      * Estado de origem da pessoa.
      */
     private String estado;
+
     /**
      * Temas que a pessoa demonstra interesse.
      */
     private String interesses;
+
     /**
      * Partido (caso possua) ao qual a pessoa é filiada.
      */
     private String partido;
+
     /**
      * Atributo que sinaliza para o sistema
      * que a pessoa é "pessoa normal" ou deputado,
