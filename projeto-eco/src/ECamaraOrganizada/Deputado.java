@@ -18,6 +18,8 @@ public class Deputado implements Funcao{
      */
     private String dataInicio;
 
+    private Validador validador;
+
     /**
      * Constrói um deputado a partir da data de ínicio do mandato. Além disso, verifica se os parâmetros são
      * nulos ou estão na forma de String vazia e se estiverem, exceções do tipo NullPointerException e
@@ -26,7 +28,8 @@ public class Deputado implements Funcao{
      * @param dataInicio data de ínicio do mandato do deputado.
      */
     public Deputado(String dataInicio) {
-        Validador.validaString(dataInicio, "Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
+        this.validador = new Validador();
+        this.validador.validaString(dataInicio, "Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
         this.dataInicio = dataInicio;
         this.numeroDeLeis = 0;
     }

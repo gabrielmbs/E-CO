@@ -47,6 +47,8 @@ public class Pessoa {
      */
     private Funcao funcao;
 
+    private Validador validador;
+
     /**
      * Os métodos construtores a seguir são sobrecarregados de modo
      * a podermos instanciar uma pessoa que possua filiação a algum partido
@@ -71,10 +73,12 @@ public class Pessoa {
      * @param interesses lista de interesses da pessoa.
      */
     public Pessoa(String nome, String dni, String estado, String interesses) {
-        Validador.validaString(dni, "Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
-        Validador.validaDNI(dni, "Erro ao cadastrar pessoa: dni invalido");
-        Validador.validaString(nome, "Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
-        Validador.validaString(estado, "Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
+        this.validador = new Validador();
+
+        this.validador.validaString(dni, "Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
+        this.validador.validaDNI(dni, "Erro ao cadastrar pessoa: dni invalido");
+        this.validador.validaString(nome, "Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
+        this.validador.validaString(estado, "Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
 
         this.nome = nome;
         this.dni = dni;
@@ -103,7 +107,7 @@ public class Pessoa {
     public Pessoa(String nome, String dni, String estado, String interesses, String partido) {
         this(nome, dni, estado, interesses);
 
-        Validador.validaString(partido, "Erro ao cadastrar pessoa: partido nao pode ser vazio ou nulo");
+        this.validador.validaString(partido, "Erro ao cadastrar pessoa: partido nao pode ser vazio ou nulo");
         this.partido = partido;
     }
 
@@ -119,9 +123,9 @@ public class Pessoa {
      * @param dataInicio data de ínicio do mandato do deputado.
      */
     public void viraDeputado(String dataInicio) {
-        Validador.validaString(dataInicio, "Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
-        Validador.validaDataInvalida(dataInicio, "Erro ao cadastrar deputado: data invalida");
-        Validador.validaDataFutura(dataInicio, "Erro ao cadastrar deputado: data futura");
+        this.validador.validaString(dataInicio, "Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
+        this.validador.validaDataInvalida(dataInicio, "Erro ao cadastrar deputado: data invalida");
+        this.validador.validaDataFutura(dataInicio, "Erro ao cadastrar deputado: data futura");
 
         this.funcao = new Deputado(dataInicio);
     }
