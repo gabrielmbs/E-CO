@@ -34,11 +34,19 @@ public class Deputado implements Funcao{
         this.numeroDeLeis = 0;
     }
 
+    /**
+     * Adiciona as informacoes especificas da funcao do deputado na represetacao de pessoa, no caso,
+     * é adicionado a data de inicio e a quantidade de leis aceitas do deputado.
+     *
+     * @param representacao dados da pessoa, no caso, nome, dni, partido e/ou interresses.
+     *
+     * @return a representação em String de um deputado.
+     */
     @Override
-    public String exibir() {
+    public String exibir(String representacao) {
         String dia = this.dataInicio.substring(0,2);
         String mes = this.dataInicio.substring(2,4);
         String ano = this.dataInicio.substring(4);
-        return dia + "/" + mes + "/" + ano + " - " + this.numeroDeLeis + " Leis";
+        return "POL: " + representacao + " - " + dia + "/" + mes + "/" + ano + " - " + this.numeroDeLeis + " Leis";
     }
 }

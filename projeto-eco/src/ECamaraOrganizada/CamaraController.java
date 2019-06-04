@@ -9,10 +9,19 @@ import java.util.Set;
 import java.util.Map;
 
 public class CamaraController {
+    /**
+     * Representa mapa de pessoa, com a chave representando o dni e volar a pessoa.
+     */
     private Map<String, Pessoa> pessoas;
 
+    /**
+     * Conjunto de partido.
+     */
     private Set<String> base;
 
+    /**
+     * Atributo que será utilizado para validacoes.
+     */
     private Validador validador;
 
     public CamaraController(){
