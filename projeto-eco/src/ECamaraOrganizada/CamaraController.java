@@ -146,11 +146,24 @@ public class CamaraController {
 
     }
 
+    /**
+     * Método responsável por cadastrar um partido no sistema, recebendo como parâmetro o nome do partido.
+     *
+     * Checa-se se esse parâmetro é nulo ou vazio, e se for, exceções do tipo NullPointerException
+     * e IllegalArgumentExeception serão lançadas, respectivamente.
+     *
+     * @param partido partido a ser cadastrado.
+     */
     public void cadastrarPartido(String partido) {
         this.validador.validaString(partido, "Erro ao cadastrar partido: partido nao pode ser vazio ou nulo");
         this.base.add(partido);
     }
 
+    /**
+     * Método responsável por exibir a base, que é formada por diversos partidos, todos eles em String.
+     *
+     * @return uma String com todos os partidos da base.
+     */
     public String exibirBase() {
         List<String> listaPartidos = new ArrayList<>(this.base);
         listaPartidos.sort(String::compareTo);
