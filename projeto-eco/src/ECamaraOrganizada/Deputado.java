@@ -35,10 +35,10 @@ public class Deputado implements Funcao{
     }
 
     @Override
-    public String exibir() {
+    public String exibir(String representacao) {
         String dia = this.dataInicio.substring(0,2);
         String mes = this.dataInicio.substring(2,4);
         String ano = this.dataInicio.substring(4);
-        return dia + "/" + mes + "/" + ano + " - " + this.numeroDeLeis + " Leis";
+        return "POL: " + representacao + " - " + dia + "/" + mes + "/" + ano + " - " + this.numeroDeLeis + " Leis";
     }
 }

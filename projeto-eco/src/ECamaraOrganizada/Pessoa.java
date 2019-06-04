@@ -130,36 +130,24 @@ public class Pessoa {
         this.funcao = new Deputado(dataInicio);
     }
 
-
+    
     @Override
     public String toString() {
-        if (this.funcao == null) {
-            return exibirPessoa();
-        } else {
-            return exibirDeputado();
-        }
-    }
+        String representacao = this.nome + " - " + this.dni + " (" + this.estado + ")";
 
-    private String exibirDeputado() {
-        if ((!"".equals(this.interesses.trim()))) {
-            return "POL: " + this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + this.partido +
-                    " - " + "Interesses: " + this.interesses + " - " + this.funcao.exibir();
-        }else{
-            return "POL: " + this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + this.partido
-                    + " - " + this.funcao.exibir();
-        }
-    }
-
-    private String exibirPessoa() {
         if ((!"".equals(this.interesses.trim())) && (this.partido != null)) {
-            return this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + this.partido +
-                    " - " + "Interesses: " + this.interesses;
+            representacao += " - " + this.partido + " - " + "Interesses: " + this.interesses;
         } else if ((this.partido != null) && ("".equals(this.interesses.trim()))) {
-            return this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + this.partido;
+            representacao += " - " + this.partido;
         } else if ((this.partido == null) && (!"".equals(this.interesses.trim()))) {
-            return this.nome + " - " + this.dni + " (" + this.estado + ") " + "- " + "Interesses: " + this.interesses;
+            representacao += " - " + "Interesses: " + this.interesses;
         }
-        return this.nome + " - " + this.dni + " (" + this.estado + ")";
+
+        if (this.funcao != null) {
+            representacao = this.funcao.exibir(representacao);
+        }
+
+        return representacao;
     }
 
     /**
