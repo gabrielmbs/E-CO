@@ -1,6 +1,6 @@
 package ECamaraOrganizada;
 
-import util.Autenticador;
+import util.Validador;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,7 +15,7 @@ public class Base {
     }
 
     public void cadastrarPartido(String partido) {
-        Autenticador.validaString(partido, "Erro ao cadastrar partido: partido nao pode ser vazio ou nulo");
+        Validador.validaString(partido, "Erro ao cadastrar partido: partido nao pode ser vazio ou nulo");
         this.base.add(partido);
     }
 

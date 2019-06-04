@@ -1,13 +1,13 @@
 package ECamaraOrganizada;
 
-import util.Autenticador;
+import util.Validador;
 
 public class Deputado implements Funcao{
     private int numeroDeLeis;
     private String dataInicio;
 
     public Deputado(String dataInicio) {
-        Autenticador.validaString(dataInicio, "Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
+        Validador.validaString(dataInicio, "Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
         this.dataInicio = dataInicio;
         this.numeroDeLeis = 0;
     }

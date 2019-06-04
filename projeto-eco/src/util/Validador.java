@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class Autenticador {
+public class Validador {
     private static void validaStringNula(String parametro, String mensagem) {
         if (parametro == null) {
             throw new NullPointerException(mensagem);
