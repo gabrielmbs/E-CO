@@ -115,7 +115,8 @@ public class Pessoa {
      * Recebe a data de início (do tipo String) do mandato do Deputado. Checa-se
      * se a data passada como parâmetro é nula ou vazia, se é uma data válida
      * ou se é uma data futura à data de hoje.
-     * @param dataInicio
+     *
+     * @param dataInicio data de ínicio do mandato do deputado.
      */
     public void viraDeputado(String dataInicio) {
         Validador.validaString(dataInicio, "Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
@@ -161,11 +162,10 @@ public class Pessoa {
      * Método que sobreescreve o método equals de Objects para se enquadrar nos moldes
      * da classe Pessoa. Uma pessoa é igual a outra pessoa se ambas possuírem dni iguais.
      *
-     * @param o parâmetro a ser comparado, para
-     *          verificar se algum outro Object Pessoa é igual ou não a ele.
+     * @param o parâmetro a ser comparado, para verificar se algum outro Object Pessoa é igual ou não a ele.
      *
-     * @return true, se os objetos Pessoa forem iguais, false, se os objetos Pessoa forem diferentes
-     *                                                    ou se o objeto passado como parâmetro for null.
+     * @return true, se os objetos Pessoa forem iguais, false, se os objetos Pessoa forem diferentes ou se o objeto
+     * passado como parâmetro for null.
      */
     @Override
     public boolean equals(Object o) {
