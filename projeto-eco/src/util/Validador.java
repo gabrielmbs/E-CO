@@ -4,37 +4,77 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Classe responsável por toda a validação no sistema.
+ */
 public class Validador {
+
+    /**
+     * Método que verifica se uma String é nula e lança uma exceção caso seja.
+     *
+     * @param parametro parametro a ser checado se é nulo.
+     * @param mensagem mensagem de erro que será lançada.
+     */
     private void validaStringNula(String parametro, String mensagem) {
         if (parametro == null) {
             throw new NullPointerException(mensagem);
         }
     }
 
+    /**
+     * Método que verifica se uma String é vazia e lança uma exceção caso seja.
+     *
+     * @param parametro parametro a ser checado se é vazia.
+     * @param mensagem mensagem de erro que será lançada.
+     */
     private  void validaStringVazia(String parametro, String mensagem) {
-        if (parametro.trim().equals("")) {
+        if ("".equals(parametro.trim())) {
             throw new IllegalArgumentException(mensagem);
         }
     }
 
+    /**
+     * Método que verifica se a String passada como parâmetro é nula ou vazia de uma vez só.
+     *
+     * @param string String a ser checada se é nula ou vazia.
+     * @param msg mensagem de erro que será lançada.
+     */
     public void validaString(String string, String msg){
         validaStringNula(string, msg);
         validaStringVazia(string, msg);
     }
 
-    public void validaDNI(String parametro, String mensagem) {
+    /**
+     * Método responsável por validar um dni inválido.
+     *
+     * @param dni dni a ser verificado.
+     * @param mensagem mensagem de erro que será lançada caso o dni seja inválido.
+     */
+    public void validaDNI(String dni, String mensagem) {
         String erroString = "dni nao pode ser vazio ou nulo";
         String erroInvalido = "dni invalido";
-        validaString(parametro, mensagem + erroString);
-        if (!parametro.matches("[0-9-]+")){
+        validaString(dni, mensagem + erroString);
+        if (!dni.matches("[0-9-]+")){
             throw new IllegalArgumentException(mensagem + erroInvalido);
         }
     }
 
+    /**
+     * Método que verifica se um ano é bissexto.
+     *
+     * @param ano ano a ser verificado.
+     * @return boolean informando se o ano é (ou não) bissexto.
+     */
     private static boolean ehBissexto(int ano){
         return ano % 4 == 0 && (ano % 400 == 0 || ano % 100 != 0);
     }
 
+    /**
+     * Método responsável por validar uma data inválida.
+     *
+     * @param data data a ser analisada.
+     * @param msg mensagem de erro que será lançada.
+     */
     private void validaDataInvalida(String data, String msg){
         String erro = "data invalida";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
@@ -52,6 +92,12 @@ public class Validador {
         }
     }
 
+    /**
+     * Método responsável por validar uma data futura.
+     *
+     * @param data data a ser analisada.
+     * @param msg mensagem de erro que será lançada.
+     */
     private void validaDataFutura(String data, String msg){
         String erro = "data futura";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
@@ -62,6 +108,12 @@ public class Validador {
         }
     }
 
+    /**
+     * Método responsável por fazer todas as validações de data de uma só vez.
+     *
+     * @param data data a ser analisada.
+     * @param msg mensagem de erro que será lançada.
+     */
     public void validaData(String data, String msg){
         String erroString = "data nao pode ser vazio ou nulo";
         validaString(data, msg + erroString);
