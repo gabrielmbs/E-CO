@@ -165,6 +165,13 @@ public class CamaraController {
         return resultado.substring(0, (resultado.length() - 1));
     }
 
+    /**
+     * Método responsável por validar um cadastro de uma pessoa.
+     *
+     * @param nome nome da pessoa.
+     * @param dni dni da pessoa.
+     * @param estado estado onde reside a pessoa.
+     */
     private void validaCadastrarPessoa(String nome, String dni, String estado) {
         this.validador.validaString(nome, "Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
         this.validador.validaString(dni, "Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
@@ -172,6 +179,12 @@ public class CamaraController {
         this.validador.validaDNI(dni, "Erro ao cadastrar pessoa: ");
     }
 
+    /**
+     * Método responsável por validar um cadastro de um deputado.
+     *
+     * @param dni dni do deputado.
+     * @param dataDeInicio data de ínicio do mandato do deputado.
+     */
     private void validaCadastrarDeputado(String dni, String dataDeInicio) {
         this.validador.validaDNI(dni, "Erro ao cadastrar deputado: ");
         if(!existePessoa(dni)){
@@ -183,6 +196,12 @@ public class CamaraController {
         this.validador.validaData(dataDeInicio, "Erro ao cadastrar deputado: ");
     }
 
+    /**
+     * Método que verifica se uma pessoa existe no sistema.
+     *
+     * @param dni dni a ser procurado.
+     * @return boolean informando se a pessoa existe (ou não).
+     */
     private boolean existePessoa(String dni){
         return this.pessoas.containsKey(dni);
     }
