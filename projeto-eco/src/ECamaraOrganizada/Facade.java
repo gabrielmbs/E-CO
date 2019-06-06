@@ -10,37 +10,35 @@ public class Facade {
         EasyAccept.main(args);
     }
 
-    private PessoaController pessoaController;
-    private Base base;
+    private CamaraController camaraController;
 
     public Facade(){
-        this.pessoaController = new PessoaController();
-        this.base = new Base();
+        this.camaraController = new CamaraController();
     }
 
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses) {
-        return this.pessoaController.cadastrarPessoa(nome, dni, estado, interesses);
+        return this.camaraController.cadastrarPessoa(nome, dni, estado, interesses);
     }
 
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
-        return this.pessoaController.cadastrarPessoa(nome, dni, estado, interesses, partido);
+        return this.camaraController.cadastrarPessoa(nome, dni, estado, interesses, partido);
 
     }
 
     public void cadastrarDeputado(String DNI, String dataDeInicio){
-        this.pessoaController.cadastrarDeputado(DNI, dataDeInicio);
+        this.camaraController.cadastrarDeputado(DNI, dataDeInicio);
     }
 
     public String exibirPessoa(String DNI){
-        return this.pessoaController.exibirPessoa(DNI);
+        return this.camaraController.exibirPessoa(DNI);
     }
 
     public void cadastrarPartido(String partido){
-        this.base.cadastrarPartido(partido);
+        this.camaraController.cadastrarPartido(partido);
     }
 
     public String exibirBase(){
-        return this.base.exibirBase();
+        return this.camaraController.exibirBase();
     }
 
     public void limparSistema(){

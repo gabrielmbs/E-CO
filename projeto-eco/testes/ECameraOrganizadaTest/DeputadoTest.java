@@ -31,7 +31,7 @@ class DeputadoTest {
     }
 
     @Test
-    void exibirDeputado() {
-        assertEquals("03/10/2011 - 0 Leis", this.deputado.exibirDeputado());
+    void exibir() {
+        assertEquals("POL: Gabriel - 011111111-0 - ABC - 03/10/2011 - 0 Leis", this.deputado.exibir("Gabriel - 011111111-0 - ABC"));
     }
 }
