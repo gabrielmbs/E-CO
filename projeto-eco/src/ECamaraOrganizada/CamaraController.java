@@ -13,6 +13,10 @@ public class CamaraController {
      * Representa mapa de pessoa, com a chave representando o dni e volar a pessoa.
      */
     private Map<String, Pessoa> pessoas;
+    private Map<String, ProposicaoInterface> proposicoesDeLeis;
+    private Integer counterPL;
+    private Integer counterPLP;
+    private Integer counterPEC;
 
     /**
      * Conjunto de partido.
@@ -28,6 +32,10 @@ public class CamaraController {
         this.pessoas = new HashMap<>();
         this.base = new HashSet<>();
         this.validador = new Validador();
+        this.proposicoesDeLeis = new HashMap<>();
+        this.counterPL = 1;
+        this.counterPLP = 1;
+        this.counterPEC = 1;
     }
 
     /**
@@ -204,5 +212,38 @@ public class CamaraController {
      */
     private boolean existePessoa(String dni){
         return this.pessoas.containsKey(dni);
+    }
+
+    public String cadastraPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
+        if(this.pessoas.containsKey(dni)){
+            if(this.pessoas.get(dni).getFuncao() != null){
+                String codigoLei = "PL" + this.counterPL + "/" + ano;
+                this.proposicoesDeLeis.put(codigoLei, new ProjetoDeLei(codigoLei, dni, ano, ementa, interesses, url, conclusivo));
+                this.counterPL++;
+                return codigoLei;
+            }
+        }
+    }
+
+    public String cadastraPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+        if(this.pessoas.containsKey(dni)){
+            if(this.pessoas.get(dni).getFuncao() != null){
+                String codigoLei = "PLP" + this.counterPLP + "/" + ano;
+                this.proposicoesDeLeis.put(codigoLei, new ProjetoLeiComplementar(codigoLei, dni, ano, ementa, interesses, url, artigos));
+                this.counterPLP++;
+                return codigoLei;
+            }
+        }
+    }
+
+    public String cadastraPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+        if(this.pessoas.containsKey(dni)){
+            if(this.pessoas.get(dni).getFuncao() != null){
+                String codigoLei = "PEC" + this.counterPEC + "/" + ano;
+                this.proposicoesDeLeis.put(codigoLei, new ProjetoEmendaConstitucional(codigoLei, dni, ano, ementa, interesses, url, artigos));
+                this.counterPEC++;
+                return codigoLei;
+            }
+        }
     }
 }

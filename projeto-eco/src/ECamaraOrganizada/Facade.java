@@ -41,6 +41,20 @@ public class Facade {
         return this.camaraController.exibirBase();
     }
 
+    public String cadastraPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo){
+        return this.camaraController.cadastraPL(dni, ano, ementa, interesses, url, conclusivo))
+    }
+
+    public String cadastraPLP(String dni, int ano, String ementa, String interesses, String url, String artigos){
+        return this.camaraController.cadastraPLP(dni, ano, ementa, interesses, url, artigos);
+    }
+
+    public String cadastraPEC(String dni, int ano, String ementa, String interesses, String url, String artigos){
+        return this.camaraController.cadastraPEC(dni, ano, ementa, interesses, url, artigos);
+    }
+
+
+
     public void limparSistema(){
 
     }
