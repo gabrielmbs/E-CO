@@ -222,12 +222,18 @@ public class CamaraController {
         return this.proposicoesDeLeis.containsKey(codigo);
     }
 
+    private void incrementaLeisDeputado(String dni){
+        Funcao funcao = this.pessoas.get(dni).getFuncao();
+        funcao.setNumeroDeLeis();
+    }
+
     public String cadastraPL(String dni, int ano, String ementa, String interesses, String url, String conclusivo) {
         if(existePessoa(dni)){
             if(pessoaEhDeputado(dni)){
-                String codigoLei = "PL" + this.counterPL + "/" + ano;
+                String codigoLei = "PL " + this.counterPL + "/" + ano;
                 this.proposicoesDeLeis.put(codigoLei, new ProjetoDeLei(codigoLei, dni, ano, ementa, interesses, url, conclusivo));
                 this.counterPL++;
+                incrementaLeisDeputado(dni);
                 return codigoLei;
             }
             else throw new NullPointerException("Pessão não é deputado");
@@ -238,9 +244,10 @@ public class CamaraController {
     public String cadastraPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
         if(existePessoa(dni)){
             if(pessoaEhDeputado(dni)){
-                String codigoLei = "PLP" + this.counterPLP + "/" + ano;
+                String codigoLei = "PLP " + this.counterPLP + "/" + ano;
                 this.proposicoesDeLeis.put(codigoLei, new ProjetoLeiComplementar(codigoLei, dni, ano, ementa, interesses, url, artigos));
                 this.counterPLP++;
+                incrementaLeisDeputado(dni);
                 return codigoLei;
             }
             else throw new NullPointerException("Pessão não é deputado");
@@ -254,6 +261,7 @@ public class CamaraController {
                 String codigoLei = "PEC " + this.counterPEC + "/" + ano;
                 this.proposicoesDeLeis.put(codigoLei, new ProjetoEmendaConstitucional(codigoLei, dni, ano, ementa, interesses, url, artigos));
                 this.counterPEC++;
+                incrementaLeisDeputado(dni);
                 return codigoLei;
             }
             else throw new NullPointerException("Pessão não é deputado");
