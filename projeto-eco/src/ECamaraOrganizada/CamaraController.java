@@ -232,7 +232,8 @@ public class CamaraController {
         this.validador.validaString(interesses, "Erro ao cadastrar proposicao: interesses nao pode ser vazio ou nulo");
         this.validador.validaString(url, "Erro ao cadastrar proposicao: url nao pode ser vazio ou nulo");
         this.validador.validaDNI(dni, "Erro ao cadastrar pessoa: ");
-        this.validador.validaAnoLei(ano);
+        this.validador.validaAnoLei(ano,"Erro ao cadastrar proposicao: ");
+
     }
     public String cadastraPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
         validaCadastrarLei(dni, ementa, interesses, url, ano);

@@ -122,10 +122,16 @@ public class Validador {
         validaDataFutura(data, msg);
     }
 
-    public void validaAnoLei(int ano){
+    public void validaAnoLei(int ano, String msg){
         int anoAtual = Year.now().getValue();
-        if (ano < 1988 || ano > anoAtual ){
-            throw new IllegalArgumentException("Erro ao cadastrar proposicao: ano nao pode ser posterior ao ano atual");
+        String msgAnoPosteriorAnoAtual = "ano nao pode ser posterior ao ano atual";
+        String msgAnoAnterior1987 = "ano nao pode ser anterior a 1987";
+        if (ano > anoAtual ){
+            throw new IllegalArgumentException(msg + msgAnoPosteriorAnoAtual);
+        }
+        else if (ano < 1988){
+            throw new IllegalArgumentException("Erro ao cadastrar proposicao: ano nao pode ser anterior a 1988");
+
         }
     }
 }
