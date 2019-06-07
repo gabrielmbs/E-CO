@@ -1,5 +1,6 @@
 package ECamaraOrganizada;
 
+import util.Contador;
 import util.Validador;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,9 +15,7 @@ public class CamaraController {
      */
     private Map<String, Pessoa> pessoas;
     private Map<String, ProposicaoInterface> proposicoesDeLeis;
-    private Integer counterPL;
-    private Integer counterPLP;
-    private Integer counterPEC;
+    private Map<String, Contador> contadores;
 
     /**
      * Conjunto de partido.
@@ -33,9 +32,7 @@ public class CamaraController {
         this.base = new HashSet<>();
         this.validador = new Validador();
         this.proposicoesDeLeis = new HashMap<>();
-        this.counterPL = 1;
-        this.counterPLP = 1;
-        this.counterPEC = 1;
+        this.contadores = new HashMap<>();
     }
 
     /**
@@ -228,11 +225,16 @@ public class CamaraController {
     }
 
     public String cadastraPL(String dni, int ano, String ementa, String interesses, String url, String conclusivo) {
+        String chaveContador = ano + "PL";
+        if (!this.contadores.containsKey(chaveContador)) {
+            this.contadores.put(chaveContador, new Contador());
+        }
         if(existePessoa(dni)){
             if(pessoaEhDeputado(dni)){
-                String codigoLei = "PL " + this.counterPL + "/" + ano;
+                Contador contador = this.contadores.get(chaveContador);
+                String codigoLei = "PL " + contador.getContagem() + "/" + ano;
                 this.proposicoesDeLeis.put(codigoLei, new ProjetoDeLei(codigoLei, dni, ano, ementa, interesses, url, conclusivo));
-                this.counterPL++;
+                contador.incrementaContagem();
                 incrementaLeisDeputado(dni);
                 return codigoLei;
             }
@@ -242,25 +244,39 @@ public class CamaraController {
     }
 
     public String cadastraPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+        String chaveContador = ano + "PLP";
+        if (!this.contadores.containsKey(chaveContador)) {
+            this.contadores.put(chaveContador, new Contador());
+        }
+
         if(existePessoa(dni)){
             if(pessoaEhDeputado(dni)){
-                String codigoLei = "PLP " + this.counterPLP + "/" + ano;
+                Contador contador = this.contadores.get(chaveContador);
+                String codigoLei = "PLP " + contador.getContagem() + "/" + ano;
                 this.proposicoesDeLeis.put(codigoLei, new ProjetoLeiComplementar(codigoLei, dni, ano, ementa, interesses, url, artigos));
-                this.counterPLP++;
+                contador.incrementaContagem();
                 incrementaLeisDeputado(dni);
                 return codigoLei;
             }
             else throw new NullPointerException("Pessão não é deputado");
+
         }
         else throw new NullPointerException("Pessoa não cadastrada");
-    }
+
+        }
+
 
     public String cadastraPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+        String chaveContador = ano + "PEC";
+        if (!this.contadores.containsKey(chaveContador)) {
+            this.contadores.put(chaveContador, new Contador());
+        }
         if(existePessoa(dni)){
             if(pessoaEhDeputado(dni)){
-                String codigoLei = "PEC " + this.counterPEC + "/" + ano;
+                Contador contador = this.contadores.get(chaveContador);
+                String codigoLei = "PEC " + contador.getContagem() + "/" + ano;
                 this.proposicoesDeLeis.put(codigoLei, new ProjetoEmendaConstitucional(codigoLei, dni, ano, ementa, interesses, url, artigos));
-                this.counterPEC++;
+                contador.incrementaContagem();
                 incrementaLeisDeputado(dni);
                 return codigoLei;
             }
