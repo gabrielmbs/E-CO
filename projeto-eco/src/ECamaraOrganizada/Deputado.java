@@ -47,7 +47,7 @@ public class Deputado implements Funcao{
         String dia = this.dataInicio.substring(0,2);
         String mes = this.dataInicio.substring(2,4);
         String ano = this.dataInicio.substring(4);
-        return "POL: " + representacao + " - " + dia + "/" + mes + "/" + ano + " - " + this.numeroDeLeis + " Lei(s)";
+        return "POL: " + representacao + " - " + dia + "/" + mes + "/" + ano + " - " + this.numeroDeLeis + " Leis";
     }
 
     public void setNumeroDeLeis() {
