@@ -214,36 +214,57 @@ public class CamaraController {
         return this.pessoas.containsKey(dni);
     }
 
-    public String cadastraPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
-        if(this.pessoas.containsKey(dni)){
-            if(this.pessoas.get(dni).getFuncao() != null){
+    private boolean pessoaEhDeputado(String dni){
+        return this.pessoas.get(dni).getFuncao() != null;
+    }
+
+    private boolean existeLei(String codigo){
+        return this.proposicoesDeLeis.containsKey(codigo);
+    }
+
+    public String cadastraPL(String dni, int ano, String ementa, String interesses, String url, String conclusivo) {
+        if(existePessoa(dni)){
+            if(pessoaEhDeputado(dni)){
                 String codigoLei = "PL" + this.counterPL + "/" + ano;
                 this.proposicoesDeLeis.put(codigoLei, new ProjetoDeLei(codigoLei, dni, ano, ementa, interesses, url, conclusivo));
                 this.counterPL++;
                 return codigoLei;
             }
+            else throw new NullPointerException("Pessão não é deputado");
         }
+        else throw new NullPointerException("Pessoa não cadastrada");
     }
 
     public String cadastraPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
-        if(this.pessoas.containsKey(dni)){
-            if(this.pessoas.get(dni).getFuncao() != null){
+        if(existePessoa(dni)){
+            if(pessoaEhDeputado(dni)){
                 String codigoLei = "PLP" + this.counterPLP + "/" + ano;
                 this.proposicoesDeLeis.put(codigoLei, new ProjetoLeiComplementar(codigoLei, dni, ano, ementa, interesses, url, artigos));
                 this.counterPLP++;
                 return codigoLei;
             }
+            else throw new NullPointerException("Pessão não é deputado");
         }
+        else throw new NullPointerException("Pessoa não cadastrada");
     }
 
     public String cadastraPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
-        if(this.pessoas.containsKey(dni)){
-            if(this.pessoas.get(dni).getFuncao() != null){
-                String codigoLei = "PEC" + this.counterPEC + "/" + ano;
+        if(existePessoa(dni)){
+            if(pessoaEhDeputado(dni)){
+                String codigoLei = "PEC " + this.counterPEC + "/" + ano;
                 this.proposicoesDeLeis.put(codigoLei, new ProjetoEmendaConstitucional(codigoLei, dni, ano, ementa, interesses, url, artigos));
                 this.counterPEC++;
                 return codigoLei;
             }
+            else throw new NullPointerException("Pessão não é deputado");
         }
+        else throw new NullPointerException("Pessoa não cadastrada");
+    }
+
+    public String exibeProjeto(String codigo) {
+        if(!existeLei(codigo)){
+            throw new NullPointerException("Lei não existe");
+        }
+        else return this.proposicoesDeLeis.get(codigo).toString();
     }
 }
