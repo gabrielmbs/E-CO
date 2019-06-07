@@ -1,6 +1,7 @@
 package util;
 
 import java.time.LocalDate;
+import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -119,6 +120,13 @@ public class Validador {
         validaString(data, msg + erroString);
         validaDataInvalida(data, msg);
         validaDataFutura(data, msg);
+    }
+
+    public void validaAnoLei(int ano){
+        int anoAtual = Year.now().getValue();
+        if (ano < 1988 || ano > anoAtual ){
+            throw new IllegalArgumentException("Erro ao cadastrar proposicao: ano nao pode ser posterior ao ano atual");
+        }
     }
 }
 

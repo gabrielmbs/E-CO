@@ -2,6 +2,9 @@ package ECamaraOrganizada;
 
 import util.Contador;
 import util.Validador;
+
+
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.HashMap;
@@ -183,7 +186,6 @@ public class CamaraController {
         this.validador.validaString(estado, "Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
         this.validador.validaDNI(dni, "Erro ao cadastrar pessoa: ");
     }
-
     /**
      * Método responsável por validar um cadastro de um deputado.
      *
@@ -224,7 +226,17 @@ public class CamaraController {
         funcao.setNumeroDeLeis();
     }
 
-    public String cadastraPL(String dni, int ano, String ementa, String interesses, String url, String conclusivo) {
+    private void validaCadastrarLei(String dni, String ementa, String interesses, String url, int ano) {
+        this.validador.validaString(ementa, "Erro ao cadastrar proposicao: ementa nao pode ser vazia ou nula");
+        this.validador.validaString(dni, "Erro ao cadastrar proposicao: dni nao pode ser vazio ou nulo");
+        this.validador.validaString(interesses, "Erro ao cadastrar proposicao: interesses nao pode ser vazio ou nulo");
+        this.validador.validaString(url, "Erro ao cadastrar proposicao: url nao pode ser vazio ou nulo");
+        this.validador.validaDNI(dni, "Erro ao cadastrar pessoa: ");
+        this.validador.validaAnoLei(ano);
+    }
+    public String cadastraPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
+        validaCadastrarLei(dni, ementa, interesses, url, ano);
+
         String chaveContador = ano + "PL";
         if (!this.contadores.containsKey(chaveContador)) {
             this.contadores.put(chaveContador, new Contador());
@@ -244,6 +256,9 @@ public class CamaraController {
     }
 
     public String cadastraPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+        validaCadastrarLei(dni, ementa, interesses, url, ano);
+
+
         String chaveContador = ano + "PLP";
         if (!this.contadores.containsKey(chaveContador)) {
             this.contadores.put(chaveContador, new Contador());
@@ -267,6 +282,8 @@ public class CamaraController {
 
 
     public String cadastraPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+        validaCadastrarLei(dni, ementa, interesses, url, ano);
+
         String chaveContador = ano + "PEC";
         if (!this.contadores.containsKey(chaveContador)) {
             this.contadores.put(chaveContador, new Contador());

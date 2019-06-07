@@ -41,7 +41,7 @@ public class Facade {
         return this.camaraController.exibirBase();
     }
 
-    public String cadastraPL(String dni, int ano, String ementa, String interesses, String url, String conclusivo){
+    public String cadastraPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo){
         return this.camaraController.cadastraPL(dni, ano, ementa, interesses, url, conclusivo);
     }
 
