@@ -8,7 +8,6 @@ public class ProjetoLeiComplementar extends ProposicaoAbstract {
     }
 
     public String toString(){
-        return "Projeto de Lei Complementar" + " - " + this.codigoLei + " - " + this.dniAutor +
-                " - " + this.ementa + " - " + this.artigos + " - " + this.situacao;
+        return "Projeto de Lei Complementar" + super.toString() + this.artigos + " - " + this.situacao;
     }
 }

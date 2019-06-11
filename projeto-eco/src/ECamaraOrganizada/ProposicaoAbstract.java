@@ -2,7 +2,7 @@ package ECamaraOrganizada;
 
 import java.util.Objects;
 
-public abstract class ProposicaoAbstract implements ProposicaoInterface {
+public abstract class ProposicaoAbstract {
     protected String dniAutor;
     protected Integer ano;
     protected String codigoLei;
@@ -34,5 +34,8 @@ public abstract class ProposicaoAbstract implements ProposicaoInterface {
         return Objects.hash(codigoLei);
     }
 
-    public abstract String toString();
+    public String toString(){
+        return " - " + this.codigoLei + " - " + this.dniAutor +
+                " - " + this.ementa + " - ";
+    }
 }

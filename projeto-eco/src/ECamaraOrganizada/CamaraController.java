@@ -17,7 +17,7 @@ public class CamaraController {
      * Representa mapa de pessoa, com a chave representando o dni e valor a pessoa.
      */
     private Map<String, Pessoa> pessoas;
-    private Map<String, ProposicaoInterface> proposicoesDeLeis;
+    private Map<String, ProposicaoAbstract> proposicoesDeLeis;
     private Map<String, Contador> contadores;
 
     /**
@@ -233,17 +233,34 @@ public class CamaraController {
         funcao.setNumeroDeLeis();
     }
 
+    private void validaCadastrarLeiComArtigo(String dni, String ementa, String interesses, String url, int ano, String artigos) {
+        validaCadastrarLei(dni,ementa, interesses, url, ano);
+        this.validador.validaString(artigos, "Erro ao cadastrar projeto: artigo nao pode ser vazio ou nulo");
+    }
+
     private void validaCadastrarLei(String dni, String ementa, String interesses, String url, int ano) {
-        this.validador.validaString(ementa, "Erro ao cadastrar proposicao: ementa nao pode ser vazia ou nula");
-        this.validador.validaString(dni, "Erro ao cadastrar proposicao: dni nao pode ser vazio ou nulo");
-        this.validador.validaString(interesses, "Erro ao cadastrar proposicao: interesses nao pode ser vazio ou nulo");
-        this.validador.validaString(url, "Erro ao cadastrar proposicao: url nao pode ser vazio ou nulo");
-        this.validador.validaDNI(dni, "Erro ao cadastrar pessoa: ");
-        this.validador.validaAnoLei(ano, "Erro ao cadastrar proposicao: ");
+        this.validador.validaString(ementa, "Erro ao cadastrar projeto: ementa nao pode ser vazia ou nula");
+        this.validador.validaString(dni, "Erro ao cadastrar projeto: autor nao pode ser vazio ou nulo");
+        this.validador.validaString(interesses, "Erro ao cadastrar projeto: interesse nao pode ser vazio ou nulo");
+        this.validador.validaString(url, "Erro ao cadastrar projeto: url nao pode ser vazio ou nulo");
+        this.validador.validaDNI(dni, "Erro ao cadastrar projeto: ");
+        this.validador.validaAnoLei(ano, "Erro ao cadastrar projeto: ");
 
     }
 
-    public String cadastraPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
+    private String contatenaArtigos(String artigos){
+        if(artigos.contains(",")){
+            String artigosConcatenados = "";
+            for(String caractere : artigos.split(",")){
+                artigosConcatenados += caractere + ", ";
+
+            }
+            return artigosConcatenados.substring(0, artigosConcatenados.length() - 2);
+        }
+        return artigos;
+    }
+
+    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
         validaCadastrarLei(dni, ementa, interesses, url, ano);
 
         String chaveContador = ano + "PL";
@@ -258,13 +275,13 @@ public class CamaraController {
                 contador.incrementaContagem();
                 incrementaLeisDeputado(dni);
                 return codigoLei;
-            } else throw new NullPointerException("Pessão não é deputado");
-        } else throw new NullPointerException("Pessoa não cadastrada");
+            } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
+        } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
     }
 
-    public String cadastraPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
-        validaCadastrarLei(dni, ementa, interesses, url, ano);
-
+    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+        validaCadastrarLeiComArtigo(dni, ementa, interesses, url, ano, artigos);
+        String artigosConcatenados = contatenaArtigos(artigos);
 
         String chaveContador = ano + "PLP";
         if (!this.contadores.containsKey(chaveContador)) {
@@ -275,19 +292,20 @@ public class CamaraController {
             if (pessoaEhDeputado(dni)) {
                 Contador contador = this.contadores.get(chaveContador);
                 String codigoLei = "PLP " + contador.getContagem() + "/" + ano;
-                this.proposicoesDeLeis.put(codigoLei, new ProjetoLeiComplementar(codigoLei, dni, ano, ementa, interesses, url, artigos));
+                this.proposicoesDeLeis.put(codigoLei, new ProjetoLeiComplementar(codigoLei, dni, ano, ementa, interesses, url, artigosConcatenados));
                 contador.incrementaContagem();
                 incrementaLeisDeputado(dni);
                 return codigoLei;
-            } else throw new NullPointerException("Pessão não é deputado");
+            } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
 
-        } else throw new NullPointerException("Pessoa não cadastrada");
+        } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
 
     }
 
 
-    public String cadastraPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
-        validaCadastrarLei(dni, ementa, interesses, url, ano);
+    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+        validaCadastrarLeiComArtigo(dni, ementa, interesses, url, ano, artigos);
+        String artigosConcatenados = contatenaArtigos(artigos);
 
         String chaveContador = ano + "PEC";
         if (!this.contadores.containsKey(chaveContador)) {
@@ -297,17 +315,17 @@ public class CamaraController {
             if (pessoaEhDeputado(dni)) {
                 Contador contador = this.contadores.get(chaveContador);
                 String codigoLei = "PEC " + contador.getContagem() + "/" + ano;
-                this.proposicoesDeLeis.put(codigoLei, new ProjetoEmendaConstitucional(codigoLei, dni, ano, ementa, interesses, url, artigos));
+                this.proposicoesDeLeis.put(codigoLei, new ProjetoEmendaConstitucional(codigoLei, dni, ano, ementa, interesses, url, artigosConcatenados));
                 contador.incrementaContagem();
                 incrementaLeisDeputado(dni);
                 return codigoLei;
-            } else throw new NullPointerException("Pessão não é deputado");
-        } else throw new NullPointerException("Pessoa não cadastrada");
+            } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
+        } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
     }
 
-    public String exibeProjeto(String codigo) {
+    public String exibirProjeto(String codigo) {
         if (!existeLei(codigo)) {
-            throw new NullPointerException("Lei não existe");
+            throw new NullPointerException("Erro ao exibir projeto: projeto inexistente");
         } else return this.proposicoesDeLeis.get(codigo).toString();
     }
 

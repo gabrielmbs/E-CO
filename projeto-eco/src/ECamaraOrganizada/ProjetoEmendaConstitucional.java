@@ -9,7 +9,6 @@ public class ProjetoEmendaConstitucional extends ProposicaoAbstract {
     }
 
     public String toString(){
-        return "Projeto de Emenda Constitucional" + " - " + this.codigoLei + " - " + this.dniAutor +
-                " - " + this.ementa + " - " + this.artigos + " - " + this.situacao;
+        return "Projeto de Emenda Constitucional" + super.toString() + this.artigos + " - " + this.situacao;
     }
 }

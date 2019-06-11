@@ -13,8 +13,7 @@ public class ProjetoDeLei extends ProposicaoAbstract {
             return "Projeto de Lei" + " - " + this.codigoLei + " - " + this.dniAutor +
                     " - " + this.ementa + " - Conclusiva"  + " - " + this.situacao;
         }
-        else return "Projeto de Lei" + " - " + this.codigoLei + " - " + this.dniAutor +
-                " - " + this.ementa + " - Não conclusiva" + " - " + this.situacao;
+        else return "Projeto de Lei" + super.toString() + this.situacao;
     }
 
 }
