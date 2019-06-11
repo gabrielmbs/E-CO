@@ -212,7 +212,22 @@ public class CamaraController {
         return this.pessoas.containsKey(dni);
     }
 
-
+    
+    /**
+     * O método cadastraComissao serve para cadastrar no sistema uma comissão que possui um tema e uma lista de politicos
+     * que o compõe.
+     *
+     * Verifica se cada um dos parâmetros passados são nulos ou vazios, e se forem, exceções do tipo NullPointerException
+     * e IllegalArgumentExeception serão lançadas, respectivamente.
+     *
+     * Caso a comissão já tenha sido cadastrada, o que é checado por meio da existência ou não de uma chave no Mapa
+     * que armazena comissões (se existe, ela já foi cadastrada, senão, ainda não foi cadastrada) a operação é abortada e
+     * lança-se uma exceção. Caso contrário, ela será adicionada ao Mapa que armazena comissões.
+     *
+     *
+     * @param tema representa o tema da comissão
+     * @param politicos lista de politicos separados por ",".
+     */
     public void cadastrarComissao(String tema, String politicos) {
         this.validador.validaString(tema, "Erro ao cadastrar comissao: tema nao pode ser vazio ou nulo");
         this.validador.validaString(politicos, "Erro ao cadastrar comissao: lista de politicos nao pode ser vazio ou nulo");
