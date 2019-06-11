@@ -63,6 +63,7 @@ public class ProjetoLeiComplementar extends ProposicaoAbstract {
      *
      * @return retorna a representação em String do projeto
      */
+    @Override
     public String toString(){
         return "Projeto de Lei Complementar" + super.toString() + this.artigos + " - " + this.situacao;
     }

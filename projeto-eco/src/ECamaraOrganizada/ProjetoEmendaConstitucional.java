@@ -66,6 +66,7 @@ public class ProjetoEmendaConstitucional extends ProposicaoAbstract {
      *
      * @return retorna a representação em String do projeto
      */
+    @Override
     public String toString(){
         return "Projeto de Emenda Constitucional" + super.toString() + this.artigos + " - " + this.situacao;
     }
