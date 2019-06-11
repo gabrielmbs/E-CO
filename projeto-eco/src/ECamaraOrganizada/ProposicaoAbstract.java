@@ -15,7 +15,7 @@ public abstract class ProposicaoAbstract {
     /**
      * Ano da criação do projeto.
      */
-    protected Integer ano;
+    protected int ano;
     /**
      * Código do projeto.
      */
