@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class CamaraController {
     /**
-     * Representa mapa de pessoa, com a chave representando o dni e volar a pessoa.
+     * Representa mapa de pessoa, com a chave representando o dni e valor a pessoa.
      */
     private Map<String, Pessoa> pessoas;
 
@@ -18,6 +18,11 @@ public class CamaraController {
      * Conjunto de partido.
      */
     private Set<String> base;
+
+    /**
+     * Representa mapa de comissoes, com a chave representando o tema e o valor a comissao.
+     */
+    private Map<String, Comissao> comissoes;
 
     /**
      * Atributo que será utilizado para validacoes.
@@ -204,5 +209,9 @@ public class CamaraController {
      */
     private boolean existePessoa(String dni){
         return this.pessoas.containsKey(dni);
+    }
+
+    public void cadastrarComissao(String tema, String politicos) {
+
     }
 }
