@@ -45,7 +45,8 @@ public class ProjetoLeiComplementar extends ProposicaoAbstract {
      */
     public ProjetoLeiComplementar(String codigoLei, String dni, int ano, String ementa, String interesses, String url, String artigos) {
         super(dni, ano, codigoLei, ementa, interesses, url);
-        this.validador = new Validador();this.validador.validaString(codigoLei,"Erro ao cadastrar projeto: codigo de lei nao pode ser vazio ou nulo");
+        this.validador = new Validador();
+        this.validador.validaString(codigoLei,"Erro ao cadastrar projeto: codigo de lei nao pode ser vazio ou nulo");
         this.validador.validaString(ementa, "Erro ao cadastrar projeto: ementa nao pode ser vazia ou nula");
         this.validador.validaString(dni, "Erro ao cadastrar projeto: autor nao pode ser vazio ou nulo");
         this.validador.validaString(interesses, "Erro ao cadastrar projeto: interesse nao pode ser vazio ou nulo");
@@ -62,6 +63,7 @@ public class ProjetoLeiComplementar extends ProposicaoAbstract {
      *
      * @return retorna a representação em String do projeto
      */
+    @Override
     public String toString(){
         return "Projeto de Lei Complementar" + super.toString() + this.artigos + " - " + this.situacao;
     }

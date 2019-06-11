@@ -15,7 +15,7 @@ public abstract class ProposicaoAbstract {
     /**
      * Ano da criação do projeto.
      */
-    protected Integer ano;
+    protected int ano;
     /**
      * Código do projeto.
      */
@@ -99,6 +99,7 @@ public abstract class ProposicaoAbstract {
      *
      * @return retorna a representação em String do projeto
      */
+    @Override
     public String toString(){
         return " - " + this.codigoLei + " - " + this.dniAutor +
                 " - " + this.ementa + " - ";
