@@ -44,7 +44,7 @@ public class Facade {
     }
 
     public void cadastrarComissao(String tema, String politicos){
-        return this.camaraController.cadastrarComissao(tema, politicos);
+        this.camaraController.cadastrarComissao(tema, politicos);
     }
 
     public void limparSistema(){

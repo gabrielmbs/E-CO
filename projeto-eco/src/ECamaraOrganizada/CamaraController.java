@@ -33,6 +33,7 @@ public class CamaraController {
         this.pessoas = new HashMap<>();
         this.base = new HashSet<>();
         this.validador = new Validador();
+        this.comissoes = new HashMap<>();
     }
 
     /**
@@ -215,18 +216,17 @@ public class CamaraController {
     public void cadastrarComissao(String tema, String politicos) {
         this.validador.validaString(tema, "Erro ao cadastrar comissao: tema nao pode ser vazio ou nulo");
         this.validador.validaString(politicos, "Erro ao cadastrar comissao: lista de politicos nao pode ser vazio ou nulo");
-        String[] arrayDeDNIs = geraArrayDeDNIsValidos(politicos);
         if(this.comissoes.containsKey(tema)){
             throw new IllegalArgumentException("Erro ao cadastrar comissao: tema existente");
         }
-
-
+        String[] arrayDeDNIs = geraArrayDeDNIsValidos(politicos);
+        this.comissoes.put(tema, new Comissao(tema, arrayDeDNIs));
     }
 
     private String[] geraArrayDeDNIsValidos(String politicos) {
         String[] arrayDeDNIs = politicos.split(",");
         for (String dni : arrayDeDNIs) {
-            this.validador.validaDNI(dni,"Erro ao cadastrar comissao:");
+            this.validador.validaDNI(dni,"Erro ao cadastrar comissao: ");
             if(!this.existePessoa(dni)){
                 throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa inexistente");
             }
