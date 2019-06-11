@@ -212,7 +212,7 @@ public class CamaraController {
         return this.pessoas.containsKey(dni);
     }
 
-    
+
     /**
      * O método cadastraComissao serve para cadastrar no sistema uma comissão que possui um tema e uma lista de politicos
      * que o compõe.
@@ -238,6 +238,16 @@ public class CamaraController {
         this.comissoes.put(tema, new Comissao(tema, arrayDeDNIs));
     }
 
+    /**
+     * Gera um array de Strings, que representa os dnis dos politicos.
+     *
+     * Ademais, checa-se se os dnis passado é válido (composto apenas de números
+     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
+     * uma exceção com uma mensagem indicando que o dni é inválido.
+     *
+     * @param politicos uma String, que representa dnis separados por ","
+     * @return Um array de Strings, que contem as dnis.
+     */
     private String[] geraArrayDeDNIsValidos(String politicos) {
         String[] arrayDeDNIs = politicos.split(",");
         for (String dni : arrayDeDNIs) {
