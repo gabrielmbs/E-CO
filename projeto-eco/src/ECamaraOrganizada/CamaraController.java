@@ -135,11 +135,26 @@ public class CamaraController {
         Pessoa pessoa = this.pessoas.get(dni);
         pessoa.viraDeputado(dataDeInicio);
     }
-
+    /**
+     * Método responsável por acesssar o Mapa que armazena as pessoas cadastradas e retornar uma
+     * representação em String da pessoa cujo DNI foi passado como parâmetro.
+     *
+     * Checa-se se o dni passado como parâmetro é nulo ou vazio, e se for, exceções do tipo NullPointerException
+     * IllegalArgumentExeception serão lançadas, respectivamente.
+     *
+     * Ademais, checa-se se o dni passado é válido (composto apenas de números
+     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
+     * uma exceção com uma mensagem indicando que o dni é inválido.
+     *
+     * Se a pessoa ainda não tiver sido cadastrada, será lançado um NullPointerException.
+     *
+     * @param dni dni da pessoa a ser consultado no sistema.
+     * @return a representação em String da pessoa, caso ela já tenha sido cadastrado.
+     */
     public String exibirPessoa(String dni) {
         this.validador.validaDNI(dni, "Erro ao exibir pessoa: ");
         if (!this.pessoas.containsKey(dni)) {
-            throw new IllegalArgumentException("Erro ao exibir pessoa: pessoa nao encontrada");
+            throw new NullPointerException("Erro ao exibir pessoa: pessoa nao encontrada");
         }
         return this.pessoas.get(dni).toString();
 
@@ -219,25 +234,64 @@ public class CamaraController {
     private boolean existePessoa(String dni) {
         return this.pessoas.containsKey(dni);
     }
-
+    /**
+     * Método que verifica se uma pessoa existente no sistema
+     * eh o atributo diferente de null, o que significa que eh deputado.
+     *
+     * @param dni dni a ser procurado.
+     * @return boolean informando se a pessoa é deputado ou não.
+     */
     private boolean pessoaEhDeputado(String dni) {
         return this.pessoas.get(dni).getFuncao() != null;
     }
 
+    /**
+     * Método que verifica se um projeto de lei existe no sistema.
+     *
+     * @param codigo codigo da lei a ser procurado.
+     * @return boolean informando se o projeto existe ou não.
+     */
     private boolean existeLei(String codigo) {
         return this.proposicoesDeLeis.containsKey(codigo);
     }
 
+    /**
+     * Método que incrementa 1 ao atributo leis de Deputado a
+     * cada que vez que uma pessoa deputada propõe um projeto de lei.
+     *
+     * @param dni dni a ser procurado.
+     *
+     */
     private void incrementaLeisDeputado(String dni) {
         Funcao funcao = this.pessoas.get(dni).getFuncao();
         funcao.setNumeroDeLeis();
     }
 
+    /**
+     * Método responsável por validar o cadastro de um projeto de lei
+     * que opere sobre artigos da Constituição.
+     *
+     * @param dni dni da lei a ser cadastrada.
+     * @param ementa ementea da lei a ser cadastrada.
+     * @param interesses interesses da lei a ser cadastrada.
+     * @param url url da lei a ser cadastrada.
+     * @param ano ano da lei a ser cadastrada.
+     * @param artigos artigos com os quais a lei irá trabalhar
+     */
     private void validaCadastrarLeiComArtigo(String dni, String ementa, String interesses, String url, int ano, String artigos) {
         validaCadastrarLei(dni,ementa, interesses, url, ano);
         this.validador.validaString(artigos, "Erro ao cadastrar projeto: artigo nao pode ser vazio ou nulo");
     }
 
+    /**
+     * Método responsável por validar o cadastro de um projeto de lei.
+     *
+     * @param dni dni da lei a ser cadastrada.
+     * @param ementa ementea da lei a ser cadastrada.
+     * @param interesses interesses da lei a ser cadastrada.
+     * @param url url da lei a ser cadastrada.
+     * @param ano ano da lei a ser cadastrada.
+     */
     private void validaCadastrarLei(String dni, String ementa, String interesses, String url, int ano) {
         this.validador.validaString(ementa, "Erro ao cadastrar projeto: ementa nao pode ser vazia ou nula");
         this.validador.validaString(dni, "Erro ao cadastrar projeto: autor nao pode ser vazio ou nulo");
@@ -248,6 +302,12 @@ public class CamaraController {
 
     }
 
+    /**
+     * Método responsável por separar artigos com vírgula e espaço, como no
+     * formato a seguir: "artigo1, artigo2, ..., artigoN".
+     * @param artigos String base para geração da nova string dos artigos concatenados.
+     * @return
+     */
     private String contatenaArtigos(String artigos){
         if(artigos.contains(",")){
             String artigosConcatenados = "";
@@ -259,7 +319,33 @@ public class CamaraController {
         }
         return artigos;
     }
-
+    /**
+     * Método responsável por cadastrar um Projeto de Lei no sistema, cujos dados: dni,
+     * ementa, interesses e url, todos do tipo String, ano do tipo int e
+     * conclusivo do tipo boolean, são passados como parâmetro.
+     *
+     * Ademais, checa-se se o dni passado é válido (composto apenas de números
+     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
+     * uma exceção com uma mensagem indicando que o dni é inválido.
+     *
+     * Verifica-se ainda, se o ano passado é anterior à 1988 ou posterior a 2019. Se for,
+     * IllegalArgumentException será lançado.
+     *
+     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
+     * e IllegalArgumentExeception serão lançadas, respectivamente.
+     *
+     * Caso a pessoa que vier a se tornar deputado não exista, é lançada uma exceção. Além disso, caso a pessoa não
+     * tiver partido, também será lançada uma exceção.
+     *
+     * @param dni dni do autor do projeto.
+     * @param ementa ementa do projeto.
+     * @param interesses interesses do projeto.
+     * @param url endereço url do projeto.
+     * @param ano ano de criação do projeto.
+     * @param conclusivo situção conclusiva do projeto
+     *
+     * @return retorna o código da lei cadastrada.
+     */
     public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
         validaCadastrarLei(dni, ementa, interesses, url, ano);
 
@@ -279,6 +365,33 @@ public class CamaraController {
         } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
     }
 
+    /**
+     * Método responsável por cadastrar um Projeto de Lei Complementar no sistema, cujos dados: dni,
+     * ementa, interesses, url e artigos, todos do tipo String e ano do tipo int
+     * são passados como parâmetro.
+     *
+     * Ademais, checa-se se o dni passado é válido (composto apenas de números
+     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
+     * uma exceção com uma mensagem indicando que o dni é inválido.
+     *
+     * Verifica-se ainda, se o ano passado é anterior à 1988 ou posterior a 2019. Se for,
+     * IllegalArgumentException será lançado.
+     *
+     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
+     * e IllegalArgumentExeception serão lançadas, respectivamente.
+     *
+     * Caso a pessoa que vier a se tornar deputado não exista, é lançada uma exceção. Além disso, caso a pessoa não
+     * tiver partido, também será lançada uma exceção.
+     *
+     * @param dni dni da pessoa deputada autor da lei.
+     * @param ementa ementa da lei.
+     * @param interesses interesses da lei.
+     * @param url endereço url da lei.
+     * @param artigos artigos da constituição sobre os quais a lei vai atuar.
+     * @param ano ano de criação do projeto
+     *
+     * @return retorna o código da lei cadastrada.
+     */
     public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
         validaCadastrarLeiComArtigo(dni, ementa, interesses, url, ano, artigos);
         String artigosConcatenados = contatenaArtigos(artigos);
@@ -302,7 +415,33 @@ public class CamaraController {
 
     }
 
-
+    /**
+     * Método responsável por cadastrar um Projeto de Emenda Constituicional no sistema, cujos dados: dni,
+     * ementa, interesses, url e artigos, todos do tipo String e ano do tipo int
+     * são passados como parâmetro.
+     *
+     * Ademais, checa-se se o dni passado é válido (composto apenas de números
+     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
+     * uma exceção com uma mensagem indicando que o dni é inválido.
+     *
+     * Verifica-se ainda, se o ano passado é anterior à 1988 ou posterior a 2019. Se for,
+     * IllegalArgumentException será lançado.
+     *
+     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
+     * e IllegalArgumentExeception serão lançadas, respectivamente.
+     *
+     * Caso a pessoa que vier a se tornar deputado não exista, é lançada uma exceção. Além disso, caso a pessoa não
+     * tiver partido, também será lançada uma exceção.
+     *
+     * @param dni dni da pessoa deputada autor da lei.
+     * @param ementa ementa da lei.
+     * @param interesses interesses da lei.
+     * @param url endereço url da lei.
+     * @param artigos artigos da constituição sobre os quais a lei vai atuar.
+     * @param ano ano de criação do projeto
+     *
+     * @return retorna o código da lei cadastrada.
+     */
     public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
         validaCadastrarLeiComArtigo(dni, ementa, interesses, url, ano, artigos);
         String artigosConcatenados = contatenaArtigos(artigos);
@@ -323,7 +462,21 @@ public class CamaraController {
         } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
     }
 
+    /**
+     * Método responsável por acesssar o Mapa que armazena os projetos de lei cadastrados e retornar uma
+     * representação em String da lei cujo código foi passado como parâmetro.
+     *
+     * Checa-se se o código passado como parâmetro é nulo ou vazio, e se for, exceções do tipo NullPointerException
+     * IllegalArgumentExeception serão lançadas, respectivamente.
+     *
+     *
+     * Se a lei ainda não tiver sido cadastrada, será lançado um NullPointerException.
+     *
+     * @param codigo dni da pessoa a ser consultado no sistema.
+     * @return a representação em String da pessoa, caso ela já tenha sido cadastrado.
+     */
     public String exibirProjeto(String codigo) {
+        this.validador.validaString(codigo,"Erro ao exibir projeto: codigo de lei nao pode ser vazio ou nulo");
         if (!existeLei(codigo)) {
             throw new NullPointerException("Erro ao exibir projeto: projeto inexistente");
         } else return this.proposicoesDeLeis.get(codigo).toString();

@@ -121,7 +121,13 @@ public class Validador {
         validaDataInvalida(data, msg);
         validaDataFutura(data, msg);
     }
-
+    /**
+     * Método responsável por validar um ano de criação
+     * de um projeto de lei.
+     *
+     * @param ano ano a ser analisado.
+     * @param msg mensagem de erro que será lançada.
+     */
     public void validaAnoLei(int ano, String msg){
         int anoAtual = Year.now().getValue();
         String msgAnoPosteriorAnoAtual = "ano nao pode ser posterior ao ano atual";
