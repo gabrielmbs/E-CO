@@ -255,14 +255,20 @@ public class CamaraController {
             if(!this.existePessoa(dni)){
                 throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa inexistente");
             }
-            if(!ehPolitico(dni)){
+            if(!ehDeputado(dni)){
                 throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa nao eh deputado");
             }
         }
         return arrayDeDNIs;
     }
 
-    private boolean ehPolitico(String dni) {
+    /**
+     * Verifica se uma pessoa é um deputado ou não.
+     *
+     * @param dni repersenta o dni da pessoa, que será verificada.
+     * @return um boolean, que indica se a pessoa é um deputado.
+     */
+    private boolean ehDeputado(String dni) {
         boolean retorno = false;
         if(this.pessoas.get(dni).getFuncao() != null){
            retorno = true;
