@@ -198,6 +198,12 @@ public class Pessoa {
         return partido;
     }
 
+
+    /**
+     * Pega a funcao da pessoa, ou seja, se ela eh ou nao deputado.
+     *
+     * @return retorna a funcao da pessoa.
+     */
     public Funcao getFuncao() {
         return funcao;
     }
