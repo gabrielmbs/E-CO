@@ -2,6 +2,8 @@ package ECamaraOrganizada;
 
 import easyaccept.EasyAccept;
 
+import java.util.List;
+
 public class Facade {
     public static void main(String[] args) {
         args = new String[]{"ECamaraOrganizada.Facade", "easyaccept_tests/use_case_1.txt",

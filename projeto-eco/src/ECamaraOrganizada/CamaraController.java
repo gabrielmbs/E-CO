@@ -211,7 +211,38 @@ public class CamaraController {
         return this.pessoas.containsKey(dni);
     }
 
-    public void cadastrarComissao(String tema, String politicos) {
 
+    public void cadastrarComissao(String tema, String politicos) {
+        this.validador.validaString(tema, "Erro ao cadastrar comissao: tema nao pode ser vazio ou nulo");
+        this.validador.validaString(politicos, "Erro ao cadastrar comissao: lista de politicos nao pode ser vazio ou nulo");
+        String[] arrayDeDNIs = geraArrayDeDNIsValidos(politicos);
+        if(this.comissoes.containsKey(tema)){
+            throw new IllegalArgumentException("Erro ao cadastrar comissao: tema existente");
+        }
+
+
+    }
+
+    private String[] geraArrayDeDNIsValidos(String politicos) {
+        String[] arrayDeDNIs = politicos.split(",");
+        for (String dni : arrayDeDNIs) {
+            this.validador.validaDNI(dni,"Erro ao cadastrar comissao:");
+            if(!this.existePessoa(dni)){
+                throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa inexistente");
+            }
+            if(!ehPolitico(dni)){
+                throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa nao eh deputado");
+            }
+        }
+        return arrayDeDNIs;
+    }
+
+    private boolean ehPolitico(String dni) {
+        boolean retorno = false;
+        if(this.pessoas.get(dni).getFuncao() != null){
+           retorno = true;
+        }
+
+        return retorno;
     }
 }
