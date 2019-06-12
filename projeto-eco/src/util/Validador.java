@@ -130,8 +130,8 @@ public class Validador {
      */
     public void validaAnoLei(int ano, String msg){
         int anoAtual = Year.now().getValue();
-        String msgAnoPosteriorAnoAtual = "ano nao pode ser posterior ao ano atual";
-        String msgAnoAnterior1988 = "ano nao pode ser anterior a 1988";
+        String msgAnoPosteriorAnoAtual = "ano posterior ao ano atual";
+        String msgAnoAnterior1988 = "ano anterior a 1988";
         if (ano > anoAtual ){
             throw new IllegalArgumentException(msg + msgAnoPosteriorAnoAtual);
         }
