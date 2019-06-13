@@ -7,7 +7,7 @@ public class Facade {
         args = new String[]{"ECamaraOrganizada.Facade", "easyaccept_tests/use_case_1.txt",
                             "easyaccept_tests/use_case_2.txt", "easyaccept_tests/use_case_3.txt",
                             "easyaccept_tests/use_case_4.txt", "easyaccept_tests/use_case_5.txt",
-                            "easyaccept_tests/use_case_6.txt"};
+                            "easyaccept_tests/use_case_6.txt", "easyaccept_tests/use_case_7.txt"};
         EasyAccept.main(args);
     }
 
@@ -58,10 +58,20 @@ public class Facade {
         return this.camaraController.exibirProjeto(codigo);
     }
 
-
-
     public void cadastrarComissao(String tema, String politicos){
         this.camaraController.cadastrarComissao(tema, politicos);
+    }
+
+    public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
+        return true;
+    }
+
+    public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
+        return true;
+    }
+
+    public String exibirTramitacao(String codigo) {
+    return "";
     }
 
     public void limparSistema(){
