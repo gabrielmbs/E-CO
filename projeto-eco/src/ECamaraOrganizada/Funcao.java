@@ -1,6 +1,9 @@
 package ECamaraOrganizada;
 
-public interface Funcao {
+
+import java.io.Serializable;
+
+public interface Funcao extends Serializable {
     public String exibir(String representacao);
     public void setNumeroDeLeis();
 }
