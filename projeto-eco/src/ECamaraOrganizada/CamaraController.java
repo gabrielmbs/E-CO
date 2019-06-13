@@ -335,7 +335,6 @@ public class CamaraController {
                                                                                 interesses, url,
                                                                                 artigosConcatenados));
                 contador.incrementaContagem();
-                incrementaLeisDeputado(dni);
                 return codigoLei;
             } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
 
@@ -371,7 +370,6 @@ public class CamaraController {
                 String codigoLei = "PEC " + contador.getContagem() + "/" + ano;
                 this.proposicoesDeLeis.put(codigoLei, new ProjetoEmendaConstitucional(codigoLei, dni, ano, ementa, interesses, url, artigosConcatenados));
                 contador.incrementaContagem();
-                incrementaLeisDeputado(dni);
                 return codigoLei;
             } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
         } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
