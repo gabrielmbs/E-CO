@@ -48,20 +48,6 @@ public class CamaraController {
      * Os métodos cadastrarPessoa a seguir são sobrecarregados de modo
      * a podermos cadastrar no sistema uma pessoa que possua filiação a algum partido
      * ou não.
-     * <p>
-     * Método responsável por cadastrar uma pessoa no sistema, cujos dados (nome, dni, estado e interesses),
-     * todos do tipo String, são passados como parâmetro.
-     * <p>
-     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
-     * e IllegalArgumentExeception serão lançadas, respectivamente.
-     * <p>
-     * Caso a pessoa já tenha sido cadastrada, o que é checado por meio da existência ou não de uma chave no Mapa
-     * que armazena pessoas (se existe, ela já foi cadastrada, senão, ainda não foi cadastrada) a operação é abortada e
-     * lança-se uma exceção. Caso contrário, ela será adicionada ao Mapa que armazena pessoas.
-     * <p>
-     * Ademais, checa-se se o dni passado é válido (composto apenas de números
-     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-     * uma exceção com uma mensagem indicando que o dni é inválido.
      *
      * @param nome       nome da pessoa a ser cadastrada.
      * @param dni        dni da pessa a ser cadastrada.
@@ -82,20 +68,6 @@ public class CamaraController {
      * O método cadastrarPessoa a seguir e o método cadastrarPessoa anterior são sobrecarregados de modo
      * a podermos cadastrar no sistema uma pessoa que possua filiação a algum partido
      * ou não.
-     * <p>
-     * Método responsável por cadastrar uma pessoa no sistema, cujos dados (nome, dni, estado, interesses e partido),
-     * todos do tipo String, são passados como parâmetro.
-     * <p>
-     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
-     * e IllegalArgumentExeception serão lançadas, respectivamente.
-     * <p>
-     * Caso a pessoa já tenha sido cadastrada, o que é checado por meio da existência ou não de uma chave no Mapa
-     * que armazena pessoas (se existe, ela já foi cadastrada, senão, ainda não foi cadastrada) a operação é abortada e
-     * lança-se uma exceção. Caso contrário, ela será adicionada ao Mapa que armazena pessoas.
-     * <p>
-     * Ademais, checa-se se o dni passado é válido (composto apenas de números
-     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-     * uma exceção com uma mensagem indicando que o dni é inválido.
      *
      * @param nome       nome da pessoa a ser cadastrada.
      * @param dni        dni da pessa a ser cadastrada.
@@ -116,17 +88,7 @@ public class CamaraController {
     /**
      * Método responsável por cadastrar um deputado no sistema, cujos dados (dni e dataInicio), todos do tipo String,
      * são passados como parâmetro.
-     * <p>
-     * Ademais, checa-se se o dni passado é válido (composto apenas de números
-     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-     * uma exceção com uma mensagem indicando que o dni é inválido.
-     * <p>
-     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
-     * e IllegalArgumentExeception serão lançadas, respectivamente.
-     * <p>
-     * Caso a pessoa que vier a se tornar deputado não exista, é lançada uma exceção. Além disso, caso a pessoa não
-     * tiver partido, também será lançada uma exceção.
-     *
+     * 
      * @param dni          dni da pessoa a se tornar deputado.
      * @param dataDeInicio data de ínicio do mandato do deputado.
      */
@@ -138,15 +100,6 @@ public class CamaraController {
     /**
      * Método responsável por acesssar o Mapa que armazena as pessoas cadastradas e retornar uma
      * representação em String da pessoa cujo DNI foi passado como parâmetro.
-     *
-     * Checa-se se o dni passado como parâmetro é nulo ou vazio, e se for, exceções do tipo NullPointerException
-     * IllegalArgumentExeception serão lançadas, respectivamente.
-     *
-     * Ademais, checa-se se o dni passado é válido (composto apenas de números
-     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-     * uma exceção com uma mensagem indicando que o dni é inválido.
-     *
-     * Se a pessoa ainda não tiver sido cadastrada, será lançado um NullPointerException.
      *
      * @param dni dni da pessoa a ser consultado no sistema.
      * @return a representação em String da pessoa, caso ela já tenha sido cadastrado.
@@ -162,7 +115,7 @@ public class CamaraController {
 
     /**
      * Método responsável por cadastrar um partido no sistema, recebendo como parâmetro o nome do partido.
-     * <p>
+     * 
      * Checa-se se esse parâmetro é nulo ou vazio, e se for, exceções do tipo NullPointerException
      * e IllegalArgumentExeception serão lançadas, respectivamente.
      *
@@ -181,16 +134,14 @@ public class CamaraController {
     public String exibirBase() {
         List<String> listaPartidos = new ArrayList<>(this.base);
         listaPartidos.sort(String::compareTo);
-
+        
         if (listaPartidos.size() == 0) {
             return "";
         }
-
         String resultado = "";
         for (String partido : listaPartidos) {
             resultado += partido + ",";
         }
-
         return resultado.substring(0, (resultado.length() - 1));
     }
 
@@ -234,6 +185,7 @@ public class CamaraController {
     private boolean existePessoa(String dni) {
         return this.pessoas.containsKey(dni);
     }
+    
     /**
      * Método que verifica se uma pessoa existente no sistema
      * eh o atributo diferente de null, o que significa que eh deputado.
@@ -324,19 +276,6 @@ public class CamaraController {
      * ementa, interesses e url, todos do tipo String, ano do tipo int e
      * conclusivo do tipo boolean, são passados como parâmetro.
      *
-     * Ademais, checa-se se o dni passado é válido (composto apenas de números
-     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-     * uma exceção com uma mensagem indicando que o dni é inválido.
-     *
-     * Verifica-se ainda, se o ano passado é anterior à 1988 ou posterior a 2019. Se for,
-     * IllegalArgumentException será lançado.
-     *
-     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
-     * e IllegalArgumentExeception serão lançadas, respectivamente.
-     *
-     * Caso a pessoa que vier a se tornar deputado não exista, é lançada uma exceção. Além disso, caso a pessoa não
-     * tiver partido, também será lançada uma exceção.
-     *
      * @param dni dni do autor do projeto.
      * @param ementa ementa do projeto.
      * @param interesses interesses do projeto.
@@ -357,7 +296,8 @@ public class CamaraController {
             if (pessoaEhDeputado(dni)) {
                 Contador contador = this.contadores.get(chaveContador);
                 String codigoLei = "PL " + contador.getContagem() + "/" + ano;
-                this.proposicoesDeLeis.put(codigoLei, new ProjetoDeLei(codigoLei, dni, ano, ementa, interesses, url, conclusivo));
+                this.proposicoesDeLeis.put(codigoLei, new ProjetoDeLei(codigoLei, dni, ano, ementa, interesses, url,
+                                                                        conclusivo));
                 contador.incrementaContagem();
                 incrementaLeisDeputado(dni);
                 return codigoLei;
@@ -369,19 +309,6 @@ public class CamaraController {
      * Método responsável por cadastrar um Projeto de Lei Complementar no sistema, cujos dados: dni,
      * ementa, interesses, url e artigos, todos do tipo String e ano do tipo int
      * são passados como parâmetro.
-     *
-     * Ademais, checa-se se o dni passado é válido (composto apenas de números
-     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-     * uma exceção com uma mensagem indicando que o dni é inválido.
-     *
-     * Verifica-se ainda, se o ano passado é anterior à 1988 ou posterior a 2019. Se for,
-     * IllegalArgumentException será lançado.
-     *
-     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
-     * e IllegalArgumentExeception serão lançadas, respectivamente.
-     *
-     * Caso a pessoa que vier a se tornar deputado não exista, é lançada uma exceção. Além disso, caso a pessoa não
-     * tiver partido, também será lançada uma exceção.
      *
      * @param dni dni da pessoa deputada autor da lei.
      * @param ementa ementa da lei.
@@ -405,7 +332,9 @@ public class CamaraController {
             if (pessoaEhDeputado(dni)) {
                 Contador contador = this.contadores.get(chaveContador);
                 String codigoLei = "PLP " + contador.getContagem() + "/" + ano;
-                this.proposicoesDeLeis.put(codigoLei, new ProjetoLeiComplementar(codigoLei, dni, ano, ementa, interesses, url, artigosConcatenados));
+                this.proposicoesDeLeis.put(codigoLei, new ProjetoLeiComplementar(codigoLei, dni, ano, ementa,
+                                                                                interesses, url,
+                                                                                artigosConcatenados));
                 contador.incrementaContagem();
                 incrementaLeisDeputado(dni);
                 return codigoLei;
@@ -419,19 +348,6 @@ public class CamaraController {
      * Método responsável por cadastrar um Projeto de Emenda Constituicional no sistema, cujos dados: dni,
      * ementa, interesses, url e artigos, todos do tipo String e ano do tipo int
      * são passados como parâmetro.
-     *
-     * Ademais, checa-se se o dni passado é válido (composto apenas de números
-     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-     * uma exceção com uma mensagem indicando que o dni é inválido.
-     *
-     * Verifica-se ainda, se o ano passado é anterior à 1988 ou posterior a 2019. Se for,
-     * IllegalArgumentException será lançado.
-     *
-     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
-     * e IllegalArgumentExeception serão lançadas, respectivamente.
-     *
-     * Caso a pessoa que vier a se tornar deputado não exista, é lançada uma exceção. Além disso, caso a pessoa não
-     * tiver partido, também será lançada uma exceção.
      *
      * @param dni dni da pessoa deputada autor da lei.
      * @param ementa ementa da lei.
@@ -466,12 +382,6 @@ public class CamaraController {
      * Método responsável por acesssar o Mapa que armazena os projetos de lei cadastrados e retornar uma
      * representação em String da lei cujo código foi passado como parâmetro.
      *
-     * Checa-se se o código passado como parâmetro é nulo ou vazio, e se for, exceções do tipo NullPointerException
-     * IllegalArgumentExeception serão lançadas, respectivamente.
-     *
-     *
-     * Se a lei ainda não tiver sido cadastrada, será lançado um NullPointerException.
-     *
      * @param codigo dni da pessoa a ser consultado no sistema.
      * @return a representação em String da pessoa, caso ela já tenha sido cadastrado.
      */
@@ -482,56 +392,47 @@ public class CamaraController {
         } else return this.proposicoesDeLeis.get(codigo).toString();
     }
 
-        /**
-         * O método cadastraComissao serve para cadastrar no sistema uma comissão que possui um tema e uma lista de politicos
-         * que o compõe.
-         *
-         * Verifica se cada um dos parâmetros passados são nulos ou vazios, e se forem, exceções do tipo NullPointerException
-         * e IllegalArgumentExeception serão lançadas, respectivamente.
-         *
-         * Caso a comissão já tenha sido cadastrada, o que é checado por meio da existência ou não de uma chave no Mapa
-         * que armazena comissões (se existe, ela já foi cadastrada, senão, ainda não foi cadastrada) a operação é abortada e
-         * lança-se uma exceção. Caso contrário, ela será adicionada ao Mapa que armazena comissões.
-         *
-         *
-         * @param tema representa o tema da comissão
-         * @param politicos lista de politicos separados por ",".
-         */
-        public void cadastrarComissao (String tema, String politicos){
-            this.validador.validaString(tema, "Erro ao cadastrar comissao: tema nao pode ser vazio ou nulo");
-            this.validador.validaString(politicos, "Erro ao cadastrar comissao: lista de politicos nao pode ser vazio ou nulo");
-            if (this.comissoes.containsKey(tema)) {
-                throw new IllegalArgumentException("Erro ao cadastrar comissao: tema existente");
-            }
-            String[] arrayDeDNIs = geraArrayDeDNIsValidos(politicos);
-            this.comissoes.put(tema, new Comissao(tema, arrayDeDNIs));
+    /**
+     * O método cadastraComissao serve para cadastrar no sistema uma comissão que possui um tema e uma lista de politicos
+     * que o compõe.
+     *
+     * @param tema representa o tema da comissão
+     * @param politicos lista de politicos separados por ",".
+     */
+    public void cadastrarComissao (String tema, String politicos){
+        this.validador.validaString(tema, "Erro ao cadastrar comissao: tema nao pode ser vazio ou nulo");
+        this.validador.validaString(politicos, "Erro ao cadastrar comissao: lista de politicos nao pode ser vazio ou nulo");
+        if (this.comissoes.containsKey(tema)) {
+            throw new IllegalArgumentException("Erro ao cadastrar comissao: tema existente");
         }
-
-        /**
-         * Gera um array de Strings, que representa os dnis dos politicos.
-         *
-         * Ademais, checa-se se os dnis passado é válido (composto apenas de números
-         * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-         * uma exceção com uma mensagem indicando que o dni é inválido.
-         *
-         * @param politicos uma String, que representa dnis separados por ","
-         * @return Um array de Strings, que contem as dnis.
-         */
-        private String[] geraArrayDeDNIsValidos (String politicos){
-            String[] arrayDeDNIs = politicos.split(",");
-            for (String dni : arrayDeDNIs) {
-                this.validador.validaDNI(dni, "Erro ao cadastrar comissao: ");
-                if (!this.existePessoa(dni)) {
-                    throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa inexistente");
-                }
-                if (!pessoaEhDeputado(dni)) {
-                    throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa nao eh deputado");
-                }
-            }
-            return arrayDeDNIs;
-        }
+        String[] arrayDeDNIs = geraArrayDeDNIsValidos(politicos);
+        this.comissoes.put(tema, new Comissao(tema, arrayDeDNIs));
     }
 
+    /**
+     * Gera um array de Strings, que representa os dnis dos politicos.
+     *
+     * @param politicos uma String, que representa dnis separados por ","
+     * @return Um array de Strings, que contem as dnis.
+     */
+    private String[] geraArrayDeDNIsValidos (String politicos){
+        String[] arrayDeDNIs = politicos.split(",");
+        for (String dni : arrayDeDNIs) {
+            this.validador.validaDNI(dni, "Erro ao cadastrar comissao: ");
+            if (!this.existePessoa(dni)) {
+                throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa inexistente");
+            }
+            if (!pessoaEhDeputado(dni)) {
+                throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa nao eh deputado");
+            }
+        }
+        return arrayDeDNIs;
+    }
 
-
-
+    public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
+        if(!this.comissoes.containsKey("CCJC")){
+            throw new IllegalArgumentException("Erro ao votar proposta: CCJC nao cadastrada");
+        }
+        return false;
+    }
+}

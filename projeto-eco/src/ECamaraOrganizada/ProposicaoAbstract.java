@@ -104,4 +104,12 @@ public abstract class ProposicaoAbstract {
         return " - " + this.codigoLei + " - " + this.dniAutor +
                 " - " + this.ementa + " - ";
     }
+
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
+    }
+
+    public String getDniAutor() {
+        return dniAutor;
+    }
 }
