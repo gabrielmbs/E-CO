@@ -97,16 +97,6 @@ public class Persistencia {
         return obj;
     }
 
-    public static void main(String[] args) {
-        Persistencia p = new Persistencia();
-//        Pessoa pessoa = new Pessoa("Gabrel", "011111111-0", "PB", "Saude");
-//        p.salvar(pessoa,"PessoaTest");
-        Pessoa pessoa2 = (Pessoa) p.carregar("PessoaTest");
-        System.out.println(pessoa2.toString());
-        p.limpar("PessoaTest");
-
-    }
-
     /**
      * Limpa o arquivo passado por parametro, caso o arquivo não exista ele é criado vazio.
      *
