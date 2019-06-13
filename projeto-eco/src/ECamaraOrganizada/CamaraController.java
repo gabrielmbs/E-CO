@@ -299,7 +299,6 @@ public class CamaraController {
                 this.proposicoesDeLeis.put(codigoLei, new ProjetoDeLei(codigoLei, dni, ano, ementa, interesses, url,
                                                                         conclusivo));
                 contador.incrementaContagem();
-                incrementaLeisDeputado(dni);
                 return codigoLei;
             } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
         } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
