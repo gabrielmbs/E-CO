@@ -4,7 +4,6 @@ import java.io.*;
 
 /**
  * Classe responsavel pela armazenação e leitura de objetos em arquivos.
- *
  */
 public class Persistencia {
 
@@ -24,7 +23,6 @@ public class Persistencia {
 
     /**
      * Cria uma instancia da classe Persistencia com nome do diretorio padrão;
-     *
      */
     public Persistencia() {
         this(NOME_DIRETORIO);
@@ -32,16 +30,17 @@ public class Persistencia {
 
     /**
      * Cria uma instacia da classe Pesistencia com o nome do diretorio passado por paramentro
+     *
      * @param nomeDiretorio
      */
     public Persistencia(String nomeDiretorio) {
-        this.caminhoDiretorio = nomeDiretorio  + File.separator;
+        this.caminhoDiretorio = nomeDiretorio + File.separator;
     }
 
     /**
      * Salva um objeto em um arquivo.
      *
-     * @param obj representa o objeto que vamos salvar no arquivo.
+     * @param obj         representa o objeto que vamos salvar no arquivo.
      * @param nomeArquivo representa o nome do arquivo que vai ser salvo objeto.
      */
     public void salvar(Object obj, String nomeArquivo) {
@@ -55,8 +54,8 @@ public class Persistencia {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
-            if(oos != null){
+        } finally {
+            if (oos != null) {
                 try {
                     oos.close();
                 } catch (IOException e) {
@@ -84,8 +83,8 @@ public class Persistencia {
             obj = ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-        }finally {
-            if(ois != null){
+        } finally {
+            if (ois != null) {
                 try {
                     ois.close();
                 } catch (IOException e) {
