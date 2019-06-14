@@ -427,9 +427,28 @@ public class CamaraController {
     }
 
     public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
-        if(!this.comissoes.containsKey("CCJC")){
+        if (!this.comissoes.containsKey("CCJC")) {
             throw new IllegalArgumentException("Erro ao votar proposta: CCJC nao cadastrada");
         }
+        int chao = (this.comissoes.get("CCJC").getDNIs().length / 2) + 1;
+        int votosFavoraveis = calculaVotos("CCJC", statusGovernista);
+
+        if (votosFavoraveis >= chao) {
+            return true;
+        }
         return false;
+    }
+
+    private int calculaVotos(String comissao, String statusGovernista) {
+        int votosFavoraveis = 0;
+
+        for (String dni : this.comissoes.get(comissao).getDNIs()) {
+            if ("GOVERNISTA".equals(statusGovernista)) {
+                if (this.base.contains(this.pessoas.get(dni).getPartido())) {
+                    votosFavoraveis++;
+                }
+            }
+        }
+        return votosFavoraveis;
     }
 }
