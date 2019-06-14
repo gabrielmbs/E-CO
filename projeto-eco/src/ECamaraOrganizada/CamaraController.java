@@ -34,6 +34,7 @@ public class CamaraController {
      * Atributo que será utilizado para validacoes.
      */
     private Validador validador;
+    private boolean passouNaCCJC;
 
     public CamaraController() {
         this.pessoas = new HashMap<>();
@@ -42,6 +43,7 @@ public class CamaraController {
         this.proposicoesDeLeis = new HashMap<>();
         this.contadores = new HashMap<>();
         this.comissoes = new HashMap<>();
+        this.passouNaCCJC = false;
     }
 
     /**
@@ -432,17 +434,37 @@ public class CamaraController {
         if (!this.comissoes.containsKey("CCJC")) {
             throw new IllegalArgumentException("Erro ao votar proposta: CCJC nao cadastrada");
         }
+        if(!this.proposicoesDeLeis.get(codigo).getProposicaoAtiva()){
+            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
+        }
 
         String localDeVotacao = this.proposicoesDeLeis.get(codigo).getLocalDeVotacao();
-        this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (" + proximoLocal + ")");
+
         int chao = (this.comissoes.get(localDeVotacao).getDNIs().length / 2) + 1;
         int votosFavoraveis = calculaVotos(codigo, localDeVotacao, statusGovernista);
 
         this.proposicoesDeLeis.get(codigo).setLocalDeVotacao(proximoLocal);
-        if (votosFavoraveis >= chao) {
-            return true;
+        boolean retorno = false;
+        if (votosFavoraveis < chao && !this.passouNaCCJC) {
+            this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
+            this.passouNaCCJC = true;
+        }else if(votosFavoraveis >= chao && !this.passouNaCCJC){
+            this.passouNaCCJC = true;
+            this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (" + proximoLocal + ")");
+            retorno = true;
+        }else if(votosFavoraveis >= chao){
+            if(proximoLocal.equals("-")){
+                this.proposicoesDeLeis.get(codigo).setSituacao("APROVADO");
+                incrementaLeisDeputado(this.proposicoesDeLeis.get(codigo).getDniAutor());
+            }
+            retorno = true;
+        }else if(votosFavoraveis < chao){
+            this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
+            if(proximoLocal.equals("-")){
+                this.proposicoesDeLeis.get(codigo).setSituacao("ARQUIVADO");
+            }
         }
-        return false;
+        return retorno;
     }
 
     private int calculaVotos(String codigo, String comissao, String statusGovernista) {
