@@ -40,6 +40,7 @@ public abstract class ProposicaoAbstract {
     protected String localDeVotacao;
 
     protected String tipoDeProposicao;
+    private boolean proposicaoAtiva;
 
     /**
      * Atributo que denota o estado conclusivo do Projeto de Lei.
@@ -71,6 +72,7 @@ public abstract class ProposicaoAbstract {
         this.urlDocumento = urlDocumento;
         this.situacao = "EM VOTACAO (CCJC)";
         this.localDeVotacao = "CCJC";
+        this.proposicaoAtiva = true;
     }
 
     /**
@@ -123,6 +125,10 @@ public abstract class ProposicaoAbstract {
         return dniAutor;
     }
 
+    public String getSituacao() {
+        return situacao;
+    }
+
     public String getInteresses() {
         return interesses;
     }
@@ -141,5 +147,13 @@ public abstract class ProposicaoAbstract {
 
     public boolean isConclusivo() {
         return conclusivo;
+    }
+
+    public boolean getProposicaoAtiva() {
+        return proposicaoAtiva;
+    }
+
+    public void setProposicaoAtiva(boolean proposicaoAtiva) {
+        this.proposicaoAtiva = proposicaoAtiva;
     }
 }
