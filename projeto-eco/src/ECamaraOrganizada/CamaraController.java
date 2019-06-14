@@ -433,6 +433,14 @@ public class CamaraController {
         return false;
     }
 
+    /**
+     * Esse método auxiliar retorna um inteiro que informa se foi aprovado ou não o voto.
+     * 1 para aprovado - 2 para reprovado.
+     *
+     * @param codigo código da proposição.
+     * @param statusGovernista status.
+     * @return int.
+     */
     private int votoPolitico(String codigo, String statusGovernista){
         String dni = this.proposicoesDeLeis.get(codigo).getDniAutor();
         Pessoa deputado = this.pessoas.get(dni);
@@ -451,6 +459,13 @@ public class CamaraController {
         return saida;
     }
 
+    /**
+     * Método auxiliar que indica se um deputado e uma proposição têm interesses em comum.
+     *
+     * @param deputado deputado a ser analisado.
+     * @param codigo codigo da proposição a ser analisada.
+     * @return boolean indicando se tem ou não interesse em comum.
+     */
     private boolean intEmComum(Pessoa deputado, String codigo) {
         String[] interessesDep = deputado.getInteresses().split(",");
         String[] interessesPl = this.proposicoesDeLeis.get(codigo).getInteresses().split(",");
