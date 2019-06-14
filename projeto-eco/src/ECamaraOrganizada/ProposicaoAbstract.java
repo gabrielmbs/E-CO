@@ -39,6 +39,13 @@ public abstract class ProposicaoAbstract {
 
     protected String localDeVotacao;
 
+    protected String tipoDeProposicao;
+
+    /**
+     * Atributo que denota o estado conclusivo do Projeto de Lei.
+     */
+    protected boolean conclusivo;
+
     /**
      * Método responsável por criar um Projeto de Emenda Constitucional no sistema, cujos dados: dni,
      * ementa, interesses, url e artigos, todos do tipo String, ano do tipo int
@@ -130,5 +137,9 @@ public abstract class ProposicaoAbstract {
 
     public String getCodigoLei() {
         return codigoLei;
+    }
+
+    public boolean isConclusivo() {
+        return conclusivo;
     }
 }

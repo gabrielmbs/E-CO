@@ -42,6 +42,8 @@ public class ProjetoLeiComplementar extends ProposicaoAbstract {
         this.validador.validaAnoLei(ano, "Erro ao cadastrar projeto: ");
         this.validador.validaString(artigos, "Erro ao cadastrar projeto: artigo nao pode ser vazio ou nulo");
         this.artigos = artigos;
+        this.tipoDeProposicao = "PLC";
+        this.conclusivo = false;
     }
 
     /**

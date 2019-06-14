@@ -61,12 +61,12 @@ cadastrarComissao tema="COPO" politicos="071666666-0,071777777-0,071888888-0,071
 
 # PL (Lei ordinaria conclusiva) - aprovada na CCJC e negada na CTF
 expect true votarComissao codigo=${plc} statusGovernista="GOVERNISTA" proximoLocal="CTF"
-expect "Projeto de Lei - PL 1/2016 - 071222222-0 - Ementa PL conc - Conclusiva - EM VOTACAO (CTF)" exibirProjeto codigo=${plc}
+expect "Projeto de Lei - PL 5/2016 - 071222222-0 - Ementa PL conc - Conclusiva - EM VOTACAO (CTF)" exibirProjeto codigo=${plc}
 expect "POL: M2 - 071222222-0 (PE) - PartidoGov - Interesses: educacao,seguranca publica,saude - 29/02/2016 - 0 Leis" exibirPessoa dni="071222222-0"
 expect false votarComissao codigo=${plc} statusGovernista="GOVERNISTA" proximoLocal="-"
 # 0 leis aprovadas ate o momento...:
 expect "POL: M2 - 071222222-0 (PE) - PartidoGov - Interesses: educacao,seguranca publica,saude - 29/02/2016 - 0 Leis" exibirPessoa dni="071222222-0"
-expect "Projeto de Lei - PL 1/2016 - 071222222-0 - Interesses: educacao,seguranca publica,saude - Ementa PL conc - Conclusiva - ARQUIVADO" exibirProjeto codigo=${plc}
+expect "Projeto de Lei - PL 5/2016 - 071222222-0 - Interesses: educacao,seguranca publica,saude - Ementa PL conc - Conclusiva - ARQUIVADO" exibirProjeto codigo=${plc}
 expectError "Erro ao votar proposta: tramitacao encerrada" votarComissao codigo=${plc} statusGovernista="GOVERNISTA" proximoLocal="-"
 expectError "Erro ao votar proposta: tramitacao encerrada" votarPlenario codigo=${plc} statusGovernista="GOVERNISTA" presentes="071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0,071000000-0"
 

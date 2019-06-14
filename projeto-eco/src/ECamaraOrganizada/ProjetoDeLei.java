@@ -8,10 +8,6 @@ import util.Validador;
  *
  */
 public class ProjetoDeLei extends ProposicaoAbstract {
-    /**
-     * Atributo que denota o estado conclusivo do Projeto de Lei.
-     */
-    private boolean conclusivo;
 
     /**
      * Atributo que será utilizado para validações.
@@ -43,6 +39,7 @@ public class ProjetoDeLei extends ProposicaoAbstract {
         this.validador.validaDNI(dni, "Erro ao cadastrar projeto: ");
         this.validador.validaAnoLei(ano, "Erro ao cadastrar projeto: ");
         this.conclusivo = conclusivo;
+        this.tipoDeProposicao = "PL";
     }
 
     /**
@@ -57,9 +54,5 @@ public class ProjetoDeLei extends ProposicaoAbstract {
                     " - " + this.ementa + " - Conclusiva"  + " - " + this.situacao;
         }
         else return "Projeto de Lei" + super.toString() + this.situacao;
-    }
-
-    public boolean isConclusivo() {
-        return conclusivo;
     }
 }
