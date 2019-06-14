@@ -432,7 +432,7 @@ public class CamaraController {
         }
 
         String localDeVotacao = this.proposicoesDeLeis.get(codigo).getLocalDeVotacao();
-
+        this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTAÇÃO (" + proximoLocal + ")");
         int chao = (this.comissoes.get(localDeVotacao).getDNIs().length / 2) + 1;
         int votosFavoraveis = calculaVotos(codigo, localDeVotacao, statusGovernista);
 

@@ -66,13 +66,13 @@ public class Facade {
         return this.camaraController.votarComissao(codigo, statusGovernista, proximoLocal);
     }
 
-    public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
-        return true;
-    }
+//    public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
+//        return true;
+//    }
 
-    public String exibirTramitacao(String codigo) {
-    return "";
-    }
+//    public String exibirTramitacao(String codigo) {
+//    return "";
+//    }
 
     public void limparSistema(){
 

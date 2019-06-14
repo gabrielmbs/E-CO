@@ -127,4 +127,8 @@ public abstract class ProposicaoAbstract {
     public void setLocalDeVotacao(String localDeVotacao) {
         this.localDeVotacao = localDeVotacao;
     }
+
+    public String getCodigoLei() {
+        return codigoLei;
+    }
 }
