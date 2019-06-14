@@ -49,9 +49,11 @@ public class ProjetoDeLei extends ProposicaoAbstract {
      * @return retorna a representação em String do projeto
      */
     public String toString() {
-        if (this.conclusivo) {
+        if (this.conclusivo && this.situacao.equals("ARQUIVADO")) {
             return "Projeto de Lei" + " - " + this.codigoLei + " - " + this.dniAutor +
-                    " - " + this.ementa + " - Conclusiva"  + " - " + this.situacao;
+                    " - Interesses: " + this.interesses + " - " + this.ementa + " - Conclusiva"  + " - " + this.situacao;
+        }else if(this.conclusivo){
+            return "Projeto de Lei" + super.toString() + "Conclusiva"  + " - " + this.situacao;
         }
         else return "Projeto de Lei" + super.toString() + this.situacao;
     }
