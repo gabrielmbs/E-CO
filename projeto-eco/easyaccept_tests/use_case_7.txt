@@ -31,7 +31,7 @@ cadastrarDeputado dni="071000000-0" dataDeInicio="29022016"
 plc=cadastrarPL dni="071222222-0" ano=2016 ementa="Ementa PL conc" interesses="saude,educacao basica" url="http://example.com/semana_saude" conclusivo=true
 plcopo=cadastrarPL dni="071222222-0" ano=2016 ementa="Ementa PL conc" interesses="saude,educacao basica" url="http://example.com/semana_saude" conclusivo=true
 plcgov=cadastrarPL dni="071222222-0" ano=2016 ementa="Ementa PL conc" interesses="saude,educacao basica" url="http://example.com/semana_saude" conclusivo=true
-plcaude=cadastrarPL dni="071222222-0" ano=2016 ementa="Ementa PL conc" interesses="saude" url="http://example.com/semana_saude" conclusivo=true
+plcsaude=cadastrarPL dni="071222222-0" ano=2016 ementa="Ementa PL conc" interesses="saude" url="http://example.com/semana_saude" conclusivo=true
 plcnutri=cadastrarPL dni="071222222-0" ano=2016 ementa="Ementa PL conc" interesses="nutricao" url="http://example.com/semana_saude" conclusivo=true
 
 plp=cadastrarPLP dni="071222222-0" ano=2016 ementa="Ementa PLP" interesses="fiscal,jogos" url="https://example.net/jogos%40aposta" artigos="153"
@@ -79,7 +79,7 @@ expect true votarComissao codigo=${plcgov} statusGovernista="GOVERNISTA" proximo
 expect true votarComissao codigo=${plcgov} statusGovernista="GOVERNISTA" proximoLocal="-"
 # 1 lei aprovada ate o momento...:
 expect "POL: M2 - 071222222-0 (PE) - PartidoGov - Interesses: educacao,seguranca publica,saude - 29/02/2016 - 1 Leis" exibirPessoa dni="071222222-0"
-expect "Projeto de Lei - PL 3/2016 - 071222222-0 - Ementa PL conc - Conclusiva - APROVADO" exibirProjeto codigo=${plc}
+expect "Projeto de Lei - PL 7/2016 - 071222222-0 - Ementa PL conc - Conclusiva - APROVADO" exibirProjeto codigo=${plcgov}
 
 # PL Conc Livre - saude e nutricao
 expect true votarComissao codigo=${plcsaude} statusGovernista="LIVRE" proximoLocal="CGOV"
