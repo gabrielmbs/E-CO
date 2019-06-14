@@ -432,4 +432,35 @@ public class CamaraController {
         }
         return false;
     }
+
+    private int votoPolitico(String codigo, String statusGovernista){
+        String dni = this.proposicoesDeLeis.get(codigo).getDniAutor();
+        Pessoa deputado = this.pessoas.get(dni);
+        boolean ehDaBase = this.base.contains(deputado.getPartido());
+        boolean temInteressesEmComum = intEmComum(deputado, codigo);
+        int saida = 0;
+        if("GOVERNISTA".equals(statusGovernista) && ehDaBase){
+            saida = 1;
+        }else if("OPOSICAO".equals(statusGovernista) && ehDaBase){
+            saida = -1;
+        }else if("LIVRE".equals(statusGovernista) && temInteressesEmComum){
+            saida = 1;
+        }else if("LIVRE".equals(statusGovernista) && !temInteressesEmComum){
+            saida = -1;
+        }
+        return saida;
+    }
+
+    private boolean intEmComum(Pessoa deputado, String codigo) {
+        String[] interessesDep = deputado.getInteresses().split(",");
+        String[] interessesPl = this.proposicoesDeLeis.get(codigo).getInteresses().split(",");
+        for(int i=0; i < interessesDep.length; i++){
+            for(int j = 0; j < interessesPl.length; j++){
+                if(interessesDep[i].equals(interessesPl[j])){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

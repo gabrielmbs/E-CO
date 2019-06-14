@@ -112,4 +112,8 @@ public abstract class ProposicaoAbstract {
     public String getDniAutor() {
         return dniAutor;
     }
+
+    public String getInteresses() {
+        return interesses;
+    }
 }
