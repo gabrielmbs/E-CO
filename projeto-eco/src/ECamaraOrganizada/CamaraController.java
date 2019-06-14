@@ -386,7 +386,9 @@ public class CamaraController {
         this.validador.validaString(codigo,"Erro ao exibir projeto: codigo de lei nao pode ser vazio ou nulo");
         if (!existeLei(codigo)) {
             throw new NullPointerException("Erro ao exibir projeto: projeto inexistente");
-        } else return this.proposicoesDeLeis.get(codigo).toString();
+        } else {
+            return this.proposicoesDeLeis.get(codigo).toString();
+        }
     }
 
     /**
@@ -432,7 +434,7 @@ public class CamaraController {
         }
 
         String localDeVotacao = this.proposicoesDeLeis.get(codigo).getLocalDeVotacao();
-        this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTAÇÃO (" + proximoLocal + ")");
+        this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (" + proximoLocal + ")");
         int chao = (this.comissoes.get(localDeVotacao).getDNIs().length / 2) + 1;
         int votosFavoraveis = calculaVotos(codigo, localDeVotacao, statusGovernista);
 
