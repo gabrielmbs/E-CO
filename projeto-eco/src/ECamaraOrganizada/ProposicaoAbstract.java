@@ -37,6 +37,8 @@ public abstract class ProposicaoAbstract {
      */
     protected String situacao;
 
+    protected String localDeVotacao;
+
     /**
      * Método responsável por criar um Projeto de Emenda Constitucional no sistema, cujos dados: dni,
      * ementa, interesses, url e artigos, todos do tipo String, ano do tipo int
@@ -61,6 +63,7 @@ public abstract class ProposicaoAbstract {
         this.interesses = interesses;
         this.urlDocumento = urlDocumento;
         this.situacao = "EM VOTACAO (CCJC)";
+        this.localDeVotacao = "CCJC";
     }
 
     /**
@@ -111,5 +114,17 @@ public abstract class ProposicaoAbstract {
 
     public String getDniAutor() {
         return dniAutor;
+    }
+
+    public String getInteresses() {
+        return interesses;
+    }
+
+    public String getLocalDeVotacao() {
+        return localDeVotacao;
+    }
+
+    public void setLocalDeVotacao(String localDeVotacao) {
+        this.localDeVotacao = localDeVotacao;
     }
 }

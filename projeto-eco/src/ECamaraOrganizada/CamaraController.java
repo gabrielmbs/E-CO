@@ -430,25 +430,72 @@ public class CamaraController {
         if (!this.comissoes.containsKey("CCJC")) {
             throw new IllegalArgumentException("Erro ao votar proposta: CCJC nao cadastrada");
         }
-        int chao = (this.comissoes.get("CCJC").getDNIs().length / 2) + 1;
-        int votosFavoraveis = calculaVotos("CCJC", statusGovernista);
 
+        String localDeVotacao = this.proposicoesDeLeis.get(codigo).getLocalDeVotacao();
+
+        int chao = (this.comissoes.get(localDeVotacao).getDNIs().length / 2) + 1;
+        int votosFavoraveis = calculaVotos(codigo, localDeVotacao, statusGovernista);
+
+        this.proposicoesDeLeis.get(codigo).setLocalDeVotacao(proximoLocal);
         if (votosFavoraveis >= chao) {
             return true;
         }
         return false;
     }
 
-    private int calculaVotos(String comissao, String statusGovernista) {
+    private int calculaVotos(String codigo, String comissao, String statusGovernista) {
         int votosFavoraveis = 0;
 
         for (String dni : this.comissoes.get(comissao).getDNIs()) {
-            if ("GOVERNISTA".equals(statusGovernista)) {
-                if (this.base.contains(this.pessoas.get(dni).getPartido())) {
-                    votosFavoraveis++;
-                }
+            if (votoPolitico(codigo, statusGovernista, dni) == 1) {
+                votosFavoraveis++;
             }
         }
         return votosFavoraveis;
+    }
+
+    /**
+     * Esse método auxiliar retorna um inteiro que informa se foi aprovado ou não o voto.
+     * 1 para aprovado - 1 para reprovado.
+     *
+     * @param codigo código da proposição.
+     * @param statusGovernista status.
+     * @return int.
+     */
+    private int votoPolitico(String codigo, String statusGovernista, String dni){
+        Pessoa deputado = this.pessoas.get(dni);
+        boolean ehDaBase = this.base.contains(deputado.getPartido());
+        boolean temInteressesEmComum = intEmComum(deputado, codigo);
+        int saida = 0;
+        if("GOVERNISTA".equals(statusGovernista) && ehDaBase) {
+            saida = 1;
+        }else if("OPOSICAO".equals(statusGovernista) && ehDaBase){
+            saida = -1;
+        }else if("LIVRE".equals(statusGovernista) && temInteressesEmComum){
+            saida = 1;
+        }else if("LIVRE".equals(statusGovernista) && !temInteressesEmComum){
+            saida = -1;
+        }
+        return saida;
+    }
+
+    /**
+     * Método auxiliar que indica se um deputado e uma proposição têm interesses em comum.
+     *
+     * @param deputado deputado a ser analisado.
+     * @param codigo codigo da proposição a ser analisada.
+     * @return boolean indicando se tem ou não interesse em comum.
+     */
+    private boolean intEmComum(Pessoa deputado, String codigo) {
+        String[] interessesDep = deputado.getInteresses().split(",");
+        String[] interessesPl = this.proposicoesDeLeis.get(codigo).getInteresses().split(",");
+        for(int i=0; i < interessesDep.length; i++){
+            for(int j = 0; j < interessesPl.length; j++){
+                if(interessesDep[i].equals(interessesPl[j])){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

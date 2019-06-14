@@ -207,4 +207,8 @@ public class Pessoa {
     public Funcao getFuncao() {
         return funcao;
     }
+
+    public String getInteresses() {
+        return interesses;
+    }
 }
