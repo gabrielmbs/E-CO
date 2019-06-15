@@ -4,8 +4,8 @@ import easyaccept.EasyAccept;
 
 public class Facade {
     public static void main(String[] args) {
-        args = new String[]{"ECamaraOrganizada.Facade",
-                            "easyaccept_tests/use_case_7.txt"};
+        args = new String[]{"ECamaraOrganizada.Facade", "easyaccept_tests/use_case_7.txt"};
+
         EasyAccept.main(args);
     }
 
