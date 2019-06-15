@@ -461,6 +461,7 @@ public class CamaraController {
         }else if(votosFavoraveis >= chao && !this.passouNaCCJC){
             this.passouNaCCJC = true;
             this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (" + proximoLocal + ")");
+            this.proposicoesDeLeis.get(codigo).setLocalDeVotacao(proximoLocal);
             retorno = true;
         }else if(votosFavoraveis >= chao){
             if(proximoLocal.equals("-")){
@@ -500,6 +501,12 @@ public class CamaraController {
     }
 
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
+        if(!this.passouNaCCJC){
+            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao em comissao");
+        }
+        if(!this.proposicoesDeLeis.get(codigo).getProposicaoAtiva()){
+            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
+        }
         String[] deputados = presentes.split(",");
         int chao = 0;
         int votosFavoraveis = calculaVotosPlenario(codigo, statusGovernista, deputados);
