@@ -537,19 +537,22 @@ public class CamaraController {
 
             if (votosFavoraveis >= chao) {
                 retorno = true;
-            } else retorno = false;
+            }else{
+                this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
+                return false;
+            }
         } else if ("PLP".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
             chao = (totalDeputados() / 2) + 1;
 
             if (votosFavoraveis >= chao) {
                 retorno = true;
-            } else retorno = false;
+            }
         } else if ("PEC".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
             chao = (((3/5) * totalDeputados()) / 2) + 1;
 
             if (votosFavoraveis >= chao) {
                 retorno = true;
-            } else retorno = false;
+            }
         }
         return retorno;
     }
