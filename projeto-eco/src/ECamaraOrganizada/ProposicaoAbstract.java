@@ -42,7 +42,8 @@ public abstract class ProposicaoAbstract {
     protected String tipoDeProposicao;
     private boolean proposicaoAtiva;
 
-    protected boolean passouNoPlenario;
+    private boolean passouNoPlenario;
+    private boolean passouNaCCJC;
 
     /**
      * Atributo que denota o estado conclusivo do Projeto de Lei.
@@ -128,10 +129,6 @@ public abstract class ProposicaoAbstract {
         return dniAutor;
     }
 
-    public String getSituacao() {
-        return situacao;
-    }
-
     public String getInteresses() {
         return interesses;
     }
@@ -142,10 +139,6 @@ public abstract class ProposicaoAbstract {
 
     public void setLocalDeVotacao(String localDeVotacao) {
         this.localDeVotacao = localDeVotacao;
-    }
-
-    public String getCodigoLei() {
-        return codigoLei;
     }
 
     public boolean isConclusivo() {
@@ -168,7 +161,7 @@ public abstract class ProposicaoAbstract {
         this.passouNoPlenario = passouNoPlenario;
     }
 
-    public boolean isPassouNoPlenario() {
+    public boolean getPassouNoPlenario() {
         return passouNoPlenario;
     }
 }

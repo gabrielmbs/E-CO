@@ -428,6 +428,20 @@ public class CamaraController {
     }
 
     public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
+        validaVotarComissao(codigo, statusGovernista, proximoLocal);
+        String localDeVotacao = this.proposicoesDeLeis.get(codigo).getLocalDeVotacao();
+
+        int chao = (this.comissoes.get(localDeVotacao).getDNIs().length / 2) + 1;
+        int votosFavoraveis = calculaVotos(codigo, localDeVotacao, statusGovernista);
+
+        if(this.proposicoesDeLeis.get(codigo).isConclusivo()){
+            return votarComissaoPLConc(codigo, votosFavoraveis, chao, proximoLocal);
+        }
+        return votarComissaoNConc(codigo, votosFavoraveis, chao, proximoLocal);
+
+    }
+
+    private void validaVotarComissao(String codigo, String statusGovernista, String proximoLocal) {
         validador.validaString(proximoLocal, "Erro ao votar proposta: proximo local vazio");
         if(!"GOVERNISTA".equals(statusGovernista) && !"OPOSICAO".equals(statusGovernista) && !"LIVRE".equals(statusGovernista)){
             throw new IllegalArgumentException("Erro ao votar proposta: status invalido");
@@ -445,17 +459,6 @@ public class CamaraController {
         if(!this.proposicoesDeLeis.get(codigo).getProposicaoAtiva()) {
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
         }
-
-        String localDeVotacao = this.proposicoesDeLeis.get(codigo).getLocalDeVotacao();
-
-        int chao = (this.comissoes.get(localDeVotacao).getDNIs().length / 2) + 1;
-        int votosFavoraveis = calculaVotos(codigo, localDeVotacao, statusGovernista);
-
-        if(this.proposicoesDeLeis.get(codigo).isConclusivo()){
-            return votarComissaoPLConc(codigo, votosFavoraveis, chao, proximoLocal);
-        }
-        return votarComissaoNConc(codigo, votosFavoraveis, chao, proximoLocal);
-
     }
 
     private boolean votarComissaoNConc(String codigo, int votosFavoraveis, int chao, String proximoLocal){
@@ -499,7 +502,6 @@ public class CamaraController {
 
     private int calculaVotos(String codigo, String comissao, String statusGovernista) {
         int votosFavoraveis = 0;
-
         for (String dni : this.comissoes.get(comissao).getDNIs()) {
             if (votoPolitico(codigo, statusGovernista, dni) == 1) {
                 votosFavoraveis++;
@@ -510,7 +512,6 @@ public class CamaraController {
 
     private int calculaVotosPlenario(String codigo, String statusGovernista, String[] presentes) {
         int votosFavoraveis = 0;
-
         for (String dni : presentes) {
             if (votoPolitico(codigo, statusGovernista, dni) == 1) {
                 votosFavoraveis++;
@@ -539,7 +540,6 @@ public class CamaraController {
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
         String[] deputados = presentes.split(",");
         verificaQuorum(codigo, deputados);
-
         if(!this.passouNaCCJC){
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao em comissao");
         }
@@ -555,8 +555,6 @@ public class CamaraController {
             if (votosFavoraveis >= chao) {
                 retorno = true;
                 incrementaLeisDeputado(this.proposicoesDeLeis.get(codigo).getDniAutor());
-            }else{
-                return false;
             }
         } else if ("PLP".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
             chao = (totalDeputados() / 2) + 1;
@@ -572,7 +570,7 @@ public class CamaraController {
         boolean retorno = false;
         if (votosFavoraveis >= chao) {
             retorno = true;
-            if (this.proposicoesDeLeis.get(codigo).isPassouNoPlenario()) {
+            if (this.proposicoesDeLeis.get(codigo).getPassouNoPlenario()) {
                 this.proposicoesDeLeis.get(codigo).setSituacao("APROVADO");
                 incrementaLeisDeputado(this.proposicoesDeLeis.get(codigo).getDniAutor());
                 this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
@@ -581,7 +579,7 @@ public class CamaraController {
                 this.proposicoesDeLeis.get(codigo).setPassouNoPlenario(true);
             }
         } else {
-            if (this.proposicoesDeLeis.get(codigo).isPassouNoPlenario()) {
+            if (this.proposicoesDeLeis.get(codigo).getPassouNoPlenario()) {
                 this.proposicoesDeLeis.get(codigo).setSituacao("ARQUIVADO");
                 this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
             } else {
