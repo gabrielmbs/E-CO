@@ -500,6 +500,15 @@ public class CamaraController {
         return retorno;
     }
 
+    /**
+     * Esse método auxiliar retorna um inteiro que informa a quantiade de votos favoráveis à
+     * aprovação de de determinada proposta em uma comissão.
+     *
+     * @param codigo código da proposta a ser votada.
+     * @param comissao comissão na quala  proposta será votada.
+     * @param statusGovernista status da proposta.
+     * @return um inteiro que indica a quantiade de votos favoráveis.
+     */
     private int calculaVotos(String codigo, String comissao, String statusGovernista) {
         int votosFavoraveis = 0;
         for (String dni : this.comissoes.get(comissao).getDNIs()) {
@@ -510,6 +519,15 @@ public class CamaraController {
         return votosFavoraveis;
     }
 
+    /**
+     * Esse método auxiliar retorna um inteiro que informa a quantidade de votos favoráveis
+     * à aprovação de uma determinada proposta no plenário.
+     *
+     * @param codigo código da proposta a ser votada.
+     * @param statusGovernista status da proposta a ser votada.
+     * @param presentes deputados presentes no plenário.
+     * @return um inteiro que indica a quantidade de votos favoráveis.
+     */
     private int calculaVotosPlenario(String codigo, String statusGovernista, String[] presentes) {
         int votosFavoraveis = 0;
         for (String dni : presentes) {
@@ -520,6 +538,15 @@ public class CamaraController {
         return votosFavoraveis;
     }
 
+    /**
+     * Esse método auxiliar verifica se há no plenário o quórum mínimo necessário
+     * (quantiade mínima de deputados presentes) para que a votação da proposição
+     * seja realizada. Caso o quórum mínimo não seja atendido, uma exceção do tipo
+     * IllegalArgumentException é lançada.
+     *
+     * @param codigo
+     * @param deputados
+     */
     private void verificaQuorum(String codigo, String[] deputados) {
         boolean ePL = "PL".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao());
         boolean ePLP = "PLP".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao());
@@ -566,6 +593,16 @@ public class CamaraController {
         return retorno;
     }
 
+    /**
+     * Esse método auxiliar retorna um boolean que informa se uma PLP ou uma PEC foi Aprovada
+     * ou Arquivada no Plenário. Além disso ele atualiza o atributo númeroDeLeis do deputado e
+     * atualiza o atributo situação da proposição.
+     *
+     * @param codigo código da proposição a ser votada.
+     * @param votosFavoraveis votos à favor da aprovação.
+     * @param chao mínimo de votos necessário para aprovar a proposição.
+     * @return um boolean que indica o resultado da votação.
+     */
     private boolean aprovadaOuArquivada(String codigo, int votosFavoraveis, int chao) {
         boolean retorno = false;
         if (votosFavoraveis >= chao) {
@@ -586,6 +623,12 @@ public class CamaraController {
         return retorno;
     }
 
+    /**
+     * Esse método auxiliar retorna um inteiro que informa a quantiade de deputados
+     * cadastrados no sistema.
+     *
+     * @return inteiro que informa a quantiade de deputados.
+     */
     private int totalDeputados() {
         int totalDeputados = 0;
         for (String dni : this.pessoas.keySet()) {
