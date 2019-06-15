@@ -36,14 +36,20 @@ public abstract class ProposicaoAbstract {
      * Situação em que se encontra o projeto.
      */
     protected String situacao;
-
+    /**
+     * Local onde o projeto se encontra para votação.
+     */
     protected String localDeVotacao;
-
+    /**
+     * Indica o tipo de projeto (PL, PLP ou PEC).
+     */
     protected String tipoDeProposicao;
-    private boolean proposicaoAtiva;
 
+    private boolean proposicaoAtiva;
+    /**
+     * Indica se uma proposta já foi votada no plenário.
+     */
     private boolean passouNoPlenario;
-    private boolean passouNaCCJC;
 
     /**
      * Atributo que denota o estado conclusivo do Projeto de Lei.
@@ -137,6 +143,12 @@ public abstract class ProposicaoAbstract {
         return localDeVotacao;
     }
 
+    /**
+     * Altera o local no qual o projeto se encontra para ser votado a partir de um novo
+     * local passado como parâmetro.
+     *
+     * @param localDeVotacao novo local de votação.
+     */
     public void setLocalDeVotacao(String localDeVotacao) {
         this.localDeVotacao = localDeVotacao;
     }
@@ -153,14 +165,30 @@ public abstract class ProposicaoAbstract {
         this.proposicaoAtiva = proposicaoAtiva;
     }
 
+    /**
+     * Retorna uam String que indica o tipo do projeto (PL, PLP ou PEC).
+     *
+     * @return uma String que indica o tipo do projeto.
+     */
     public String getTipoDeProposicao() {
         return tipoDeProposicao;
     }
 
+    /**
+     * Altera o atributo passouNoPlenario a partir de um novo status passado como
+     * parâmetro.
+     *
+     * @param passouNoPlenario novo status.
+     */
     public void setPassouNoPlenario(boolean passouNoPlenario) {
         this.passouNoPlenario = passouNoPlenario;
     }
 
+    /**
+     * Retorna um boolean que indica se um determinado projeto já passou pelo plenário.
+     *
+     * @return um boolean que indica se o projeto já passou no plenário.
+     */
     public boolean getPassouNoPlenario() {
         return passouNoPlenario;
     }
