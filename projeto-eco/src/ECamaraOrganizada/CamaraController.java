@@ -439,11 +439,11 @@ public class CamaraController {
         if (!this.comissoes.containsKey("CCJC")) {
             throw new IllegalArgumentException("Erro ao votar proposta: CCJC nao cadastrada");
         }
-        if(!this.proposicoesDeLeis.get(codigo).getProposicaoAtiva()){
-            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
-        }
         if("plenario".equals(this.proposicoesDeLeis.get(codigo).getLocalDeVotacao())){
             throw new IllegalArgumentException("Erro ao votar proposta: proposta encaminhada ao plenario");
+        }
+        if(!this.proposicoesDeLeis.get(codigo).getProposicaoAtiva()) {
+            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
         }
 
         String localDeVotacao = this.proposicoesDeLeis.get(codigo).getLocalDeVotacao();
