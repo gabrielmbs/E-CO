@@ -440,11 +440,31 @@ public class CamaraController {
             throw new IllegalArgumentException("Erro ao votar proposta: CCJC nao cadastrada");
         }
         if(!this.proposicoesDeLeis.get(codigo).getProposicaoAtiva()){
-            if (this.proposicoesDeLeis.get(codigo).isConclusivo()) {
-                throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
-            } else throw new IllegalArgumentException("Erro ao votar proposta: proposta encaminhada ao plenario");
+            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
         }
-        return votarComissaoPLConc(codigo, statusGovernista, proximoLocal);
+        if("plenario".equals(this.proposicoesDeLeis.get(codigo).getLocalDeVotacao())){
+            throw new IllegalArgumentException("Erro ao votar proposta: proposta encaminhada ao plenario");
+        }
+        if(this.proposicoesDeLeis.get(codigo).isConclusivo()){
+            return votarComissaoPLConc(codigo, statusGovernista, proximoLocal);
+        }
+        return votarComissaoNConc(codigo, statusGovernista, proximoLocal);
+
+    }
+
+    private boolean votarComissaoNConc(String codigo, String statusGovernista, String proximoLocal){
+        String localDeVotacao = this.proposicoesDeLeis.get(codigo).getLocalDeVotacao();
+
+        int chao = (this.comissoes.get(localDeVotacao).getDNIs().length / 2) + 1;
+        int votosFavoraveis = calculaVotos(codigo, localDeVotacao, statusGovernista);
+        if(votosFavoraveis >= chao){
+            this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (" + proximoLocal + ")");
+            this.proposicoesDeLeis.get(codigo).setLocalDeVotacao(proximoLocal);
+            return true;
+        }
+        this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (" + proximoLocal + ")");
+        this.proposicoesDeLeis.get(codigo).setLocalDeVotacao(proximoLocal);
+        return false;
     }
 
     private boolean votarComissaoPLConc(String codigo, String statusGovernista, String proximoLocal) {
@@ -534,11 +554,11 @@ public class CamaraController {
         boolean retorno = false;
         if ("PL".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao()) && !this.proposicoesDeLeis.get(codigo).isConclusivo()) {
             chao = (deputados.length / 2) + 1;
-
+            this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
             if (votosFavoraveis >= chao) {
                 retorno = true;
+                incrementaLeisDeputado(this.proposicoesDeLeis.get(codigo).getDniAutor());
             }else{
-                this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
                 return false;
             }
         } else if ("PLP".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
