@@ -489,22 +489,40 @@ public class CamaraController {
     }
 
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
+        String[] deputados = presentes.split(",");
         int chao = 0;
-        int votosFavoraveis = 0;
+        int votosFavoraveis = calculaVotosPlenario(codigo, statusGovernista, deputados);
         boolean retorno = false;
         if ("PL".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao()) && !this.proposicoesDeLeis.get(codigo).isConclusivo()) {
-            String[] deputados = presentes.split(",");
             chao = (deputados.length / 2) + 1;
-            votosFavoraveis = calculaVotosPlenario(codigo, statusGovernista, deputados);
 
             if (votosFavoraveis >= chao) {
                 retorno = true;
-            }
-            retorno = false;
+            } else retorno = false;
         } else if ("PLP".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
-            
+            chao = (totalDeputados() / 2) + 1;
+
+            if (votosFavoraveis >= chao) {
+                retorno = true;
+            } else retorno = false;
+        } else if ("PEC".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
+            chao = (((3/5) * totalDeputados()) / 2) + 1;
+
+            if (votosFavoraveis >= chao) {
+                retorno = true;
+            } else retorno = false;
         }
         return retorno;
+    }
+
+    private int totalDeputados() {
+        int totalDeputados = 0;
+        for (String dni : this.pessoas.keySet()) {
+            if (this.pessoas.get(dni).getFuncao() != null) {
+                totalDeputados++;
+            }
+        }
+        return totalDeputados;
     }
 
     /**
