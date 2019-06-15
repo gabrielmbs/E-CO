@@ -579,13 +579,9 @@ public class CamaraController {
                 this.proposicoesDeLeis.get(codigo).setPassouNoPlenario(true);
             }
         } else {
-            if (this.proposicoesDeLeis.get(codigo).getPassouNoPlenario()) {
-                this.proposicoesDeLeis.get(codigo).setSituacao("ARQUIVADO");
-                this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
-            } else {
-                this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (Plenario - 2o turno)");
-                this.proposicoesDeLeis.get(codigo).setPassouNoPlenario(true);
-            }
+            this.proposicoesDeLeis.get(codigo).setSituacao("ARQUIVADO");
+            this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
+
         }
         return retorno;
     }
