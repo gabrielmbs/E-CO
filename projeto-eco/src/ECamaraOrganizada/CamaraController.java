@@ -2,9 +2,6 @@ package ECamaraOrganizada;
 
 import util.Contador;
 import util.Validador;
-
-
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.HashMap;
@@ -435,7 +432,9 @@ public class CamaraController {
             throw new IllegalArgumentException("Erro ao votar proposta: CCJC nao cadastrada");
         }
         if(!this.proposicoesDeLeis.get(codigo).getProposicaoAtiva()){
-            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
+            if (this.proposicoesDeLeis.get(codigo).isConclusivo()) {
+                throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
+            } else throw new IllegalArgumentException("Erro ao votar proposta: proposta encaminhada ao plenario");
         }
 
         String localDeVotacao = this.proposicoesDeLeis.get(codigo).getLocalDeVotacao();
