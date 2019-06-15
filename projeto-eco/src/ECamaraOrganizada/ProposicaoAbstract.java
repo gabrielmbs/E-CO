@@ -156,4 +156,8 @@ public abstract class ProposicaoAbstract {
     public void setProposicaoAtiva(boolean proposicaoAtiva) {
         this.proposicaoAtiva = proposicaoAtiva;
     }
+
+    public String getTipoDeProposicao() {
+        return tipoDeProposicao;
+    }
 }

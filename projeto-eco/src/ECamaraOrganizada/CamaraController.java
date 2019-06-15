@@ -477,6 +477,36 @@ public class CamaraController {
         return votosFavoraveis;
     }
 
+    private int calculaVotosPlenario(String codigo, String statusGovernista, String[] presentes) {
+        int votosFavoraveis = 0;
+
+        for (String dni : presentes) {
+            if (votoPolitico(codigo, statusGovernista, dni) == 1) {
+                votosFavoraveis++;
+            }
+        }
+        return votosFavoraveis;
+    }
+
+    public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
+        int chao = 0;
+        int votosFavoraveis = 0;
+        boolean retorno = false;
+        if ("PL".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao()) && !this.proposicoesDeLeis.get(codigo).isConclusivo()) {
+            String[] deputados = presentes.split(",");
+            chao = (deputados.length / 2) + 1;
+            votosFavoraveis = calculaVotosPlenario(codigo, statusGovernista, deputados);
+
+            if (votosFavoraveis >= chao) {
+                retorno = true;
+            }
+            retorno = false;
+        } else if ("PLP".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
+            
+        }
+        return retorno;
+    }
+
     /**
      * Esse método auxiliar retorna um inteiro que informa se foi aprovado ou não o voto.
      * 1 para aprovado - 1 para reprovado.
