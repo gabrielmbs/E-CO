@@ -428,6 +428,14 @@ public class CamaraController {
     }
 
     public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
+        validador.validaString(proximoLocal, "Erro ao votar proposta: proximo local vazio");
+        if(!"GOVERNISTA".equals(statusGovernista) && !"OPOSICAO".equals(statusGovernista) && !"LIVRE".equals(statusGovernista)){
+            throw new IllegalArgumentException("Erro ao votar proposta: status invalido");
+        }
+        if(!existeLei(codigo)){
+            throw new IllegalArgumentException("Erro ao votar proposta: projeto inexistente");
+        }
+
         if (!this.comissoes.containsKey("CCJC")) {
             throw new IllegalArgumentException("Erro ao votar proposta: CCJC nao cadastrada");
         }
@@ -436,7 +444,10 @@ public class CamaraController {
                 throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
             } else throw new IllegalArgumentException("Erro ao votar proposta: proposta encaminhada ao plenario");
         }
+        return votarComissaoPLConc(codigo, statusGovernista, proximoLocal);
+    }
 
+    private boolean votarComissaoPLConc(String codigo, String statusGovernista, String proximoLocal) {
         String localDeVotacao = this.proposicoesDeLeis.get(codigo).getLocalDeVotacao();
 
         int chao = (this.comissoes.get(localDeVotacao).getDNIs().length / 2) + 1;
