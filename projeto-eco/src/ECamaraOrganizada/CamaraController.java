@@ -453,7 +453,7 @@ public class CamaraController {
         int chao = (this.comissoes.get(localDeVotacao).getDNIs().length / 2) + 1;
         int votosFavoraveis = calculaVotos(codigo, localDeVotacao, statusGovernista);
 
-        this.proposicoesDeLeis.get(codigo).setLocalDeVotacao(proximoLocal);
+
         boolean retorno = false;
         if (votosFavoraveis < chao && !this.passouNaCCJC) {
             this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
@@ -467,12 +467,14 @@ public class CamaraController {
             if(proximoLocal.equals("-")){
                 this.proposicoesDeLeis.get(codigo).setSituacao("APROVADO");
                 incrementaLeisDeputado(this.proposicoesDeLeis.get(codigo).getDniAutor());
+                this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
             }
             retorno = true;
         }else if(votosFavoraveis < chao){
             this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
             if(proximoLocal.equals("-")){
                 this.proposicoesDeLeis.get(codigo).setSituacao("ARQUIVADO");
+
             }
         }
         return retorno;
