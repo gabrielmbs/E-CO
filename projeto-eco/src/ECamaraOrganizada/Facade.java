@@ -68,9 +68,9 @@ public class Facade {
         return this.camaraController.votarPlenario(codigo, statusGovernista, presentes);
     }
 
-//    public String exibirTramitacao(String codigo) {
-//    return "";
-//    }
+    public String exibirTramitacao(String codigo) {
+        return "";
+    }
 
     public void limparSistema(){
 
