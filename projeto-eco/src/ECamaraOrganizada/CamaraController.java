@@ -459,6 +459,9 @@ public class CamaraController {
     }
 
     private boolean votarComissaoNConc(String codigo, int votosFavoraveis, int chao, String proximoLocal){
+        if ("plenario".equals(proximoLocal)) {
+            this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (Plenario - 1o turno)");
+        }
         if(votosFavoraveis >= chao){
             this.proposicoesDeLeis.get(codigo).setLocalDeVotacao(proximoLocal);
             return true;
@@ -573,12 +576,18 @@ public class CamaraController {
                 this.proposicoesDeLeis.get(codigo).setSituacao("APROVADO");
                 incrementaLeisDeputado(this.proposicoesDeLeis.get(codigo).getDniAutor());
                 this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
-            } else this.proposicoesDeLeis.get(codigo).setPassouNoPlenario(true);
+            } else {
+                this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (Plenario - 2o turno)");
+                this.proposicoesDeLeis.get(codigo).setPassouNoPlenario(true);
+            }
         } else {
             if (this.proposicoesDeLeis.get(codigo).isPassouNoPlenario()) {
                 this.proposicoesDeLeis.get(codigo).setSituacao("ARQUIVADO");
                 this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
-            } else this.proposicoesDeLeis.get(codigo).setPassouNoPlenario(true);
+            } else {
+                this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (Plenario - 2o turno)");
+                this.proposicoesDeLeis.get(codigo).setPassouNoPlenario(true);
+            }
         }
         return retorno;
     }
