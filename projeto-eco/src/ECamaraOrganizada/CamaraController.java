@@ -445,35 +445,29 @@ public class CamaraController {
         if("plenario".equals(this.proposicoesDeLeis.get(codigo).getLocalDeVotacao())){
             throw new IllegalArgumentException("Erro ao votar proposta: proposta encaminhada ao plenario");
         }
-        if(this.proposicoesDeLeis.get(codigo).isConclusivo()){
-            return votarComissaoPLConc(codigo, statusGovernista, proximoLocal);
-        }
-        return votarComissaoNConc(codigo, statusGovernista, proximoLocal);
 
-    }
-
-    private boolean votarComissaoNConc(String codigo, String statusGovernista, String proximoLocal){
         String localDeVotacao = this.proposicoesDeLeis.get(codigo).getLocalDeVotacao();
 
         int chao = (this.comissoes.get(localDeVotacao).getDNIs().length / 2) + 1;
         int votosFavoraveis = calculaVotos(codigo, localDeVotacao, statusGovernista);
+
+        if(this.proposicoesDeLeis.get(codigo).isConclusivo()){
+            return votarComissaoPLConc(codigo, votosFavoraveis, chao, proximoLocal);
+        }
+        return votarComissaoNConc(codigo, votosFavoraveis, chao, proximoLocal);
+
+    }
+
+    private boolean votarComissaoNConc(String codigo, int votosFavoraveis, int chao, String proximoLocal){
         if(votosFavoraveis >= chao){
-            this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (" + proximoLocal + ")");
             this.proposicoesDeLeis.get(codigo).setLocalDeVotacao(proximoLocal);
             return true;
         }
-        this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (" + proximoLocal + ")");
         this.proposicoesDeLeis.get(codigo).setLocalDeVotacao(proximoLocal);
         return false;
     }
 
-    private boolean votarComissaoPLConc(String codigo, String statusGovernista, String proximoLocal) {
-        String localDeVotacao = this.proposicoesDeLeis.get(codigo).getLocalDeVotacao();
-
-        int chao = (this.comissoes.get(localDeVotacao).getDNIs().length / 2) + 1;
-        int votosFavoraveis = calculaVotos(codigo, localDeVotacao, statusGovernista);
-
-
+    private boolean votarComissaoPLConc(String codigo, int votosFavoraveis, int chao, String proximoLocal) {
         boolean retorno = false;
         if (votosFavoraveis < chao && !this.passouNaCCJC) {
             this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
