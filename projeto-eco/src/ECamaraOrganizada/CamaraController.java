@@ -537,6 +537,8 @@ public class CamaraController {
 
             if (votosFavoraveis >= chao) {
                 retorno = true;
+                incrementaLeisDeputado(this.proposicoesDeLeis.get(codigo).getDniAutor());
+                this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
             }else{
                 this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
                 return false;
@@ -558,10 +560,12 @@ public class CamaraController {
             if (this.proposicoesDeLeis.get(codigo).isPassouNoPlenario()) {
                 this.proposicoesDeLeis.get(codigo).setSituacao("APROVADO");
                 incrementaLeisDeputado(this.proposicoesDeLeis.get(codigo).getDniAutor());
+                this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
             } else this.proposicoesDeLeis.get(codigo).setPassouNoPlenario(true);
         } else {
             if (this.proposicoesDeLeis.get(codigo).isPassouNoPlenario()) {
                 this.proposicoesDeLeis.get(codigo).setSituacao("ARQUIVADO");
+                this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
             } else this.proposicoesDeLeis.get(codigo).setPassouNoPlenario(true);
         }
         return retorno;
