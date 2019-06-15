@@ -543,16 +543,26 @@ public class CamaraController {
             }
         } else if ("PLP".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
             chao = (totalDeputados() / 2) + 1;
-
-            if (votosFavoraveis >= chao) {
-                retorno = true;
-            }
+            retorno = aprovadaOuArquivada(codigo, votosFavoraveis, chao);
         } else if ("PEC".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
             chao = (((3/5) * totalDeputados()) / 2) + 1;
+            retorno = aprovadaOuArquivada(codigo, votosFavoraveis, chao);
+        }
+        return retorno;
+    }
 
-            if (votosFavoraveis >= chao) {
-                retorno = true;
-            }
+    private boolean aprovadaOuArquivada(String codigo, int votosFavoraveis, int chao) {
+        boolean retorno = false;
+        if (votosFavoraveis >= chao) {
+            retorno = true;
+            if (this.proposicoesDeLeis.get(codigo).isPassouNoPlenario()) {
+                this.proposicoesDeLeis.get(codigo).setSituacao("APROVADO");
+                incrementaLeisDeputado(this.proposicoesDeLeis.get(codigo).getDniAutor());
+            } else this.proposicoesDeLeis.get(codigo).setPassouNoPlenario(true);
+        } else {
+            if (this.proposicoesDeLeis.get(codigo).isPassouNoPlenario()) {
+                this.proposicoesDeLeis.get(codigo).setSituacao("ARQUIVADO");
+            } else this.proposicoesDeLeis.get(codigo).setPassouNoPlenario(true);
         }
         return retorno;
     }

@@ -42,6 +42,8 @@ public abstract class ProposicaoAbstract {
     protected String tipoDeProposicao;
     private boolean proposicaoAtiva;
 
+    protected boolean passouNoPlenario;
+
     /**
      * Atributo que denota o estado conclusivo do Projeto de Lei.
      */
@@ -73,6 +75,7 @@ public abstract class ProposicaoAbstract {
         this.situacao = "EM VOTACAO (CCJC)";
         this.localDeVotacao = "CCJC";
         this.proposicaoAtiva = true;
+        this.passouNoPlenario = false;
     }
 
     /**
@@ -159,5 +162,13 @@ public abstract class ProposicaoAbstract {
 
     public String getTipoDeProposicao() {
         return tipoDeProposicao;
+    }
+
+    public void setPassouNoPlenario(boolean passouNoPlenario) {
+        this.passouNoPlenario = passouNoPlenario;
+    }
+
+    public boolean isPassouNoPlenario() {
+        return passouNoPlenario;
     }
 }
