@@ -11,27 +11,27 @@ public abstract class ProposicaoAbstract {
     /**
      * DNI do autor do projeto.
      */
-    protected String dniAutor;
+    private String dniAutor;
     /**
      * Ano da criação do projeto.
      */
-    protected int ano;
+    private int ano;
     /**
      * Código do projeto.
      */
-    protected String codigoLei;
+    private String codigoLei;
     /**
      * Ementa do projeto.
      */
-    protected String ementa;
+    private String ementa;
     /**
      * Interesses do projeto.
      */
-    protected String interesses;
+    private String interesses;
     /**
      * Endereço URL do projeto.
      */
-    protected String urlDocumento;
+    private String urlDocumento;
     /**
      * Situação em que se encontra o projeto.
      */

@@ -15,10 +15,6 @@ public class Comissao {
         return DNIs;
     }
 
-    public String getTema() {
-        return tema;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

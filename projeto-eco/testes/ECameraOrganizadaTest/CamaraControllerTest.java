@@ -1,5 +1,3 @@
-package ECameraOrganizadaTest;
-
 import ECamaraOrganizada.CamaraController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -344,10 +342,10 @@ class CamaraControllerTest {
         assertThrows(IllegalArgumentException.class, () -> this.camaraController.exibirPessoa(".%12345678"));
     }
 
-//    @Test
-//    void testExibirPessoaDniInvalidoInvalidoSemTraco(){
-//        assertThrows(IllegalArgumentException.class, () -> this.camaraController.exibirPessoa("123456781"));
-//    }
+    @Test
+    void testExibirPessoaDniInvalidoInvalidoSemTraco(){
+        assertThrows(NullPointerException.class, () -> this.camaraController.exibirPessoa("123456781"));
+    }
 
     @Test
     void testExibirPessoaInexistente(){
@@ -926,5 +924,59 @@ class CamaraControllerTest {
                 "http://example.com/semana_trabalho", "13");
         assertEquals("Projeto de Emenda Constitucional - PEC 1/2016 - 12345678-6 - Ementa PEC - 13 - EM VOTACAO (CCJC)",
                 this.camaraController.exibirProjeto("PEC 1/2016"));
+    }
+
+    @Test
+    void testCadastrarComissaoTemaVazio(){
+        assertThrows(IllegalArgumentException.class, () ->
+                this.camaraController.cadastrarComissao("", "051222222-0,051444444-0"));
+    }
+
+    @Test
+    void testCadastrarComissaoTemaNulo(){
+        assertThrows(NullPointerException.class, () ->
+                this.camaraController.cadastrarComissao(null, "051222222-0,051444444-0"));
+    }
+
+    @Test
+    void testCadastrarComissaoPoliticosVazio(){
+        assertThrows(IllegalArgumentException.class, () ->
+                this.camaraController.cadastrarComissao("CLP", ""));
+    }
+
+    @Test
+    void testCadastrarComissaoPoliticosNulo(){
+        assertThrows(NullPointerException.class, () ->
+                this.camaraController.cadastrarComissao("CLP", null));
+    }
+
+    @Test
+    void testCadastrarComissaoTemaJaCadastrado(){
+        this.camaraController.cadastrarPessoa("jose", "051444444-0", "sp", "saude",
+                                                "pt");
+        this.camaraController.cadastrarDeputado("051444444-0", "11102018");
+        this.camaraController.cadastrarComissao("CLP", "051444444-0");
+        assertThrows(IllegalArgumentException.class, () ->
+                this.camaraController.cadastrarComissao("CLP", "051444444-1"));
+    }
+
+    @Test
+    void testCadastrarComissaoDNIInvalido(){
+        assertThrows(IllegalArgumentException.class, () ->
+                this.camaraController.cadastrarComissao("CLP", "*051444444-1"));
+    }
+
+    @Test
+    void testCadastrarComissaoPessoaInexistente(){
+        assertThrows(IllegalArgumentException.class, () ->
+                this.camaraController.cadastrarComissao("CLP", "051444444-1"));
+    }
+
+    @Test
+    void testCadastrarComissaoPessoaNaoEhDeputado(){
+        this.camaraController.cadastrarPessoa("jose", "051444444-0", "sp", "saude",
+                "pt");
+        assertThrows(IllegalArgumentException.class, () ->
+                this.camaraController.cadastrarComissao("CLP", "051444444-1"));
     }
 }
