@@ -233,10 +233,20 @@ public abstract class ProposicaoAbstract {
         return passouNoPlenario;
     }
 
+    /**
+     * Retorna um boolean que indica se um determinado projeto já passou pela CCJC.
+     *
+     * @return um boolean que indica se o projeto já passou no plenário.
+     */
     public boolean getPassouNaCCJC() {
         return passouNaCCJC;
     }
 
+    /**
+     * Altera o atributo passouNaCCJC a partir de um novo status passado como parâmetro.
+     *
+     * @param passouNaCCJC novo status.
+     */
     public void setPassouNaCCJC(boolean passouNaCCJC) {
         this.passouNaCCJC = passouNaCCJC;
     }
