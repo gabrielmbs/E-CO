@@ -32,11 +32,6 @@ public class CamaraController {
      */
     private Validador validador;
 
-    /**
-     * Atributo que indica se uma proposta já passou pela CCJC.
-     */
-    private boolean passouNaCCJC;
-
     public CamaraController() {
         this.pessoas = new HashMap<>();
         this.base = new HashSet<>();
@@ -44,7 +39,6 @@ public class CamaraController {
         this.proposicoesDeLeis = new HashMap<>();
         this.contadores = new HashMap<>();
         this.comissoes = new HashMap<>();
-        this.passouNaCCJC = false;
     }
 
     /**
