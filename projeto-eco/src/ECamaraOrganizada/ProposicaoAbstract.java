@@ -44,13 +44,14 @@ public abstract class ProposicaoAbstract {
      * Indica o tipo de projeto (PL, PLP ou PEC).
      */
     protected String tipoDeProposicao;
-
+    /**
+     * Indica se um projeto está tramitando pela câmara ou se já foi encerrado.
+     */
     private boolean proposicaoAtiva;
     /**
      * Indica se uma proposta já foi votada no plenário.
      */
     private boolean passouNoPlenario;
-
     /**
      * Atributo que denota o estado conclusivo do Projeto de Lei.
      */
@@ -127,18 +128,38 @@ public abstract class ProposicaoAbstract {
                 " - " + this.ementa + " - ";
     }
 
+    /**
+     * Altera a situação de um projeto com base em uma nova situação passada como parâmetro.
+     *
+     * @param situacao nova situação.
+     */
     public void setSituacao(String situacao) {
         this.situacao = situacao;
     }
 
+    /**
+     * Retorna o dni do autor da proposta.
+     *
+     * @return dni do autor da proposta.
+     */
     public String getDniAutor() {
         return dniAutor;
     }
 
+    /**
+     * Retorna os interesses da proposta.
+     *
+     * @return os interesses da proposta.
+     */
     public String getInteresses() {
         return interesses;
     }
 
+    /**
+     * Retorna o local no qual a proposta está para ser votada.
+     *
+     * @return local no qual a proposta está para ser votada.
+     */
     public String getLocalDeVotacao() {
         return localDeVotacao;
     }
@@ -153,14 +174,30 @@ public abstract class ProposicaoAbstract {
         this.localDeVotacao = localDeVotacao;
     }
 
+    /**
+     * Retorna um boolean que indica se a proposta é conclusiva ou não.
+     *
+     * @return boolean que indica se a proposta é conclusiva.
+     */
     public boolean isConclusivo() {
         return conclusivo;
     }
 
+    /**
+     * Retorna um boolean que indica se a proposta está tramitanto na câmara ou se já foi encerrada.
+     *
+     * @return um boolean que indica se a porposta está (ou não) tramitando.
+     */
     public boolean getProposicaoAtiva() {
         return proposicaoAtiva;
     }
 
+    /**
+     * Altera o status que indica se uma proposta está tamitando na câmara (ou não) a partir
+     * de um novo status passado como parâmetro.
+     *
+     * @param proposicaoAtiva novo status.
+     */
     public void setProposicaoAtiva(boolean proposicaoAtiva) {
         this.proposicaoAtiva = proposicaoAtiva;
     }

@@ -31,6 +31,10 @@ public class CamaraController {
      * Atributo que será utilizado para validacoes.
      */
     private Validador validador;
+
+    /**
+     * Atributo que indica se uma proposta já passou pela CCJC.
+     */
     private boolean passouNaCCJC;
 
     public CamaraController() {
@@ -144,132 +148,6 @@ public class CamaraController {
         return resultado.substring(0, (resultado.length() - 1));
     }
 
-    /**
-     * Método responsável por validar um cadastro de uma pessoa.
-     *
-     * @param nome   nome da pessoa.
-     * @param dni    dni da pessoa.
-     * @param estado estado onde reside a pessoa.
-     */
-    private void validaCadastrarPessoa(String nome, String dni, String estado) {
-        this.validador.validaString(nome, "Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
-        this.validador.validaString(dni, "Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
-        this.validador.validaString(estado, "Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
-        this.validador.validaDNI(dni, "Erro ao cadastrar pessoa: ");
-    }
-
-    /**
-     * Método responsável por validar um cadastro de um deputado.
-     *
-     * @param dni          dni do deputado.
-     * @param dataDeInicio data de ínicio do mandato do deputado.
-     */
-    private void validaCadastrarDeputado(String dni, String dataDeInicio) {
-        this.validador.validaDNI(dni, "Erro ao cadastrar deputado: ");
-        if (!existePessoa(dni)) {
-            throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa nao encontrada");
-        }
-        if (this.pessoas.get(dni).getPartido() == null) {
-            throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa sem partido");
-        }
-        this.validador.validaData(dataDeInicio, "Erro ao cadastrar deputado: ");
-    }
-
-    /**
-     * Método que verifica se uma pessoa existe no sistema.
-     *
-     * @param dni dni a ser procurado.
-     * @return boolean informando se a pessoa existe (ou não).
-     */
-    private boolean existePessoa(String dni) {
-        return this.pessoas.containsKey(dni);
-    }
-    
-    /**
-     * Método que verifica se uma pessoa existente no sistema
-     * eh o atributo diferente de null, o que significa que eh deputado.
-     *
-     * @param dni dni a ser procurado.
-     * @return boolean informando se a pessoa é deputado ou não.
-     */
-    private boolean pessoaEhDeputado(String dni) {
-        return this.pessoas.get(dni).getFuncao() != null;
-    }
-
-    /**
-     * Método que verifica se um projeto de lei existe no sistema.
-     *
-     * @param codigo codigo da lei a ser procurado.
-     * @return boolean informando se o projeto existe ou não.
-     */
-    private boolean existeLei(String codigo) {
-        return this.proposicoesDeLeis.containsKey(codigo);
-    }
-
-    /**
-     * Método que incrementa 1 ao atributo leis de Deputado a
-     * cada que vez que uma pessoa deputada propõe um projeto de lei.
-     *
-     * @param dni dni a ser procurado.
-     *
-     */
-    private void incrementaLeisDeputado(String dni) {
-        Funcao funcao = this.pessoas.get(dni).getFuncao();
-        funcao.setNumeroDeLeis();
-    }
-
-    /**
-     * Método responsável por validar o cadastro de um projeto de lei
-     * que opere sobre artigos da Constituição.
-     *
-     * @param dni dni da lei a ser cadastrada.
-     * @param ementa ementea da lei a ser cadastrada.
-     * @param interesses interesses da lei a ser cadastrada.
-     * @param url url da lei a ser cadastrada.
-     * @param ano ano da lei a ser cadastrada.
-     * @param artigos artigos com os quais a lei irá trabalhar
-     */
-    private void validaCadastrarLeiComArtigo(String dni, String ementa, String interesses, String url, int ano, String artigos) {
-        validaCadastrarLei(dni,ementa, interesses, url, ano);
-        this.validador.validaString(artigos, "Erro ao cadastrar projeto: artigo nao pode ser vazio ou nulo");
-    }
-
-    /**
-     * Método responsável por validar o cadastro de um projeto de lei.
-     *
-     * @param dni dni da lei a ser cadastrada.
-     * @param ementa ementea da lei a ser cadastrada.
-     * @param interesses interesses da lei a ser cadastrada.
-     * @param url url da lei a ser cadastrada.
-     * @param ano ano da lei a ser cadastrada.
-     */
-    private void validaCadastrarLei(String dni, String ementa, String interesses, String url, int ano) {
-        this.validador.validaString(ementa, "Erro ao cadastrar projeto: ementa nao pode ser vazia ou nula");
-        this.validador.validaString(dni, "Erro ao cadastrar projeto: autor nao pode ser vazio ou nulo");
-        this.validador.validaString(interesses, "Erro ao cadastrar projeto: interesse nao pode ser vazio ou nulo");
-        this.validador.validaString(url, "Erro ao cadastrar projeto: url nao pode ser vazio ou nulo");
-        this.validador.validaDNI(dni, "Erro ao cadastrar projeto: ");
-        this.validador.validaAnoLei(ano, "Erro ao cadastrar projeto: ");
-
-    }
-
-    /**
-     * Método responsável por separar artigos com vírgula e espaço, como no
-     * formato a seguir: "artigo1, artigo2, ..., artigoN".
-     * @param artigos String base para geração da nova string dos artigos concatenados.
-     * @return
-     */
-    private String contatenaArtigos(String artigos){
-        if(artigos.contains(",")){
-            String artigosConcatenados = "";
-            for(String caractere : artigos.split(",")){
-                artigosConcatenados += caractere + ", ";
-
-            }
-            return artigosConcatenados.substring(0, artigosConcatenados.length() - 2);
-        }
-        return artigos;
-    }
     /**
      * Método responsável por cadastrar um Projeto de Lei no sistema, cujos dados: dni,
      * ementa, interesses e url, todos do tipo String, ano do tipo int e
@@ -408,6 +286,197 @@ public class CamaraController {
     }
 
     /**
+     * Esse método é responsável por realizar a votação de uma proposta em uma determinada comissão, ele recebe como
+     * parâmetro o código da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE), e o próximo
+     * local no qual a porposta será votada.
+     *
+     * @param codigo código da proposta.
+     * @param statusGovernista status da proposta.
+     * @param proximoLocal próximo locla no qual a proposta será votada.
+     * @return um boolean que indica o resultado da votação.
+     */
+    public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
+        validaVotarComissao(codigo, statusGovernista, proximoLocal);
+        String localDeVotacao = this.proposicoesDeLeis.get(codigo).getLocalDeVotacao();
+
+        int chao = (this.comissoes.get(localDeVotacao).getDNIs().length / 2) + 1;
+        int votosFavoraveis = calculaVotosComissao(codigo, localDeVotacao, statusGovernista);
+
+        if(this.proposicoesDeLeis.get(codigo).isConclusivo()){
+            return votarComissaoPLConc(codigo, votosFavoraveis, chao, proximoLocal);
+        }
+        return votarComissaoNConc(codigo, votosFavoraveis, chao, proximoLocal);
+
+    }
+
+    /**
+     * Esse método é responsável por realizar a votação de uma proposta no plenário, ele recebe como parâmetro
+     * o código da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE), e os presentes
+     * no plenário (DNIs separados por vírgula), todos do tipo String. O método retorna um boolena que indica
+     * o resultado da votação.
+     *
+     * @param codigo código da proposta.
+     * @param statusGovernista status da proposta.
+     * @param presentes deputados presentes para votação.
+     * @return um boolean que indica o resultado da votação.
+     */
+    public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
+        String[] deputados = presentes.split(",");
+        verificaQuorum(codigo, deputados);
+        if(!this.passouNaCCJC){
+            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao em comissao");
+        }
+        if(!this.proposicoesDeLeis.get(codigo).getProposicaoAtiva()){
+            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
+        }
+        int chao = 0;
+        int votosFavoraveis = calculaVotosPlenario(codigo, statusGovernista, deputados);
+        boolean retorno = false;
+        if ("PL".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao()) && !this.proposicoesDeLeis.get(codigo).isConclusivo()) {
+            chao = (deputados.length / 2) + 1;
+            this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
+            if (votosFavoraveis >= chao) {
+                retorno = true;
+                incrementaLeisDeputado(this.proposicoesDeLeis.get(codigo).getDniAutor());
+            }
+        } else if ("PLP".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
+            chao = (totalDeputados() / 2) + 1;
+            retorno = aprovadaOuArquivada(codigo, votosFavoraveis, chao);
+        } else if ("PEC".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
+            chao = (((3/5) * totalDeputados()) / 2) + 1;
+            retorno = aprovadaOuArquivada(codigo, votosFavoraveis, chao);
+        }
+        return retorno;
+    }
+
+    /**
+     * Método responsável por validar um cadastro de uma pessoa.
+     *
+     * @param nome   nome da pessoa.
+     * @param dni    dni da pessoa.
+     * @param estado estado onde reside a pessoa.
+     */
+    private void validaCadastrarPessoa(String nome, String dni, String estado) {
+        this.validador.validaString(nome, "Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
+        this.validador.validaString(dni, "Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
+        this.validador.validaString(estado, "Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
+        this.validador.validaDNI(dni, "Erro ao cadastrar pessoa: ");
+    }
+
+    /**
+     * Método responsável por validar um cadastro de um deputado.
+     *
+     * @param dni          dni do deputado.
+     * @param dataDeInicio data de ínicio do mandato do deputado.
+     */
+    private void validaCadastrarDeputado(String dni, String dataDeInicio) {
+        this.validador.validaDNI(dni, "Erro ao cadastrar deputado: ");
+        if (!existePessoa(dni)) {
+            throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa nao encontrada");
+        }
+        if (this.pessoas.get(dni).getPartido() == null) {
+            throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa sem partido");
+        }
+        this.validador.validaData(dataDeInicio, "Erro ao cadastrar deputado: ");
+    }
+
+    /**
+     * Método que verifica se uma pessoa existe no sistema.
+     *
+     * @param dni dni a ser procurado.
+     * @return boolean informando se a pessoa existe (ou não).
+     */
+    private boolean existePessoa(String dni) {
+        return this.pessoas.containsKey(dni);
+    }
+
+    /**
+     * Método que verifica se uma pessoa existente no sistema
+     * eh o atributo diferente de null, o que significa que eh deputado.
+     *
+     * @param dni dni a ser procurado.
+     * @return boolean informando se a pessoa é deputado ou não.
+     */
+    private boolean pessoaEhDeputado(String dni) {
+        return this.pessoas.get(dni).getFuncao() != null;
+    }
+
+    /**
+     * Método que verifica se um projeto de lei existe no sistema.
+     *
+     * @param codigo codigo da lei a ser procurado.
+     * @return boolean informando se o projeto existe ou não.
+     */
+    private boolean existeLei(String codigo) {
+        return this.proposicoesDeLeis.containsKey(codigo);
+    }
+
+    /**
+     * Método que incrementa 1 ao atributo leis de Deputado a
+     * cada que vez que uma pessoa deputada propõe um projeto de lei.
+     *
+     * @param dni dni a ser procurado.
+     *
+     */
+    private void incrementaLeisDeputado(String dni) {
+        Funcao funcao = this.pessoas.get(dni).getFuncao();
+        funcao.incrementaNumeroDeLeis();
+    }
+
+    /**
+     * Método responsável por validar o cadastro de um projeto de lei
+     * que opere sobre artigos da Constituição.
+     *
+     * @param dni dni da lei a ser cadastrada.
+     * @param ementa ementea da lei a ser cadastrada.
+     * @param interesses interesses da lei a ser cadastrada.
+     * @param url url da lei a ser cadastrada.
+     * @param ano ano da lei a ser cadastrada.
+     * @param artigos artigos com os quais a lei irá trabalhar
+     */
+    private void validaCadastrarLeiComArtigo(String dni, String ementa, String interesses, String url, int ano, String artigos) {
+        validaCadastrarLei(dni,ementa, interesses, url, ano);
+        this.validador.validaString(artigos, "Erro ao cadastrar projeto: artigo nao pode ser vazio ou nulo");
+    }
+
+    /**
+     * Método responsável por validar o cadastro de um projeto de lei.
+     *
+     * @param dni dni da lei a ser cadastrada.
+     * @param ementa ementea da lei a ser cadastrada.
+     * @param interesses interesses da lei a ser cadastrada.
+     * @param url url da lei a ser cadastrada.
+     * @param ano ano da lei a ser cadastrada.
+     */
+    private void validaCadastrarLei(String dni, String ementa, String interesses, String url, int ano) {
+        this.validador.validaString(ementa, "Erro ao cadastrar projeto: ementa nao pode ser vazia ou nula");
+        this.validador.validaString(dni, "Erro ao cadastrar projeto: autor nao pode ser vazio ou nulo");
+        this.validador.validaString(interesses, "Erro ao cadastrar projeto: interesse nao pode ser vazio ou nulo");
+        this.validador.validaString(url, "Erro ao cadastrar projeto: url nao pode ser vazio ou nulo");
+        this.validador.validaDNI(dni, "Erro ao cadastrar projeto: ");
+        this.validador.validaAnoLei(ano, "Erro ao cadastrar projeto: ");
+
+    }
+
+    /**
+     * Método responsável por separar artigos com vírgula e espaço, como no
+     * formato a seguir: "artigo1, artigo2, ..., artigoN".
+     * @param artigos String base para geração da nova string dos artigos concatenados.
+     * @return
+     */
+    private String contatenaArtigos(String artigos){
+        if(artigos.contains(",")){
+            String artigosConcatenados = "";
+            for(String caractere : artigos.split(",")){
+                artigosConcatenados += caractere + ", ";
+
+            }
+            return artigosConcatenados.substring(0, artigosConcatenados.length() - 2);
+        }
+        return artigos;
+    }
+
+    /**
      * Gera um array de Strings, que representa os dnis dos politicos.
      *
      * @param politicos uma String, que representa dnis separados por ","
@@ -427,20 +496,15 @@ public class CamaraController {
         return arrayDeDNIs;
     }
 
-    public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
-        validaVotarComissao(codigo, statusGovernista, proximoLocal);
-        String localDeVotacao = this.proposicoesDeLeis.get(codigo).getLocalDeVotacao();
-
-        int chao = (this.comissoes.get(localDeVotacao).getDNIs().length / 2) + 1;
-        int votosFavoraveis = calculaVotos(codigo, localDeVotacao, statusGovernista);
-
-        if(this.proposicoesDeLeis.get(codigo).isConclusivo()){
-            return votarComissaoPLConc(codigo, votosFavoraveis, chao, proximoLocal);
-        }
-        return votarComissaoNConc(codigo, votosFavoraveis, chao, proximoLocal);
-
-    }
-
+    /**
+     * Esse método auxiliar é responsável por realizar as validações necessárias para o
+     * método votarComissão. Ele lança exceções quando dados inválidos são passados como
+     * parâmetro.
+     *
+     * @param codigo código da proposta a ser votada.
+     * @param statusGovernista status da proposta a ser votada.
+     * @param proximoLocal próximo local no qual a proposta será votada.
+     */
     private void validaVotarComissao(String codigo, String statusGovernista, String proximoLocal) {
         validador.validaString(proximoLocal, "Erro ao votar proposta: proximo local vazio");
         if(!"GOVERNISTA".equals(statusGovernista) && !"OPOSICAO".equals(statusGovernista) && !"LIVRE".equals(statusGovernista)){
@@ -461,6 +525,17 @@ public class CamaraController {
         }
     }
 
+    /**
+     * Esse método auxiliar é responsável por realizar a votação de uma PL não conclusiva
+     * em uma determinada comissão, ele retorna um boolean que indica o resultado da
+     * votação.
+     *
+     * @param codigo código da proposta a ser votada.
+     * @param votosFavoraveis votos favoráveis à aprovação da proposta.
+     * @param chao votos mínimos necessários para aprovação da proposta.
+     * @param proximoLocal próximo local no qual a proposta será votada.
+     * @return um boolean que indica o resultado da votação.
+     */
     private boolean votarComissaoNConc(String codigo, int votosFavoraveis, int chao, String proximoLocal){
         if ("plenario".equals(proximoLocal)) {
             this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (Plenario - 1o turno)");
@@ -473,6 +548,17 @@ public class CamaraController {
         return false;
     }
 
+    /**
+     * Esse método auxiliar é responsável por realizar a votação de uma PL conclusiva
+     * em uma determinada comissão, ele retorna um boolean que indica o resultado da
+     * votação.
+     *
+     * @param codigo código da proposta a ser votada.
+     * @param votosFavoraveis votos favoráveis à aprovação da proposta.
+     * @param chao votos mínimos necessários para aprovação da proposta.
+     * @param proximoLocal próximo local no qual a proposta será votada.
+     * @return um boolean que indica o resultado da votação.
+     */
     private boolean votarComissaoPLConc(String codigo, int votosFavoraveis, int chao, String proximoLocal) {
         boolean retorno = false;
         if (votosFavoraveis < chao && !this.passouNaCCJC) {
@@ -509,7 +595,7 @@ public class CamaraController {
      * @param statusGovernista status da proposta.
      * @return um inteiro que indica a quantiade de votos favoráveis.
      */
-    private int calculaVotos(String codigo, String comissao, String statusGovernista) {
+    private int calculaVotosComissao(String codigo, String comissao, String statusGovernista) {
         int votosFavoraveis = 0;
         for (String dni : this.comissoes.get(comissao).getDNIs()) {
             if (votoPolitico(codigo, statusGovernista, dni) == 1) {
@@ -562,35 +648,6 @@ public class CamaraController {
                 throw new IllegalArgumentException("Erro ao votar proposta: quorum invalido");
             }
         }
-    }
-
-    public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
-        String[] deputados = presentes.split(",");
-        verificaQuorum(codigo, deputados);
-        if(!this.passouNaCCJC){
-            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao em comissao");
-        }
-        if(!this.proposicoesDeLeis.get(codigo).getProposicaoAtiva()){
-            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
-        }
-        int chao = 0;
-        int votosFavoraveis = calculaVotosPlenario(codigo, statusGovernista, deputados);
-        boolean retorno = false;
-        if ("PL".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao()) && !this.proposicoesDeLeis.get(codigo).isConclusivo()) {
-            chao = (deputados.length / 2) + 1;
-            this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
-            if (votosFavoraveis >= chao) {
-                retorno = true;
-                incrementaLeisDeputado(this.proposicoesDeLeis.get(codigo).getDniAutor());
-            }
-        } else if ("PLP".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
-            chao = (totalDeputados() / 2) + 1;
-            retorno = aprovadaOuArquivada(codigo, votosFavoraveis, chao);
-        } else if ("PEC".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
-            chao = (((3/5) * totalDeputados()) / 2) + 1;
-            retorno = aprovadaOuArquivada(codigo, votosFavoraveis, chao);
-        }
-        return retorno;
     }
 
     /**
