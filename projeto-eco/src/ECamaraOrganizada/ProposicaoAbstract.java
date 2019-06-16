@@ -8,54 +8,72 @@ import java.util.Objects;
  *
  */
 public abstract class ProposicaoAbstract {
+
     /**
      * DNI do autor do projeto.
      */
     private String dniAutor;
+
     /**
      * Ano da criação do projeto.
      */
     private int ano;
+
     /**
      * Código do projeto.
      */
     private String codigoLei;
+
     /**
      * Ementa do projeto.
      */
     private String ementa;
+
     /**
      * Interesses do projeto.
      */
     private String interesses;
+
     /**
      * Endereço URL do projeto.
      */
     private String urlDocumento;
-    /**
-     * Situação em que se encontra o projeto.
-     */
-    protected String situacao;
-    /**
-     * Local onde o projeto se encontra para votação.
-     */
-    protected String localDeVotacao;
-    /**
-     * Indica o tipo de projeto (PL, PLP ou PEC).
-     */
-    protected String tipoDeProposicao;
+
     /**
      * Indica se um projeto está tramitando pela câmara ou se já foi encerrado.
      */
     private boolean proposicaoAtiva;
+
     /**
      * Indica se uma proposta já foi votada no plenário.
      */
     private boolean passouNoPlenario;
+
+    /**
+     * Atributo que indica se uma proposta já passou pela CCJC.
+     */
+    private boolean passouNaCCJC;
+
     /**
      * Atributo que denota o estado conclusivo do Projeto de Lei.
      */
     protected boolean conclusivo;
+
+    /**
+     * Situação em que se encontra o projeto.
+     */
+    protected String situacao;
+    
+    /**
+     * Local onde o projeto se encontra para votação.
+     */
+    protected String localDeVotacao;
+
+    /**
+     * Indica o tipo de projeto (PL, PLP ou PEC).
+     */
+    protected String tipoDeProposicao;
+
 
     /**
      * Método responsável por criar um Projeto de Emenda Constitucional no sistema, cujos dados: dni,
@@ -84,6 +102,7 @@ public abstract class ProposicaoAbstract {
         this.localDeVotacao = "CCJC";
         this.proposicaoAtiva = true;
         this.passouNoPlenario = false;
+        this.passouNaCCJC = false;
     }
 
     /**
@@ -228,5 +247,23 @@ public abstract class ProposicaoAbstract {
      */
     public boolean getPassouNoPlenario() {
         return passouNoPlenario;
+    }
+
+    /**
+     * Retorna um boolean que indica se um determinado projeto já passou pela CCJC.
+     *
+     * @return um boolean que indica se o projeto já passou no plenário.
+     */
+    public boolean getPassouNaCCJC() {
+        return passouNaCCJC;
+    }
+
+    /**
+     * Altera o atributo passouNaCCJC a partir de um novo status passado como parâmetro.
+     *
+     * @param passouNaCCJC novo status.
+     */
+    public void setPassouNaCCJC(boolean passouNaCCJC) {
+        this.passouNaCCJC = passouNaCCJC;
     }
 }
