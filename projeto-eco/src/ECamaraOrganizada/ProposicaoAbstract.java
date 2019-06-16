@@ -57,6 +57,8 @@ public abstract class ProposicaoAbstract {
      */
     protected boolean conclusivo;
 
+    private boolean passouNaCCJC;
+
     /**
      * Método responsável por criar um Projeto de Emenda Constitucional no sistema, cujos dados: dni,
      * ementa, interesses, url e artigos, todos do tipo String, ano do tipo int
@@ -84,6 +86,7 @@ public abstract class ProposicaoAbstract {
         this.localDeVotacao = "CCJC";
         this.proposicaoAtiva = true;
         this.passouNoPlenario = false;
+        this.passouNaCCJC = false;
     }
 
     /**
@@ -228,5 +231,13 @@ public abstract class ProposicaoAbstract {
      */
     public boolean getPassouNoPlenario() {
         return passouNoPlenario;
+    }
+
+    public boolean getPassouNaCCJC() {
+        return passouNaCCJC;
+    }
+
+    public void setPassouNaCCJC(boolean passouNaCCJC) {
+        this.passouNaCCJC = passouNaCCJC;
     }
 }

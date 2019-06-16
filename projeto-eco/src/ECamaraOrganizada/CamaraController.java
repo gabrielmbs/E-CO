@@ -323,7 +323,7 @@ public class CamaraController {
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
         String[] deputados = presentes.split(",");
         verificaQuorum(codigo, deputados);
-        if(!this.passouNaCCJC){
+        if(!this.proposicoesDeLeis.get(codigo).getPassouNaCCJC()){
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao em comissao");
         }
         if(!this.proposicoesDeLeis.get(codigo).getProposicaoAtiva()){
@@ -540,12 +540,14 @@ public class CamaraController {
         if ("plenario".equals(proximoLocal)) {
             this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (Plenario - 1o turno)");
         }
+        boolean retorno = false;
         if(votosFavoraveis >= chao){
             this.proposicoesDeLeis.get(codigo).setLocalDeVotacao(proximoLocal);
-            return true;
+            retorno = true;
         }
         this.proposicoesDeLeis.get(codigo).setLocalDeVotacao(proximoLocal);
-        return false;
+        this.proposicoesDeLeis.get(codigo).setPassouNaCCJC(true);
+        return retorno;
     }
 
     /**
@@ -561,11 +563,12 @@ public class CamaraController {
      */
     private boolean votarComissaoPLConc(String codigo, int votosFavoraveis, int chao, String proximoLocal) {
         boolean retorno = false;
-        if (votosFavoraveis < chao && !this.passouNaCCJC) {
+        ProposicaoAbstract proposicao = this.proposicoesDeLeis.get(codigo);
+        if (votosFavoraveis < chao && !proposicao.getPassouNaCCJC()) {
             this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
-            this.passouNaCCJC = true;
-        }else if(votosFavoraveis >= chao && !this.passouNaCCJC){
-            this.passouNaCCJC = true;
+            proposicao.setPassouNaCCJC(true);
+        }else if(votosFavoraveis >= chao && !proposicao.getPassouNaCCJC()){
+            proposicao.setPassouNaCCJC(true);
             this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (" + proximoLocal + ")");
             this.proposicoesDeLeis.get(codigo).setLocalDeVotacao(proximoLocal);
             retorno = true;
