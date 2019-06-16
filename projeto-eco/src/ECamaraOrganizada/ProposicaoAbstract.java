@@ -36,6 +36,26 @@ public abstract class ProposicaoAbstract {
      * Situação em que se encontra o projeto.
      */
     protected String situacao;
+    /**
+     * Local onde o projeto se encontra para votação.
+     */
+    protected String localDeVotacao;
+    /**
+     * Indica o tipo de projeto (PL, PLP ou PEC).
+     */
+    protected String tipoDeProposicao;
+    /**
+     * Indica se um projeto está tramitando pela câmara ou se já foi encerrado.
+     */
+    private boolean proposicaoAtiva;
+    /**
+     * Indica se uma proposta já foi votada no plenário.
+     */
+    private boolean passouNoPlenario;
+    /**
+     * Atributo que denota o estado conclusivo do Projeto de Lei.
+     */
+    protected boolean conclusivo;
 
     /**
      * Método responsável por criar um Projeto de Emenda Constitucional no sistema, cujos dados: dni,
@@ -61,6 +81,9 @@ public abstract class ProposicaoAbstract {
         this.interesses = interesses;
         this.urlDocumento = urlDocumento;
         this.situacao = "EM VOTACAO (CCJC)";
+        this.localDeVotacao = "CCJC";
+        this.proposicaoAtiva = true;
+        this.passouNoPlenario = false;
     }
 
     /**
@@ -103,5 +126,107 @@ public abstract class ProposicaoAbstract {
     public String toString(){
         return " - " + this.codigoLei + " - " + this.dniAutor +
                 " - " + this.ementa + " - ";
+    }
+
+    /**
+     * Altera a situação de um projeto com base em uma nova situação passada como parâmetro.
+     *
+     * @param situacao nova situação.
+     */
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
+    }
+
+    /**
+     * Retorna o dni do autor da proposta.
+     *
+     * @return dni do autor da proposta.
+     */
+    public String getDniAutor() {
+        return dniAutor;
+    }
+
+    /**
+     * Retorna os interesses da proposta.
+     *
+     * @return os interesses da proposta.
+     */
+    public String getInteresses() {
+        return interesses;
+    }
+
+    /**
+     * Retorna o local no qual a proposta está para ser votada.
+     *
+     * @return local no qual a proposta está para ser votada.
+     */
+    public String getLocalDeVotacao() {
+        return localDeVotacao;
+    }
+
+    /**
+     * Altera o local no qual o projeto se encontra para ser votado a partir de um novo
+     * local passado como parâmetro.
+     *
+     * @param localDeVotacao novo local de votação.
+     */
+    public void setLocalDeVotacao(String localDeVotacao) {
+        this.localDeVotacao = localDeVotacao;
+    }
+
+    /**
+     * Retorna um boolean que indica se a proposta é conclusiva ou não.
+     *
+     * @return boolean que indica se a proposta é conclusiva.
+     */
+    public boolean isConclusivo() {
+        return conclusivo;
+    }
+
+    /**
+     * Retorna um boolean que indica se a proposta está tramitanto na câmara ou se já foi encerrada.
+     *
+     * @return um boolean que indica se a porposta está (ou não) tramitando.
+     */
+    public boolean getProposicaoAtiva() {
+        return proposicaoAtiva;
+    }
+
+    /**
+     * Altera o status que indica se uma proposta está tamitando na câmara (ou não) a partir
+     * de um novo status passado como parâmetro.
+     *
+     * @param proposicaoAtiva novo status.
+     */
+    public void setProposicaoAtiva(boolean proposicaoAtiva) {
+        this.proposicaoAtiva = proposicaoAtiva;
+    }
+
+    /**
+     * Retorna uam String que indica o tipo do projeto (PL, PLP ou PEC).
+     *
+     * @return uma String que indica o tipo do projeto.
+     */
+    public String getTipoDeProposicao() {
+        return tipoDeProposicao;
+    }
+
+    /**
+     * Altera o atributo passouNoPlenario a partir de um novo status passado como
+     * parâmetro.
+     *
+     * @param passouNoPlenario novo status.
+     */
+    public void setPassouNoPlenario(boolean passouNoPlenario) {
+        this.passouNoPlenario = passouNoPlenario;
+    }
+
+    /**
+     * Retorna um boolean que indica se um determinado projeto já passou pelo plenário.
+     *
+     * @return um boolean que indica se o projeto já passou no plenário.
+     */
+    public boolean getPassouNoPlenario() {
+        return passouNoPlenario;
     }
 }

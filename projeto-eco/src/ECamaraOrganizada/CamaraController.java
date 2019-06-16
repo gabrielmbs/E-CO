@@ -2,9 +2,6 @@ package ECamaraOrganizada;
 
 import util.Contador;
 import util.Validador;
-
-
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.HashMap;
@@ -35,6 +32,11 @@ public class CamaraController {
      */
     private Validador validador;
 
+    /**
+     * Atributo que indica se uma proposta já passou pela CCJC.
+     */
+    private boolean passouNaCCJC;
+
     public CamaraController() {
         this.pessoas = new HashMap<>();
         this.base = new HashSet<>();
@@ -42,26 +44,13 @@ public class CamaraController {
         this.proposicoesDeLeis = new HashMap<>();
         this.contadores = new HashMap<>();
         this.comissoes = new HashMap<>();
+        this.passouNaCCJC = false;
     }
 
     /**
      * Os métodos cadastrarPessoa a seguir são sobrecarregados de modo
      * a podermos cadastrar no sistema uma pessoa que possua filiação a algum partido
      * ou não.
-     * <p>
-     * Método responsável por cadastrar uma pessoa no sistema, cujos dados (nome, dni, estado e interesses),
-     * todos do tipo String, são passados como parâmetro.
-     * <p>
-     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
-     * e IllegalArgumentExeception serão lançadas, respectivamente.
-     * <p>
-     * Caso a pessoa já tenha sido cadastrada, o que é checado por meio da existência ou não de uma chave no Mapa
-     * que armazena pessoas (se existe, ela já foi cadastrada, senão, ainda não foi cadastrada) a operação é abortada e
-     * lança-se uma exceção. Caso contrário, ela será adicionada ao Mapa que armazena pessoas.
-     * <p>
-     * Ademais, checa-se se o dni passado é válido (composto apenas de números
-     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-     * uma exceção com uma mensagem indicando que o dni é inválido.
      *
      * @param nome       nome da pessoa a ser cadastrada.
      * @param dni        dni da pessa a ser cadastrada.
@@ -82,20 +71,6 @@ public class CamaraController {
      * O método cadastrarPessoa a seguir e o método cadastrarPessoa anterior são sobrecarregados de modo
      * a podermos cadastrar no sistema uma pessoa que possua filiação a algum partido
      * ou não.
-     * <p>
-     * Método responsável por cadastrar uma pessoa no sistema, cujos dados (nome, dni, estado, interesses e partido),
-     * todos do tipo String, são passados como parâmetro.
-     * <p>
-     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
-     * e IllegalArgumentExeception serão lançadas, respectivamente.
-     * <p>
-     * Caso a pessoa já tenha sido cadastrada, o que é checado por meio da existência ou não de uma chave no Mapa
-     * que armazena pessoas (se existe, ela já foi cadastrada, senão, ainda não foi cadastrada) a operação é abortada e
-     * lança-se uma exceção. Caso contrário, ela será adicionada ao Mapa que armazena pessoas.
-     * <p>
-     * Ademais, checa-se se o dni passado é válido (composto apenas de números
-     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-     * uma exceção com uma mensagem indicando que o dni é inválido.
      *
      * @param nome       nome da pessoa a ser cadastrada.
      * @param dni        dni da pessa a ser cadastrada.
@@ -116,17 +91,7 @@ public class CamaraController {
     /**
      * Método responsável por cadastrar um deputado no sistema, cujos dados (dni e dataInicio), todos do tipo String,
      * são passados como parâmetro.
-     * <p>
-     * Ademais, checa-se se o dni passado é válido (composto apenas de números
-     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-     * uma exceção com uma mensagem indicando que o dni é inválido.
-     * <p>
-     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
-     * e IllegalArgumentExeception serão lançadas, respectivamente.
-     * <p>
-     * Caso a pessoa que vier a se tornar deputado não exista, é lançada uma exceção. Além disso, caso a pessoa não
-     * tiver partido, também será lançada uma exceção.
-     *
+     * 
      * @param dni          dni da pessoa a se tornar deputado.
      * @param dataDeInicio data de ínicio do mandato do deputado.
      */
@@ -138,15 +103,6 @@ public class CamaraController {
     /**
      * Método responsável por acesssar o Mapa que armazena as pessoas cadastradas e retornar uma
      * representação em String da pessoa cujo DNI foi passado como parâmetro.
-     *
-     * Checa-se se o dni passado como parâmetro é nulo ou vazio, e se for, exceções do tipo NullPointerException
-     * IllegalArgumentExeception serão lançadas, respectivamente.
-     *
-     * Ademais, checa-se se o dni passado é válido (composto apenas de números
-     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-     * uma exceção com uma mensagem indicando que o dni é inválido.
-     *
-     * Se a pessoa ainda não tiver sido cadastrada, será lançado um NullPointerException.
      *
      * @param dni dni da pessoa a ser consultado no sistema.
      * @return a representação em String da pessoa, caso ela já tenha sido cadastrado.
@@ -162,7 +118,7 @@ public class CamaraController {
 
     /**
      * Método responsável por cadastrar um partido no sistema, recebendo como parâmetro o nome do partido.
-     * <p>
+     * 
      * Checa-se se esse parâmetro é nulo ou vazio, e se for, exceções do tipo NullPointerException
      * e IllegalArgumentExeception serão lançadas, respectivamente.
      *
@@ -181,17 +137,216 @@ public class CamaraController {
     public String exibirBase() {
         List<String> listaPartidos = new ArrayList<>(this.base);
         listaPartidos.sort(String::compareTo);
-
+        
         if (listaPartidos.size() == 0) {
             return "";
         }
-
         String resultado = "";
         for (String partido : listaPartidos) {
             resultado += partido + ",";
         }
-
         return resultado.substring(0, (resultado.length() - 1));
+    }
+
+    /**
+     * Método responsável por cadastrar um Projeto de Lei no sistema, cujos dados: dni,
+     * ementa, interesses e url, todos do tipo String, ano do tipo int e
+     * conclusivo do tipo boolean, são passados como parâmetro.
+     *
+     * @param dni dni do autor do projeto.
+     * @param ementa ementa do projeto.
+     * @param interesses interesses do projeto.
+     * @param url endereço url do projeto.
+     * @param ano ano de criação do projeto.
+     * @param conclusivo situção conclusiva do projeto
+     *
+     * @return retorna o código da lei cadastrada.
+     */
+    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
+        validaCadastrarLei(dni, ementa, interesses, url, ano);
+
+        String chaveContador = ano + "PL";
+        if (!this.contadores.containsKey(chaveContador)) {
+            this.contadores.put(chaveContador, new Contador());
+        }
+        if (existePessoa(dni)) {
+            if (pessoaEhDeputado(dni)) {
+                Contador contador = this.contadores.get(chaveContador);
+                String codigoLei = "PL " + contador.getContagem() + "/" + ano;
+                this.proposicoesDeLeis.put(codigoLei, new ProjetoDeLei(codigoLei, dni, ano, ementa, interesses, url,
+                                                                        conclusivo));
+                contador.incrementaContagem();
+                return codigoLei;
+            } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
+        } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
+    }
+
+    /**
+     * Método responsável por cadastrar um Projeto de Lei Complementar no sistema, cujos dados: dni,
+     * ementa, interesses, url e artigos, todos do tipo String e ano do tipo int
+     * são passados como parâmetro.
+     *
+     * @param dni dni da pessoa deputada autor da lei.
+     * @param ementa ementa da lei.
+     * @param interesses interesses da lei.
+     * @param url endereço url da lei.
+     * @param artigos artigos da constituição sobre os quais a lei vai atuar.
+     * @param ano ano de criação do projeto
+     *
+     * @return retorna o código da lei cadastrada.
+     */
+    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+        validaCadastrarLeiComArtigo(dni, ementa, interesses, url, ano, artigos);
+        String artigosConcatenados = contatenaArtigos(artigos);
+
+        String chaveContador = ano + "PLP";
+        if (!this.contadores.containsKey(chaveContador)) {
+            this.contadores.put(chaveContador, new Contador());
+        }
+
+        if (existePessoa(dni)) {
+            if (pessoaEhDeputado(dni)) {
+                Contador contador = this.contadores.get(chaveContador);
+                String codigoLei = "PLP " + contador.getContagem() + "/" + ano;
+                this.proposicoesDeLeis.put(codigoLei, new ProjetoLeiComplementar(codigoLei, dni, ano, ementa,
+                                                                                interesses, url,
+                                                                                artigosConcatenados));
+                contador.incrementaContagem();
+                return codigoLei;
+            } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
+
+        } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
+
+    }
+
+    /**
+     * Método responsável por cadastrar um Projeto de Emenda Constituicional no sistema, cujos dados: dni,
+     * ementa, interesses, url e artigos, todos do tipo String e ano do tipo int
+     * são passados como parâmetro.
+     *
+     * @param dni dni da pessoa deputada autor da lei.
+     * @param ementa ementa da lei.
+     * @param interesses interesses da lei.
+     * @param url endereço url da lei.
+     * @param artigos artigos da constituição sobre os quais a lei vai atuar.
+     * @param ano ano de criação do projeto
+     *
+     * @return retorna o código da lei cadastrada.
+     */
+    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+        validaCadastrarLeiComArtigo(dni, ementa, interesses, url, ano, artigos);
+        String artigosConcatenados = contatenaArtigos(artigos);
+
+        String chaveContador = ano + "PEC";
+        if (!this.contadores.containsKey(chaveContador)) {
+            this.contadores.put(chaveContador, new Contador());
+        }
+        if (existePessoa(dni)) {
+            if (pessoaEhDeputado(dni)) {
+                Contador contador = this.contadores.get(chaveContador);
+                String codigoLei = "PEC " + contador.getContagem() + "/" + ano;
+                this.proposicoesDeLeis.put(codigoLei, new ProjetoEmendaConstitucional(codigoLei, dni, ano, ementa, interesses, url, artigosConcatenados));
+                contador.incrementaContagem();
+                return codigoLei;
+            } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
+        } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
+    }
+
+    /**
+     * Método responsável por acesssar o Mapa que armazena os projetos de lei cadastrados e retornar uma
+     * representação em String da lei cujo código foi passado como parâmetro.
+     *
+     * @param codigo dni da pessoa a ser consultado no sistema.
+     * @return a representação em String da pessoa, caso ela já tenha sido cadastrado.
+     */
+    public String exibirProjeto(String codigo) {
+        this.validador.validaString(codigo,"Erro ao exibir projeto: codigo de lei nao pode ser vazio ou nulo");
+        if (!existeLei(codigo)) {
+            throw new NullPointerException("Erro ao exibir projeto: projeto inexistente");
+        } else {
+            return this.proposicoesDeLeis.get(codigo).toString();
+        }
+    }
+
+    /**
+     * O método cadastraComissao serve para cadastrar no sistema uma comissão que possui um tema e uma lista de politicos
+     * que o compõe.
+     *
+     * @param tema representa o tema da comissão
+     * @param politicos lista de politicos separados por ",".
+     */
+    public void cadastrarComissao (String tema, String politicos){
+        this.validador.validaString(tema, "Erro ao cadastrar comissao: tema nao pode ser vazio ou nulo");
+        this.validador.validaString(politicos, "Erro ao cadastrar comissao: lista de politicos nao pode ser vazio ou nulo");
+        if (this.comissoes.containsKey(tema)) {
+            throw new IllegalArgumentException("Erro ao cadastrar comissao: tema existente");
+        }
+        String[] arrayDeDNIs = geraArrayDeDNIsValidos(politicos);
+        this.comissoes.put(tema, new Comissao(tema, arrayDeDNIs));
+    }
+
+    /**
+     * Esse método é responsável por realizar a votação de uma proposta em uma determinada comissão, ele recebe como
+     * parâmetro o código da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE), e o próximo
+     * local no qual a porposta será votada.
+     *
+     * @param codigo código da proposta.
+     * @param statusGovernista status da proposta.
+     * @param proximoLocal próximo locla no qual a proposta será votada.
+     * @return um boolean que indica o resultado da votação.
+     */
+    public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
+        validaVotarComissao(codigo, statusGovernista, proximoLocal);
+        String localDeVotacao = this.proposicoesDeLeis.get(codigo).getLocalDeVotacao();
+
+        int chao = (this.comissoes.get(localDeVotacao).getDNIs().length / 2) + 1;
+        int votosFavoraveis = calculaVotosComissao(codigo, localDeVotacao, statusGovernista);
+
+        if(this.proposicoesDeLeis.get(codigo).isConclusivo()){
+            return votarComissaoPLConc(codigo, votosFavoraveis, chao, proximoLocal);
+        }
+        return votarComissaoNConc(codigo, votosFavoraveis, chao, proximoLocal);
+
+    }
+
+    /**
+     * Esse método é responsável por realizar a votação de uma proposta no plenário, ele recebe como parâmetro
+     * o código da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE), e os presentes
+     * no plenário (DNIs separados por vírgula), todos do tipo String. O método retorna um boolena que indica
+     * o resultado da votação.
+     *
+     * @param codigo código da proposta.
+     * @param statusGovernista status da proposta.
+     * @param presentes deputados presentes para votação.
+     * @return um boolean que indica o resultado da votação.
+     */
+    public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
+        String[] deputados = presentes.split(",");
+        verificaQuorum(codigo, deputados);
+        if(!this.passouNaCCJC){
+            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao em comissao");
+        }
+        if(!this.proposicoesDeLeis.get(codigo).getProposicaoAtiva()){
+            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
+        }
+        int chao = 0;
+        int votosFavoraveis = calculaVotosPlenario(codigo, statusGovernista, deputados);
+        boolean retorno = false;
+        if ("PL".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao()) && !this.proposicoesDeLeis.get(codigo).isConclusivo()) {
+            chao = (deputados.length / 2) + 1;
+            this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
+            if (votosFavoraveis >= chao) {
+                retorno = true;
+                incrementaLeisDeputado(this.proposicoesDeLeis.get(codigo).getDniAutor());
+            }
+        } else if ("PLP".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
+            chao = (totalDeputados() / 2) + 1;
+            retorno = aprovadaOuArquivada(codigo, votosFavoraveis, chao);
+        } else if ("PEC".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
+            chao = (((3/5) * totalDeputados()) / 2) + 1;
+            retorno = aprovadaOuArquivada(codigo, votosFavoraveis, chao);
+        }
+        return retorno;
     }
 
     /**
@@ -234,6 +389,7 @@ public class CamaraController {
     private boolean existePessoa(String dni) {
         return this.pessoas.containsKey(dni);
     }
+
     /**
      * Método que verifica se uma pessoa existente no sistema
      * eh o atributo diferente de null, o que significa que eh deputado.
@@ -264,7 +420,7 @@ public class CamaraController {
      */
     private void incrementaLeisDeputado(String dni) {
         Funcao funcao = this.pessoas.get(dni).getFuncao();
-        funcao.setNumeroDeLeis();
+        funcao.incrementaNumeroDeLeis();
     }
 
     /**
@@ -319,219 +475,269 @@ public class CamaraController {
         }
         return artigos;
     }
-    /**
-     * Método responsável por cadastrar um Projeto de Lei no sistema, cujos dados: dni,
-     * ementa, interesses e url, todos do tipo String, ano do tipo int e
-     * conclusivo do tipo boolean, são passados como parâmetro.
-     *
-     * Ademais, checa-se se o dni passado é válido (composto apenas de números
-     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-     * uma exceção com uma mensagem indicando que o dni é inválido.
-     *
-     * Verifica-se ainda, se o ano passado é anterior à 1988 ou posterior a 2019. Se for,
-     * IllegalArgumentException será lançado.
-     *
-     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
-     * e IllegalArgumentExeception serão lançadas, respectivamente.
-     *
-     * Caso a pessoa que vier a se tornar deputado não exista, é lançada uma exceção. Além disso, caso a pessoa não
-     * tiver partido, também será lançada uma exceção.
-     *
-     * @param dni dni do autor do projeto.
-     * @param ementa ementa do projeto.
-     * @param interesses interesses do projeto.
-     * @param url endereço url do projeto.
-     * @param ano ano de criação do projeto.
-     * @param conclusivo situção conclusiva do projeto
-     *
-     * @return retorna o código da lei cadastrada.
-     */
-    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
-        validaCadastrarLei(dni, ementa, interesses, url, ano);
-
-        String chaveContador = ano + "PL";
-        if (!this.contadores.containsKey(chaveContador)) {
-            this.contadores.put(chaveContador, new Contador());
-        }
-        if (existePessoa(dni)) {
-            if (pessoaEhDeputado(dni)) {
-                Contador contador = this.contadores.get(chaveContador);
-                String codigoLei = "PL " + contador.getContagem() + "/" + ano;
-                this.proposicoesDeLeis.put(codigoLei, new ProjetoDeLei(codigoLei, dni, ano, ementa, interesses, url, conclusivo));
-                contador.incrementaContagem();
-                incrementaLeisDeputado(dni);
-                return codigoLei;
-            } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
-        } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
-    }
 
     /**
-     * Método responsável por cadastrar um Projeto de Lei Complementar no sistema, cujos dados: dni,
-     * ementa, interesses, url e artigos, todos do tipo String e ano do tipo int
-     * são passados como parâmetro.
+     * Gera um array de Strings, que representa os dnis dos politicos.
      *
-     * Ademais, checa-se se o dni passado é válido (composto apenas de números
-     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-     * uma exceção com uma mensagem indicando que o dni é inválido.
-     *
-     * Verifica-se ainda, se o ano passado é anterior à 1988 ou posterior a 2019. Se for,
-     * IllegalArgumentException será lançado.
-     *
-     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
-     * e IllegalArgumentExeception serão lançadas, respectivamente.
-     *
-     * Caso a pessoa que vier a se tornar deputado não exista, é lançada uma exceção. Além disso, caso a pessoa não
-     * tiver partido, também será lançada uma exceção.
-     *
-     * @param dni dni da pessoa deputada autor da lei.
-     * @param ementa ementa da lei.
-     * @param interesses interesses da lei.
-     * @param url endereço url da lei.
-     * @param artigos artigos da constituição sobre os quais a lei vai atuar.
-     * @param ano ano de criação do projeto
-     *
-     * @return retorna o código da lei cadastrada.
+     * @param politicos uma String, que representa dnis separados por ","
+     * @return Um array de Strings, que contem as dnis.
      */
-    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
-        validaCadastrarLeiComArtigo(dni, ementa, interesses, url, ano, artigos);
-        String artigosConcatenados = contatenaArtigos(artigos);
-
-        String chaveContador = ano + "PLP";
-        if (!this.contadores.containsKey(chaveContador)) {
-            this.contadores.put(chaveContador, new Contador());
-        }
-
-        if (existePessoa(dni)) {
-            if (pessoaEhDeputado(dni)) {
-                Contador contador = this.contadores.get(chaveContador);
-                String codigoLei = "PLP " + contador.getContagem() + "/" + ano;
-                this.proposicoesDeLeis.put(codigoLei, new ProjetoLeiComplementar(codigoLei, dni, ano, ementa, interesses, url, artigosConcatenados));
-                contador.incrementaContagem();
-                incrementaLeisDeputado(dni);
-                return codigoLei;
-            } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
-
-        } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
-
-    }
-
-    /**
-     * Método responsável por cadastrar um Projeto de Emenda Constituicional no sistema, cujos dados: dni,
-     * ementa, interesses, url e artigos, todos do tipo String e ano do tipo int
-     * são passados como parâmetro.
-     *
-     * Ademais, checa-se se o dni passado é válido (composto apenas de números
-     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-     * uma exceção com uma mensagem indicando que o dni é inválido.
-     *
-     * Verifica-se ainda, se o ano passado é anterior à 1988 ou posterior a 2019. Se for,
-     * IllegalArgumentException será lançado.
-     *
-     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
-     * e IllegalArgumentExeception serão lançadas, respectivamente.
-     *
-     * Caso a pessoa que vier a se tornar deputado não exista, é lançada uma exceção. Além disso, caso a pessoa não
-     * tiver partido, também será lançada uma exceção.
-     *
-     * @param dni dni da pessoa deputada autor da lei.
-     * @param ementa ementa da lei.
-     * @param interesses interesses da lei.
-     * @param url endereço url da lei.
-     * @param artigos artigos da constituição sobre os quais a lei vai atuar.
-     * @param ano ano de criação do projeto
-     *
-     * @return retorna o código da lei cadastrada.
-     */
-    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
-        validaCadastrarLeiComArtigo(dni, ementa, interesses, url, ano, artigos);
-        String artigosConcatenados = contatenaArtigos(artigos);
-
-        String chaveContador = ano + "PEC";
-        if (!this.contadores.containsKey(chaveContador)) {
-            this.contadores.put(chaveContador, new Contador());
-        }
-        if (existePessoa(dni)) {
-            if (pessoaEhDeputado(dni)) {
-                Contador contador = this.contadores.get(chaveContador);
-                String codigoLei = "PEC " + contador.getContagem() + "/" + ano;
-                this.proposicoesDeLeis.put(codigoLei, new ProjetoEmendaConstitucional(codigoLei, dni, ano, ementa, interesses, url, artigosConcatenados));
-                contador.incrementaContagem();
-                incrementaLeisDeputado(dni);
-                return codigoLei;
-            } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
-        } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
-    }
-
-    /**
-     * Método responsável por acesssar o Mapa que armazena os projetos de lei cadastrados e retornar uma
-     * representação em String da lei cujo código foi passado como parâmetro.
-     *
-     * Checa-se se o código passado como parâmetro é nulo ou vazio, e se for, exceções do tipo NullPointerException
-     * IllegalArgumentExeception serão lançadas, respectivamente.
-     *
-     *
-     * Se a lei ainda não tiver sido cadastrada, será lançado um NullPointerException.
-     *
-     * @param codigo dni da pessoa a ser consultado no sistema.
-     * @return a representação em String da pessoa, caso ela já tenha sido cadastrado.
-     */
-    public String exibirProjeto(String codigo) {
-        this.validador.validaString(codigo,"Erro ao exibir projeto: codigo de lei nao pode ser vazio ou nulo");
-        if (!existeLei(codigo)) {
-            throw new NullPointerException("Erro ao exibir projeto: projeto inexistente");
-        } else return this.proposicoesDeLeis.get(codigo).toString();
-    }
-
-        /**
-         * O método cadastraComissao serve para cadastrar no sistema uma comissão que possui um tema e uma lista de politicos
-         * que o compõe.
-         *
-         * Verifica se cada um dos parâmetros passados são nulos ou vazios, e se forem, exceções do tipo NullPointerException
-         * e IllegalArgumentExeception serão lançadas, respectivamente.
-         *
-         * Caso a comissão já tenha sido cadastrada, o que é checado por meio da existência ou não de uma chave no Mapa
-         * que armazena comissões (se existe, ela já foi cadastrada, senão, ainda não foi cadastrada) a operação é abortada e
-         * lança-se uma exceção. Caso contrário, ela será adicionada ao Mapa que armazena comissões.
-         *
-         *
-         * @param tema representa o tema da comissão
-         * @param politicos lista de politicos separados por ",".
-         */
-        public void cadastrarComissao (String tema, String politicos){
-            this.validador.validaString(tema, "Erro ao cadastrar comissao: tema nao pode ser vazio ou nulo");
-            this.validador.validaString(politicos, "Erro ao cadastrar comissao: lista de politicos nao pode ser vazio ou nulo");
-            if (this.comissoes.containsKey(tema)) {
-                throw new IllegalArgumentException("Erro ao cadastrar comissao: tema existente");
+    private String[] geraArrayDeDNIsValidos (String politicos){
+        String[] arrayDeDNIs = politicos.split(",");
+        for (String dni : arrayDeDNIs) {
+            this.validador.validaDNI(dni, "Erro ao cadastrar comissao: ");
+            if (!this.existePessoa(dni)) {
+                throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa inexistente");
             }
-            String[] arrayDeDNIs = geraArrayDeDNIsValidos(politicos);
-            this.comissoes.put(tema, new Comissao(tema, arrayDeDNIs));
+            if (!pessoaEhDeputado(dni)) {
+                throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa nao eh deputado");
+            }
+        }
+        return arrayDeDNIs;
+    }
+
+    /**
+     * Esse método auxiliar é responsável por realizar as validações necessárias para o
+     * método votarComissão. Ele lança exceções quando dados inválidos são passados como
+     * parâmetro.
+     *
+     * @param codigo código da proposta a ser votada.
+     * @param statusGovernista status da proposta a ser votada.
+     * @param proximoLocal próximo local no qual a proposta será votada.
+     */
+    private void validaVotarComissao(String codigo, String statusGovernista, String proximoLocal) {
+        validador.validaString(proximoLocal, "Erro ao votar proposta: proximo local vazio");
+        if(!"GOVERNISTA".equals(statusGovernista) && !"OPOSICAO".equals(statusGovernista) && !"LIVRE".equals(statusGovernista)){
+            throw new IllegalArgumentException("Erro ao votar proposta: status invalido");
+        }
+        if(!existeLei(codigo)){
+            throw new IllegalArgumentException("Erro ao votar proposta: projeto inexistente");
         }
 
-        /**
-         * Gera um array de Strings, que representa os dnis dos politicos.
-         *
-         * Ademais, checa-se se os dnis passado é válido (composto apenas de números
-         * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-         * uma exceção com uma mensagem indicando que o dni é inválido.
-         *
-         * @param politicos uma String, que representa dnis separados por ","
-         * @return Um array de Strings, que contem as dnis.
-         */
-        private String[] geraArrayDeDNIsValidos (String politicos){
-            String[] arrayDeDNIs = politicos.split(",");
-            for (String dni : arrayDeDNIs) {
-                this.validador.validaDNI(dni, "Erro ao cadastrar comissao: ");
-                if (!this.existePessoa(dni)) {
-                    throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa inexistente");
-                }
-                if (!pessoaEhDeputado(dni)) {
-                    throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa nao eh deputado");
-                }
-            }
-            return arrayDeDNIs;
+        if (!this.comissoes.containsKey("CCJC")) {
+            throw new IllegalArgumentException("Erro ao votar proposta: CCJC nao cadastrada");
+        }
+        if("plenario".equals(this.proposicoesDeLeis.get(codigo).getLocalDeVotacao())){
+            throw new IllegalArgumentException("Erro ao votar proposta: proposta encaminhada ao plenario");
+        }
+        if(!this.proposicoesDeLeis.get(codigo).getProposicaoAtiva()) {
+            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
         }
     }
 
+    /**
+     * Esse método auxiliar é responsável por realizar a votação de uma PL não conclusiva
+     * em uma determinada comissão, ele retorna um boolean que indica o resultado da
+     * votação.
+     *
+     * @param codigo código da proposta a ser votada.
+     * @param votosFavoraveis votos favoráveis à aprovação da proposta.
+     * @param chao votos mínimos necessários para aprovação da proposta.
+     * @param proximoLocal próximo local no qual a proposta será votada.
+     * @return um boolean que indica o resultado da votação.
+     */
+    private boolean votarComissaoNConc(String codigo, int votosFavoraveis, int chao, String proximoLocal){
+        if ("plenario".equals(proximoLocal)) {
+            this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (Plenario - 1o turno)");
+        }
+        if(votosFavoraveis >= chao){
+            this.proposicoesDeLeis.get(codigo).setLocalDeVotacao(proximoLocal);
+            return true;
+        }
+        this.proposicoesDeLeis.get(codigo).setLocalDeVotacao(proximoLocal);
+        return false;
+    }
 
+    /**
+     * Esse método auxiliar é responsável por realizar a votação de uma PL conclusiva
+     * em uma determinada comissão, ele retorna um boolean que indica o resultado da
+     * votação.
+     *
+     * @param codigo código da proposta a ser votada.
+     * @param votosFavoraveis votos favoráveis à aprovação da proposta.
+     * @param chao votos mínimos necessários para aprovação da proposta.
+     * @param proximoLocal próximo local no qual a proposta será votada.
+     * @return um boolean que indica o resultado da votação.
+     */
+    private boolean votarComissaoPLConc(String codigo, int votosFavoraveis, int chao, String proximoLocal) {
+        boolean retorno = false;
+        if (votosFavoraveis < chao && !this.passouNaCCJC) {
+            this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
+            this.passouNaCCJC = true;
+        }else if(votosFavoraveis >= chao && !this.passouNaCCJC){
+            this.passouNaCCJC = true;
+            this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (" + proximoLocal + ")");
+            this.proposicoesDeLeis.get(codigo).setLocalDeVotacao(proximoLocal);
+            retorno = true;
+        }else if(votosFavoraveis >= chao){
+            if(proximoLocal.equals("-")){
+                this.proposicoesDeLeis.get(codigo).setSituacao("APROVADO");
+                incrementaLeisDeputado(this.proposicoesDeLeis.get(codigo).getDniAutor());
+                this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
+            }
+            retorno = true;
+        }else if(votosFavoraveis < chao){
+            this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
+            if(proximoLocal.equals("-")){
+                this.proposicoesDeLeis.get(codigo).setSituacao("ARQUIVADO");
 
+            }
+        }
+        return retorno;
+    }
 
+    /**
+     * Esse método auxiliar retorna um inteiro que informa a quantiade de votos favoráveis à
+     * aprovação de de determinada proposta em uma comissão.
+     *
+     * @param codigo código da proposta a ser votada.
+     * @param comissao comissão na quala  proposta será votada.
+     * @param statusGovernista status da proposta.
+     * @return um inteiro que indica a quantiade de votos favoráveis.
+     */
+    private int calculaVotosComissao(String codigo, String comissao, String statusGovernista) {
+        int votosFavoraveis = 0;
+        for (String dni : this.comissoes.get(comissao).getDNIs()) {
+            if (votoPolitico(codigo, statusGovernista, dni) == 1) {
+                votosFavoraveis++;
+            }
+        }
+        return votosFavoraveis;
+    }
+
+    /**
+     * Esse método auxiliar retorna um inteiro que informa a quantidade de votos favoráveis
+     * à aprovação de uma determinada proposta no plenário.
+     *
+     * @param codigo código da proposta a ser votada.
+     * @param statusGovernista status da proposta a ser votada.
+     * @param presentes deputados presentes no plenário.
+     * @return um inteiro que indica a quantidade de votos favoráveis.
+     */
+    private int calculaVotosPlenario(String codigo, String statusGovernista, String[] presentes) {
+        int votosFavoraveis = 0;
+        for (String dni : presentes) {
+            if (votoPolitico(codigo, statusGovernista, dni) == 1) {
+                votosFavoraveis++;
+            }
+        }
+        return votosFavoraveis;
+    }
+
+    /**
+     * Esse método auxiliar verifica se há no plenário o quórum mínimo necessário
+     * (quantiade mínima de deputados presentes) para que a votação da proposição
+     * seja realizada. Caso o quórum mínimo não seja atendido, uma exceção do tipo
+     * IllegalArgumentException é lançada.
+     *
+     * @param codigo
+     * @param deputados
+     */
+    private void verificaQuorum(String codigo, String[] deputados) {
+        boolean ePL = "PL".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao());
+        boolean ePLP = "PLP".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao());
+        boolean ePEC = "PEC".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao());
+        if (ePL || ePLP) {
+            int quorum = (totalDeputados() / 2) + 1;
+            if (deputados.length < quorum) {
+                throw new IllegalArgumentException("Erro ao votar proposta: quorum invalido");
+            }
+        } else if (ePEC) {
+            int quorum = (((3/5) * totalDeputados()) / 2) + 1;
+            if (deputados.length < quorum) {
+                throw new IllegalArgumentException("Erro ao votar proposta: quorum invalido");
+            }
+        }
+    }
+
+    /**
+     * Esse método auxiliar retorna um boolean que informa se uma PLP ou uma PEC foi Aprovada
+     * ou Arquivada no Plenário. Além disso ele atualiza o atributo númeroDeLeis do deputado e
+     * atualiza o atributo situação da proposição.
+     *
+     * @param codigo código da proposição a ser votada.
+     * @param votosFavoraveis votos à favor da aprovação.
+     * @param chao mínimo de votos necessário para aprovar a proposição.
+     * @return um boolean que indica o resultado da votação.
+     */
+    private boolean aprovadaOuArquivada(String codigo, int votosFavoraveis, int chao) {
+        boolean retorno = false;
+        if (votosFavoraveis >= chao) {
+            retorno = true;
+            if (this.proposicoesDeLeis.get(codigo).getPassouNoPlenario()) {
+                this.proposicoesDeLeis.get(codigo).setSituacao("APROVADO");
+                incrementaLeisDeputado(this.proposicoesDeLeis.get(codigo).getDniAutor());
+                this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
+            } else {
+                this.proposicoesDeLeis.get(codigo).setSituacao("EM VOTACAO (Plenario - 2o turno)");
+                this.proposicoesDeLeis.get(codigo).setPassouNoPlenario(true);
+            }
+        } else {
+            this.proposicoesDeLeis.get(codigo).setSituacao("ARQUIVADO");
+            this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
+
+        }
+        return retorno;
+    }
+
+    /**
+     * Esse método auxiliar retorna um inteiro que informa a quantiade de deputados
+     * cadastrados no sistema.
+     *
+     * @return inteiro que informa a quantiade de deputados.
+     */
+    private int totalDeputados() {
+        int totalDeputados = 0;
+        for (String dni : this.pessoas.keySet()) {
+            if (this.pessoas.get(dni).getFuncao() != null) {
+                totalDeputados++;
+            }
+        }
+        return totalDeputados;
+    }
+
+    /**
+     * Esse método auxiliar retorna um inteiro que informa se foi aprovado ou não o voto.
+     * 1 para aprovado - 1 para reprovado.
+     *
+     * @param codigo código da proposição.
+     * @param statusGovernista status.
+     * @return int.
+     */
+    private int votoPolitico(String codigo, String statusGovernista, String dni){
+        Pessoa deputado = this.pessoas.get(dni);
+        boolean ehDaBase = this.base.contains(deputado.getPartido());
+        boolean temInteressesEmComum = intEmComum(deputado, codigo);
+        int saida = 0;
+        if("GOVERNISTA".equals(statusGovernista) && ehDaBase) {
+            saida = 1;
+        }else if("OPOSICAO".equals(statusGovernista) && ehDaBase){
+            saida = -1;
+        }else if("LIVRE".equals(statusGovernista) && temInteressesEmComum){
+            saida = 1;
+        }else if("LIVRE".equals(statusGovernista) && !temInteressesEmComum){
+            saida = -1;
+        }
+        return saida;
+    }
+
+    /**
+     * Método auxiliar que indica se um deputado e uma proposição têm interesses em comum.
+     *
+     * @param deputado deputado a ser analisado.
+     * @param codigo codigo da proposição a ser analisada.
+     * @return boolean indicando se tem ou não interesse em comum.
+     */
+    private boolean intEmComum(Pessoa deputado, String codigo) {
+        String[] interessesDep = deputado.getInteresses().split(",");
+        String[] interessesPl = this.proposicoesDeLeis.get(codigo).getInteresses().split(",");
+        for(int i=0; i < interessesDep.length; i++){
+            for(int j = 0; j < interessesPl.length; j++){
+                if(interessesDep[i].equals(interessesPl[j])){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}

@@ -50,7 +50,11 @@ public class Deputado implements Funcao{
         return "POL: " + representacao + " - " + dia + "/" + mes + "/" + ano + " - " + this.numeroDeLeis + " Leis";
     }
 
-    public void setNumeroDeLeis() {
+    /**
+     * Incrementa em um o atributo numeroDeLeis sempre que é chamado.
+     *
+     */
+    public void incrementaNumeroDeLeis() {
         this.numeroDeLeis++;
     }
 }

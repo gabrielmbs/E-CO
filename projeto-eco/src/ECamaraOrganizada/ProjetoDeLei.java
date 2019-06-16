@@ -8,10 +8,7 @@ import util.Validador;
  *
  */
 public class ProjetoDeLei extends ProposicaoAbstract {
-    /**
-     * Atributo que denota o estado conclusivo do Projeto de Lei.
-     */
-    private boolean conclusivo;
+
     /**
      * Atributo que será utilizado para validações.
      */
@@ -21,19 +18,6 @@ public class ProjetoDeLei extends ProposicaoAbstract {
      * Método responsável por criar um Projeto de Lei no sistema, cujos dados: dni,
      * ementa, interesses e url, todos do tipo String, ano do tipo int e
      * conclusivo do tipo boolean, são passados como parâmetro.
-     *
-     * Ademais, checa-se se o dni passado é válido (composto apenas de números
-     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-     * uma exceção com uma mensagem indicando que o dni é inválido.
-     *
-     * Verifica-se ainda, se o ano passado é anterior à 1988 ou posterior a 2019. Se for,
-     * IllegalArgumentException será lançado.
-     *
-     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
-     * e IllegalArgumentExeception serão lançadas, respectivamente.
-     *
-     * Usa-se o construtor da classe ProposicaoAbstract para inicializar os atributos dni, ano, codigoLei, ementa,
-     * interesses e url.
      *
      * @param codigoLei código da lei.
      * @param dni dni do autor do projeto.
@@ -55,6 +39,7 @@ public class ProjetoDeLei extends ProposicaoAbstract {
         this.validador.validaDNI(dni, "Erro ao cadastrar projeto: ");
         this.validador.validaAnoLei(ano, "Erro ao cadastrar projeto: ");
         this.conclusivo = conclusivo;
+        this.tipoDeProposicao = "PL";
     }
 
     /**
@@ -64,11 +49,9 @@ public class ProjetoDeLei extends ProposicaoAbstract {
      * @return retorna a representação em String do projeto
      */
     public String toString() {
-        if (this.conclusivo) {
-            return "Projeto de Lei" + " - " + this.codigoLei + " - " + this.dniAutor +
-                    " - " + this.ementa + " - Conclusiva"  + " - " + this.situacao;
+        if(this.conclusivo){
+            return "Projeto de Lei" + super.toString() + "Conclusiva"  + " - " + this.situacao;
         }
         else return "Projeto de Lei" + super.toString() + this.situacao;
     }
-
 }

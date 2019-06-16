@@ -4,10 +4,8 @@ import easyaccept.EasyAccept;
 
 public class Facade {
     public static void main(String[] args) {
-        args = new String[]{"ECamaraOrganizada.Facade", "easyaccept_tests/use_case_1.txt",
-                            "easyaccept_tests/use_case_2.txt", "easyaccept_tests/use_case_3.txt",
-                            "easyaccept_tests/use_case_4.txt", "easyaccept_tests/use_case_5.txt",
-                            "easyaccept_tests/use_case_6.txt", "easyaccept_tests/use_case_7.txt"};
+        args = new String[]{"ECamaraOrganizada.Facade", "easyaccept_tests/use_case_7.txt"};
+
         EasyAccept.main(args);
     }
 
@@ -63,15 +61,15 @@ public class Facade {
     }
 
     public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
-        return true;
+        return this.camaraController.votarComissao(codigo, statusGovernista, proximoLocal);
     }
 
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
-        return true;
+        return this.camaraController.votarPlenario(codigo, statusGovernista, presentes);
     }
 
     public String exibirTramitacao(String codigo) {
-    return "";
+        return "";
     }
 
     public void limparSistema(){
