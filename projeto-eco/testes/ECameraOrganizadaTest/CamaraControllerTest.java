@@ -11,10 +11,13 @@ class CamaraControllerTest {
 
     private CamaraController camaraController2;
 
+    private CamaraController camaraController3;
+
     @BeforeEach
     void criaPessoaController() {
         this.camaraController = new CamaraController();
         this.camaraController2 = new CamaraController();
+        this.camaraController3 = new CamaraController();
 
         // sem interesse e sem partido
         this.camaraController.cadastrarPessoa("Jonas", "12345678-9", "PB", "");
@@ -32,6 +35,52 @@ class CamaraControllerTest {
         this.camaraController.cadastrarPartido("PCO");
         this.camaraController.cadastrarPartido("PCB");
         this.camaraController.cadastrarPartido("NOVO");
+
+        this.camaraController3.cadastrarPessoa("M1", "071111111-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
+        this.camaraController3.cadastrarPessoa("M2", "071222222-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
+        this.camaraController3.cadastrarPessoa("M3", "071333333-0","PB","saude,seguranca publica,trabalho", "PartidoGov");
+        this.camaraController3.cadastrarPessoa("M4","071444444-0", "PI","saude,seguranca publica,trabalho", "PartidoGov" );
+        this.camaraController3.cadastrarPessoa("M5","071555555-0", "PI","nutricao","PartidoGov" );
+        this.camaraController3.cadastrarPessoa("M6","071666666-0", "RO","educacao,seguranca publica,saude","PartidoOpo" );
+        this.camaraController3.cadastrarPessoa("M7","071777777-0", "RO","educacao,seguranca publica,saude","PartidoOpo" );
+        this.camaraController3.cadastrarPessoa("M8","071888888-0", "RO","saude,seguranca publica,trabalho","PartidoOpo" );
+        this.camaraController3.cadastrarPessoa("M9","071999999-0", "RO","saude,seguranca publica,trabalho","PartidoOpo" );
+        this.camaraController3.cadastrarPessoa("M9","071000000-0", "RO","nutricao","PartidoOpo" );
+
+
+
+
+        this.camaraController3.cadastrarDeputado("071111111-0", "29022016");
+        this.camaraController3.cadastrarDeputado("071222222-0", "29022016");
+        this.camaraController3.cadastrarDeputado("071333333-0", "29022016");
+        this.camaraController3.cadastrarDeputado("071444444-0", "29022016");
+        this.camaraController3.cadastrarDeputado("071555555-0", "29022016");
+        this.camaraController3.cadastrarDeputado("071666666-0", "29022016");
+        this.camaraController3.cadastrarDeputado("071777777-0", "29022016");
+        this.camaraController3.cadastrarDeputado("071888888-0", "29022016");
+        this.camaraController3.cadastrarDeputado("071999999-0", "29022016");
+        this.camaraController3.cadastrarDeputado("071000000-0", "29022016");
+
+        this.camaraController3.cadastrarPL("071222222-0", 2016, "Ementa PL conc","saude,educacao basica", "http://example.com/semana_saude",true);
+        this.camaraController3.cadastrarPL("071222222-0", 2016, "Ementa PL conc","saude,educacao basica", "http://example.com/semana_saude",true);
+        this.camaraController3.cadastrarPL("071222222-0", 2016, "Ementa PL conc","saude,educacao basica", "http://example.com/semana_saude",true);
+        this.camaraController3.cadastrarPL("071222222-0", 2016, "Ementa PL conc","saude", "http://example.com/semana_saude",true);
+        this.camaraController3.cadastrarPL("071222222-0", 2016, "Ementa PL conc","nutricao", "http://example.com/semana_saude",true);
+
+        this.camaraController3.cadastrarPLP("071222222-0", 2016, "Ementa PLP","fiscal,jogos", "https://example.net/jogos%40aposta", "153");
+        this.camaraController3.cadastrarPEC("071222222-0", 2016, "Ementa PLP","saude", "https://example.com/sindicato/algo.html", "7,8");
+
+        this.camaraController3.cadastrarPartido("PartidoGov");
+
+        //5 da base, 4 oposicao
+        this.camaraController3.cadastrarComissao("CCJC", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0");
+        //5 da base, 5 oposicao
+        this.camaraController3.cadastrarComissao("CTF", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0,071000000-0");
+        //5 da base
+        this.camaraController3.cadastrarComissao("CGOV","071111111-0,071222222-0,071333333-0,071444444-0,071555555-0");
+        //5 da oposicao
+        this.camaraController3.cadastrarComissao("COPO","071666666-0,071777777-0,071888888-0,071999999-0,071000000-0");
+
     }
 
     @Test
@@ -982,15 +1031,6 @@ class CamaraControllerTest {
                 this.camaraController.cadastrarComissao("CLP", "051444444-1"));
     }
 
-    @Test
-    void testVotarComissao(){
-        this.camaraController.cadastrarPessoa("M1","071222222-0","PE","educacao,seguranca publica,saude", "PartidoGov");
-        this.camaraController.cadastrarDeputado("071222222-0","29022016");
-        this.camaraController.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "saude,educacao basica", "http://example.com/semana_saude", true);
-        this.camaraController.cadastrarPartido("PartidoGov");
-        this.camaraController.cadastrarComissao("CCJC", "071222222-0");
-        this.camaraController.votarComissao("PL 1/2016", "GOVERNISTA", "CTF");
-    }
 
 
 }
