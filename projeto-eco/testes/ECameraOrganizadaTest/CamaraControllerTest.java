@@ -1,3 +1,5 @@
+package ECameraOrganizadaTest;
+
 import ECamaraOrganizada.CamaraController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -979,4 +981,16 @@ class CamaraControllerTest {
         assertThrows(IllegalArgumentException.class, () ->
                 this.camaraController.cadastrarComissao("CLP", "051444444-1"));
     }
+
+    @Test
+    void testVotarComissao(){
+        this.camaraController.cadastrarPessoa("M1","071222222-0","PE","educacao,seguranca publica,saude", "PartidoGov");
+        this.camaraController.cadastrarDeputado("071222222-0","29022016");
+        this.camaraController.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "saude,educacao basica", "http://example.com/semana_saude", true);
+        this.camaraController.cadastrarPartido("PartidoGov");
+        this.camaraController.cadastrarComissao("CCJC", "071222222-0");
+        this.camaraController.votarComissao("PL 1/2016", "GOVERNISTA", "CTF");
+    }
+
+
 }
