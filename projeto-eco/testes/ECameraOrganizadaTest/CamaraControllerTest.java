@@ -3,6 +3,7 @@ package ECameraOrganizadaTest;
 import ECamaraOrganizada.CamaraController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CamaraControllerTest {
@@ -60,13 +61,13 @@ class CamaraControllerTest {
 
     @Test
     void cadastraPessoaDniVazio() {
-        assertThrows(IllegalArgumentException.class,  () -> this.camaraController.cadastrarPessoa("Jonas",
+        assertThrows(IllegalArgumentException.class, () -> this.camaraController.cadastrarPessoa("Jonas",
                 "", "PB", ""));
     }
 
     @Test
     void cadastraPessoaComPartidoDniVazio() {
-        assertThrows(IllegalArgumentException.class,  () -> this.camaraController.cadastrarPessoa("Jonas",
+        assertThrows(IllegalArgumentException.class, () -> this.camaraController.cadastrarPessoa("Jonas",
                 "", "PB", "", "PT"));
     }
 
@@ -320,73 +321,73 @@ class CamaraControllerTest {
     }
 
     @Test
-    void testExibirPessoaDniNulo(){
+    void testExibirPessoaDniNulo() {
         assertThrows(NullPointerException.class, () -> this.camaraController.exibirPessoa(null));
     }
 
     @Test
-    void testExibirPessoaDniVazio(){
+    void testExibirPessoaDniVazio() {
         assertThrows(IllegalArgumentException.class, () -> this.camaraController.exibirPessoa(" "));
     }
 
     @Test
-    void testExibirPessoaDniInvalidoInvalidoComEspaco(){
+    void testExibirPessoaDniInvalidoInvalidoComEspaco() {
         assertThrows(IllegalArgumentException.class, () -> this.camaraController.exibirPessoa(" 12345678"));
     }
 
     @Test
-    void testExibirPessoaDniInvalidoInvalidoComLetra(){
+    void testExibirPessoaDniInvalidoInvalidoComLetra() {
         assertThrows(IllegalArgumentException.class, () -> this.camaraController.exibirPessoa("A12345678"));
     }
 
     @Test
-    void testExibirPessoaDniInvalidoInvalidoComCaractereEspecial(){
+    void testExibirPessoaDniInvalidoInvalidoComCaractereEspecial() {
         assertThrows(IllegalArgumentException.class, () -> this.camaraController.exibirPessoa(".%12345678"));
     }
 
     @Test
-    void testExibirPessoaDniInvalidoInvalidoSemTraco(){
+    void testExibirPessoaDniInvalidoInvalidoSemTraco() {
         assertThrows(NullPointerException.class, () -> this.camaraController.exibirPessoa("123456781"));
     }
 
     @Test
-    void testExibirPessoaInexistente(){
+    void testExibirPessoaInexistente() {
         assertThrows(NullPointerException.class, () -> this.camaraController.exibirPessoa("12345228-3"));
     }
 
     @Test
-    void testExibirPessoaSemInteresseESemPartido(){
+    void testExibirPessoaSemInteresseESemPartido() {
         String esperado = "Jonas - 12345678-9 (PB)";
         assertEquals(esperado, this.camaraController.exibirPessoa("12345678-9"));
     }
 
     @Test
-    void testExibirPessoaComInteresseESemPartido(){
+    void testExibirPessoaComInteresseESemPartido() {
         String esperado = "Jonas - 12345678-0 (PB) - Interesses: educação";
         assertEquals(esperado, this.camaraController.exibirPessoa("12345678-0"));
     }
 
     @Test
-    void testExibirPessoaSemInteresseEComPartido(){
+    void testExibirPessoaSemInteresseEComPartido() {
         String esperado = "Jonas - 12345678-1 (PB) - PT";
         assertEquals(esperado, this.camaraController.exibirPessoa("12345678-1"));
     }
 
     @Test
-    void testExibirPessoaComInteresseEComPartido(){
+    void testExibirPessoaComInteresseEComPartido() {
         String esperado = "Jonas - 12345678-6 (PB) - PT - Interesses: educação";
         assertEquals(esperado, this.camaraController.exibirPessoa("12345678-6"));
     }
 
     @Test
-    void testExibirDeputadoSemInteresse(){
+    void testExibirDeputadoSemInteresse() {
         this.camaraController.cadastrarDeputado("12345678-1", "20102018");
         String esperado = "POL: Jonas - 12345678-1 (PB) - PT - 20/10/2018 - 0 Leis";
         assertEquals(esperado, this.camaraController.exibirPessoa("12345678-1"));
     }
 
     @Test
-    void testExibirDeputadoComInteresse(){
+    void testExibirDeputadoComInteresse() {
         this.camaraController.cadastrarDeputado("12345678-6", "20102018");
         String esperado = "POL: Jonas - 12345678-6 (PB) - PT - Interesses: educação - 20/10/2018 - 0 Leis";
         assertEquals(esperado, this.camaraController.exibirPessoa("12345678-6"));
@@ -398,7 +399,7 @@ class CamaraControllerTest {
     }
 
     @Test
-    void cadastrarPartidoIllegalArgumentTest(){
+    void cadastrarPartidoIllegalArgumentTest() {
         assertThrows(IllegalArgumentException.class, () -> this.camaraController.cadastrarPartido("  "));
     }
 
@@ -409,7 +410,7 @@ class CamaraControllerTest {
     }
 
     @Test
-    void exibirBaseVaziaTest(){
+    void exibirBaseVaziaTest() {
         assertEquals("", this.camaraController2.exibirBase());
     }
 
@@ -929,33 +930,33 @@ class CamaraControllerTest {
     }
 
     @Test
-    void testCadastrarComissaoTemaVazio(){
+    void testCadastrarComissaoTemaVazio() {
         assertThrows(IllegalArgumentException.class, () ->
                 this.camaraController.cadastrarComissao("", "051222222-0,051444444-0"));
     }
 
     @Test
-    void testCadastrarComissaoTemaNulo(){
+    void testCadastrarComissaoTemaNulo() {
         assertThrows(NullPointerException.class, () ->
                 this.camaraController.cadastrarComissao(null, "051222222-0,051444444-0"));
     }
 
     @Test
-    void testCadastrarComissaoPoliticosVazio(){
+    void testCadastrarComissaoPoliticosVazio() {
         assertThrows(IllegalArgumentException.class, () ->
                 this.camaraController.cadastrarComissao("CLP", ""));
     }
 
     @Test
-    void testCadastrarComissaoPoliticosNulo(){
+    void testCadastrarComissaoPoliticosNulo() {
         assertThrows(NullPointerException.class, () ->
                 this.camaraController.cadastrarComissao("CLP", null));
     }
 
     @Test
-    void testCadastrarComissaoTemaJaCadastrado(){
+    void testCadastrarComissaoTemaJaCadastrado() {
         this.camaraController.cadastrarPessoa("jose", "051444444-0", "sp", "saude",
-                                                "pt");
+                "pt");
         this.camaraController.cadastrarDeputado("051444444-0", "11102018");
         this.camaraController.cadastrarComissao("CLP", "051444444-0");
         assertThrows(IllegalArgumentException.class, () ->
@@ -963,19 +964,19 @@ class CamaraControllerTest {
     }
 
     @Test
-    void testCadastrarComissaoDNIInvalido(){
+    void testCadastrarComissaoDNIInvalido() {
         assertThrows(IllegalArgumentException.class, () ->
                 this.camaraController.cadastrarComissao("CLP", "*051444444-1"));
     }
 
     @Test
-    void testCadastrarComissaoPessoaInexistente(){
+    void testCadastrarComissaoPessoaInexistente() {
         assertThrows(IllegalArgumentException.class, () ->
                 this.camaraController.cadastrarComissao("CLP", "051444444-1"));
     }
 
     @Test
-    void testCadastrarComissaoPessoaNaoEhDeputado(){
+    void testCadastrarComissaoPessoaNaoEhDeputado() {
         this.camaraController.cadastrarPessoa("jose", "051444444-0", "sp", "saude",
                 "pt");
         assertThrows(IllegalArgumentException.class, () ->
@@ -983,14 +984,44 @@ class CamaraControllerTest {
     }
 
     @Test
-    void testVotarComissao(){
-        this.camaraController.cadastrarPessoa("M1","071222222-0","PE","educacao,seguranca publica,saude", "PartidoGov");
-        this.camaraController.cadastrarDeputado("071222222-0","29022016");
+    void testVotarComissao() {
+        this.camaraController.cadastrarPessoa("M1", "071222222-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
+        this.camaraController.cadastrarDeputado("071222222-0", "29022016");
         this.camaraController.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "saude,educacao basica", "http://example.com/semana_saude", true);
         this.camaraController.cadastrarPartido("PartidoGov");
         this.camaraController.cadastrarComissao("CCJC", "071222222-0");
         this.camaraController.votarComissao("PL 1/2016", "GOVERNISTA", "CTF");
     }
 
+    @Test
+    void testVotarComissaoCodigoVazio() {
+        this.camaraController.cadastrarPessoa("M1", "071222222-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
+        this.camaraController.cadastrarDeputado("071222222-0", "29022016");
+        this.camaraController.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "saude,educacao basica", "http://example.com/semana_saude", true);
+        this.camaraController.cadastrarPartido("PartidoGov");
+        this.camaraController.cadastrarComissao("CCJC", "071222222-0");
+        assertThrows(IllegalArgumentException.class, () -> this.camaraController.votarComissao("  ", "GOVERNISTA", "CTF"));
+    }
+
+    @Test
+    void testVotarComissaoStatusGovernistaVazio() {
+        this.camaraController.cadastrarPessoa("M1", "071222222-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
+        this.camaraController.cadastrarDeputado("071222222-0", "29022016");
+        this.camaraController.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "saude,educacao basica", "http://example.com/semana_saude", true);
+        this.camaraController.cadastrarPartido("PartidoGov");
+        this.camaraController.cadastrarComissao("CCJC", "071222222-0");
+        assertThrows(IllegalArgumentException.class, () -> this.camaraController.votarComissao("PL 1/2016", "  ", "CTF"));
+    }
+
+    @Test
+    void testVotarComissaoProximoLocalVazio() {
+        this.camaraController.cadastrarPessoa("M1", "071222222-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
+        this.camaraController.cadastrarDeputado("071222222-0", "29022016");
+        this.camaraController.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "saude,educacao basica", "http://example.com/semana_saude", true);
+        this.camaraController.cadastrarPartido("PartidoGov");
+        this.camaraController.cadastrarComissao("CCJC", "071222222-0");
+        assertThrows(IllegalArgumentException.class, () -> this.camaraController.votarComissao("PL 1/2016", "GOVERNISTA", "  "));
+    }
+    
 
 }
