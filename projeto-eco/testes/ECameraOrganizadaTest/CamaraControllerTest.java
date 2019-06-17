@@ -990,7 +990,7 @@ class CamaraControllerTest {
         this.camaraController.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "saude,educacao basica", "http://example.com/semana_saude", true);
         this.camaraController.cadastrarPartido("PartidoGov");
         this.camaraController.cadastrarComissao("CCJC", "071222222-0");
-        this.camaraController.votarComissao("PL 1/2016", "GOVERNISTA", "CTF");
+        assertTrue(this.camaraController.votarComissao("PL 1/2016", "GOVERNISTA", "CTF"));
     }
 
     @Test
@@ -1022,6 +1022,14 @@ class CamaraControllerTest {
         this.camaraController.cadastrarComissao("CCJC", "071222222-0");
         assertThrows(IllegalArgumentException.class, () -> this.camaraController.votarComissao("PL 1/2016", "GOVERNISTA", "  "));
     }
-    
 
+    @Test
+    void testVotarComissaoCCJCNaoCadastrada() {
+        this.camaraController.cadastrarPessoa("M1", "071222222-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
+        this.camaraController.cadastrarDeputado("071222222-0", "29022016");
+        this.camaraController.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "saude,educacao basica", "http://example.com/semana_saude", true);
+        this.camaraController.cadastrarPartido("PartidoGov");
+        assertThrows(IllegalArgumentException.class, () -> this.camaraController.votarComissao("PL 1/2016", "GOVERNISTA", "CTF"));
+    }
+    
 }
