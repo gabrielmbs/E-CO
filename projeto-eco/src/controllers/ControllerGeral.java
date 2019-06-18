@@ -27,8 +27,14 @@ public class ControllerGeral {
      */
     private Validador validador;
 
+    /**
+     * Controller de proposições.
+     */
     private ProposicaoController proposicaoController;
 
+    /**
+     * Constrói o controller geral.
+     */
     public ControllerGeral() {
         this.base = new HashSet<>();
         this.validador = new Validador();
@@ -38,8 +44,61 @@ public class ControllerGeral {
     }
 
     /**
+     * Os métodos cadastrarPessoa a seguir são sobrecarregados de modo
+     * a podermos cadastrar no sistema uma pessoa que possua filiação a algum partido
+     * ou não.
+     *
+     * @param nome       nome da pessoa a ser cadastrada.
+     * @param dni        dni da pessa a ser cadastrada.
+     * @param estado     estado da pessoa a ser cadastrada.
+     * @param interesses interesses da pessoa a ser cadastrada.
+     * @return true, se a pessoa foi cadastrada com êxito.
+     */
+    public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses) {
+        return this.deputadoController.cadastrarPessoa(nome, dni, estado, interesses);
+    }
+
+    /**
+     * O método cadastrarPessoa a seguir e o método cadastrarPessoa anterior são sobrecarregados de modo
+     * a podermos cadastrar no sistema uma pessoa que possua filiação a algum partido
+     * ou não.
+     *
+     * @param nome       nome da pessoa a ser cadastrada.
+     * @param dni        dni da pessa a ser cadastrada.
+     * @param estado     estado da pessoa a ser cadastrada.
+     * @param interesses interesses da pessoa a ser cadastrada.
+     * @param partido    partido que a pessoa a ser cadastrada é filiada.
+     * @return true, se a pessoa foi cadastrada com êxito.
+     */
+    public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
+        return this.deputadoController.cadastrarPessoa(nome, dni, estado, interesses, partido);
+    }
+
+    /**
+     * Método responsável por cadastrar um deputado no sistema, cujos dados (dni e dataInicio), todos do tipo String,
+     * são passados como parâmetro.
+     *
+     * @param dni          dni da pessoa a se tornar deputado.
+     * @param dataDeInicio data de ínicio do mandato do deputado.
+     */
+    public void cadastrarDeputado(String dni, String dataDeInicio) {
+        this.deputadoController.cadastrarDeputado(dni, dataDeInicio);
+    }
+
+    /**
+     * Método responsável por acesssar o Mapa que armazena as pessoas cadastradas e retornar uma
+     * representação em String da pessoa cujo DNI foi passado como parâmetro.
+     *
+     * @param dni dni da pessoa a ser consultado no sistema.
+     * @return a representação em String da pessoa, caso ela já tenha sido cadastrado.
+     */
+    public String exibirPessoa(String dni) {
+        return this.deputadoController.exibirPessoa(dni);
+    }
+
+    /**
      * Método responsável por cadastrar um partido no sistema, recebendo como parâmetro o nome do partido.
-     * 
+     *
      * Checa-se se esse parâmetro é nulo ou vazio, e se for, exceções do tipo NullPointerException
      * e IllegalArgumentExeception serão lançadas, respectivamente.
      *
@@ -67,6 +126,75 @@ public class ControllerGeral {
             resultado += partido + ",";
         }
         return resultado.substring(0, (resultado.length() - 1));
+    }
+
+    /**
+     * Método responsável por cadastrar um Projeto de Lei no sistema, cujos dados: dni,
+     * ementa, interesses e url, todos do tipo String, ano do tipo int e
+     * conclusivo do tipo boolean, são passados como parâmetro.
+     *
+     * @param dni dni do autor do projeto.
+     * @param ementa ementa do projeto.
+     * @param interesses interesses do projeto.
+     * @param url endereço url do projeto.
+     * @param ano ano de criação do projeto.
+     * @param conclusivo situção conclusiva do projeto
+     *
+     * @return retorna o código da lei cadastrada.
+     */
+    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
+        validaCadastrarLei(dni, ementa, interesses, url, ano);
+        if (this.deputadoController.existePessoa(dni)) {
+            if (this.deputadoController.pessoaEhDeputado(dni)) {
+                return this.proposicaoController.cadastrarPL(dni, ano, ementa, interesses, url, conclusivo);
+            } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
+        } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
+    }
+
+    /**
+     * Método responsável por cadastrar um Projeto de Lei Complementar no sistema, cujos dados: dni,
+     * ementa, interesses, url e artigos, todos do tipo String e ano do tipo int
+     * são passados como parâmetro.
+     *
+     * @param dni dni da pessoa deputada autor da lei.
+     * @param ementa ementa da lei.
+     * @param interesses interesses da lei.
+     * @param url endereço url da lei.
+     * @param artigos artigos da constituição sobre os quais a lei vai atuar.
+     * @param ano ano de criação do projeto
+     *
+     * @return retorna o código da lei cadastrada.
+     */
+    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+        validaCadastrarLeiComArtigo(dni, ementa, interesses, url, ano, artigos);
+        if (this.deputadoController.existePessoa(dni)) {
+            if (this.deputadoController.pessoaEhDeputado(dni)) {
+                return this.proposicaoController.cadastrarPLP(dni, ano, ementa, interesses, url, artigos);
+            } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
+        } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
+    }
+
+    /**
+     * Método responsável por cadastrar um Projeto de Emenda Constituicional no sistema, cujos dados: dni,
+     * ementa, interesses, url e artigos, todos do tipo String e ano do tipo int
+     * são passados como parâmetro.
+     *
+     * @param dni dni da pessoa deputada autor da lei.
+     * @param ementa ementa da lei.
+     * @param interesses interesses da lei.
+     * @param url endereço url da lei.
+     * @param artigos artigos da constituição sobre os quais a lei vai atuar.
+     * @param ano ano de criação do projeto
+     *
+     * @return retorna o código da lei cadastrada.
+     */
+    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+        validaCadastrarLeiComArtigo(dni, ementa, interesses, url, ano, artigos);
+        if (this.deputadoController.existePessoa(dni)) {
+            if (this.deputadoController.pessoaEhDeputado(dni)) {
+                return this.proposicaoController.cadastrarPEC(dni, ano, ementa, interesses, url, artigos);
+            } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
+        } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
     }
 
     /**
@@ -103,6 +231,41 @@ public class ControllerGeral {
     }
 
     /**
+     * Esse método é responsável por realizar a votação de uma proposta em uma determinada comissão, ele recebe como
+     * parâmetro o código da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE), e o próximo
+     * local no qual a porposta será votada.
+     *
+     * @param codigo código da proposta.
+     * @param statusGovernista status da proposta.
+     * @param proximoLocal próximo locla no qual a proposta será votada.
+     * @return um boolean que indica o resultado da votação.
+     */
+    public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
+        validaVotarComissao(codigo, statusGovernista, proximoLocal);
+
+        String localDeVotacao = this.proposicaoController.buscaProposicao(codigo).getLocalDeVotacao();
+        int votosFavoraveis = calculaVotosComissao(codigo, localDeVotacao, statusGovernista);
+        int chao = (this.comissoes.get(localDeVotacao).getDNIs().length / 2) + 1;
+
+        ProposicaoAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
+        Pessoa deputado = this.deputadoController.buscaPessoa(proposicao.getDniAutor());
+
+        return this.proposicaoController.votarComissao(codigo, statusGovernista, proximoLocal, chao, votosFavoraveis,
+                                                        deputado);
+    }
+
+    public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
+        ProposicaoAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
+        Pessoa deputado = this.deputadoController.buscaPessoa(proposicao.getDniAutor());
+        int totalDeputados = this.deputadoController.totalDeputados();
+        String[] deputados = presentes.split(",");
+        verificaQuorum(codigo, deputados);
+        int votosFavoraveis = calculaVotosPlenario(codigo, statusGovernista, deputados);
+        return this.proposicaoController.votarPlenario(codigo, deputados, deputado, votosFavoraveis,
+                totalDeputados);
+    }
+
+    /**
      * Gera um array de Strings, que representa os dnis dos politicos.
      *
      * @param politicos uma String, que representa dnis separados por ","
@@ -121,7 +284,6 @@ public class ControllerGeral {
         }
         return arrayDeDNIs;
     }
-
 
     /**
      * Esse método auxiliar retorna um inteiro que informa se foi aprovado ou não o voto.
@@ -168,58 +330,6 @@ public class ControllerGeral {
         return false;
     }
 
-    public String exibirPessoa(String dni) {
-        return this.deputadoController.exibirPessoa(dni);
-    }
-
-    public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses) {
-        return this.deputadoController.cadastrarPessoa(nome, dni, estado, interesses);
-    }
-
-    public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
-        return this.deputadoController.cadastrarPessoa(nome, dni, estado, interesses, partido);
-    }
-
-    public void cadastrarDeputado(String dni, String dataDeInicio) {
-        this.deputadoController.cadastrarDeputado(dni, dataDeInicio);
-    }
-
-    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
-        validaCadastrarLei(dni, ementa, interesses, url, ano);
-        if (this.deputadoController.existePessoa(dni)) {
-            if (this.deputadoController.pessoaEhDeputado(dni)) {
-                return this.proposicaoController.cadastrarPL(dni, ano, ementa, interesses, url, conclusivo);
-            } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
-        } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
-    }
-
-    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
-        validaCadastrarLeiComArtigo(dni, ementa, interesses, url, ano, artigos);
-        if (this.deputadoController.existePessoa(dni)) {
-            if (this.deputadoController.pessoaEhDeputado(dni)) {
-                return this.proposicaoController.cadastrarPLP(dni, ano, ementa, interesses, url, artigos);
-            } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
-        } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
-    }
-
-    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
-        validaCadastrarLeiComArtigo(dni, ementa, interesses, url, ano, artigos);
-        if (this.deputadoController.existePessoa(dni)) {
-            if (this.deputadoController.pessoaEhDeputado(dni)) {
-                return this.proposicaoController.cadastrarPEC(dni, ano, ementa, interesses, url, artigos);
-            } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
-        } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
-    }
-
-    public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
-        validaVotarComissao(codigo, statusGovernista, proximoLocal);
-        String localDeVotacao = this.proposicaoController.buscaProposicao(codigo).getLocalDeVotacao();
-        int votosFavoraveis = calculaVotosComissao(codigo, localDeVotacao, statusGovernista);
-        int chao = (this.comissoes.get(localDeVotacao).getDNIs().length / 2) + 1;
-        Pessoa deputado = this.deputadoController.buscaPessoa(this.proposicaoController.buscaProposicao(codigo).getDniAutor());
-        return this.proposicaoController.votarComissao(codigo, statusGovernista, proximoLocal, chao, votosFavoraveis, deputado);
-    }
-
     /**
      * Esse método auxiliar retorna um inteiro que informa a quantiade de votos favoráveis à
      * aprovação de de determinada proposta em uma comissão.
@@ -237,16 +347,6 @@ public class ControllerGeral {
             }
         }
         return votosFavoraveis;
-    }
-
-    public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
-        Pessoa deputado = this.deputadoController.buscaPessoa(this.proposicaoController.buscaProposicao(codigo).getDniAutor());
-        int totalDeputados = this.deputadoController.totalDeputados();
-        String[] deputados = presentes.split(",");
-        verificaQuorum(codigo, deputados);
-        int votosFavoraveis = calculaVotosPlenario(codigo, statusGovernista, deputados);
-        return this.proposicaoController.votarPlenario(codigo, deputados, deputado, votosFavoraveis,
-                                                        totalDeputados);
     }
 
     /**
@@ -325,7 +425,8 @@ public class ControllerGeral {
      * @param ano ano da lei a ser cadastrada.
      * @param artigos artigos com os quais a lei irá trabalhar
      */
-    private void validaCadastrarLeiComArtigo(String dni, String ementa, String interesses, String url, int ano, String artigos) {
+    private void validaCadastrarLeiComArtigo(String dni, String ementa, String interesses, String url, int ano,
+                                             String artigos) {
         validaCadastrarLei(dni,ementa, interesses, url, ano);
         this.validador.validaString(artigos, "Erro ao cadastrar projeto: artigo nao pode ser vazio ou nulo");
     }
@@ -342,7 +443,8 @@ public class ControllerGeral {
     private void validaVotarComissao(String codigo, String statusGovernista, String proximoLocal) {
         validador.validaString(proximoLocal, "Erro ao votar proposta: proximo local vazio");
         ProposicaoAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
-        if(!"GOVERNISTA".equals(statusGovernista) && !"OPOSICAO".equals(statusGovernista) && !"LIVRE".equals(statusGovernista)){
+        if(!"GOVERNISTA".equals(statusGovernista) && !"OPOSICAO".equals(statusGovernista) &&
+                !"LIVRE".equals(statusGovernista)){
             throw new IllegalArgumentException("Erro ao votar proposta: status invalido");
         }
         if (!this.comissoes.containsKey("CCJC")) {

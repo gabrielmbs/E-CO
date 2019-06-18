@@ -1,6 +1,5 @@
 package controllers;
 
-import entidades.Funcao;
 import entidades.Pessoa;
 import util.Validador;
 
@@ -42,31 +41,6 @@ public class DeputadoController {
     }
 
     /**
-     * Método responsável por validar um cadastro de uma pessoa.
-     *
-     * @param nome   nome da pessoa.
-     * @param dni    dni da pessoa.
-     * @param estado estado onde reside a pessoa.
-     */
-    private void validaCadastrarPessoa(String nome, String dni, String estado) {
-        this.validador.validaString(nome, "Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
-        this.validador.validaString(dni, "Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
-        this.validador.validaString(estado, "Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
-        this.validador.validaDNI(dni, "Erro ao cadastrar pessoa: ");
-    }
-
-    /**
-     * Método que verifica se uma pessoa existe no sistema.
-     *
-     * @param dni dni a ser procurado.
-     * @return boolean informando se a pessoa existe (ou não).
-     */
-    public boolean existePessoa(String dni) {
-        return this.pessoas.containsKey(dni);
-    }
-
-
-    /**
      * O método cadastrarPessoa a seguir e o método cadastrarPessoa anterior são sobrecarregados de modo
      * a podermos cadastrar no sistema uma pessoa que possua filiação a algum partido
      * ou não.
@@ -88,6 +62,16 @@ public class DeputadoController {
     }
 
     /**
+     * Método que verifica se uma pessoa existe no sistema.
+     *
+     * @param dni dni a ser procurado.
+     * @return boolean informando se a pessoa existe (ou não).
+     */
+    public boolean existePessoa(String dni) {
+        return this.pessoas.containsKey(dni);
+    }
+
+    /**
      * Método responsável por cadastrar um deputado no sistema, cujos dados (dni e dataInicio), todos do tipo String,
      * são passados como parâmetro.
      *
@@ -99,6 +83,7 @@ public class DeputadoController {
         Pessoa pessoa = this.pessoas.get(dni);
         pessoa.viraDeputado(dataDeInicio);
     }
+
     /**
      * Método responsável por acesssar o Mapa que armazena as pessoas cadastradas e retornar uma
      * representação em String da pessoa cujo DNI foi passado como parâmetro.
@@ -112,24 +97,6 @@ public class DeputadoController {
             throw new NullPointerException("Erro ao exibir pessoa: pessoa nao encontrada");
         }
         return this.pessoas.get(dni).toString();
-
-    }
-
-    /**
-     * Método responsável por validar um cadastro de um deputado.
-     *
-     * @param dni          dni do deputado.
-     * @param dataDeInicio data de ínicio do mandato do deputado.
-     */
-    private void validaCadastrarDeputado(String dni, String dataDeInicio) {
-        this.validador.validaDNI(dni, "Erro ao cadastrar deputado: ");
-        if (!existePessoa(dni)) {
-            throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa nao encontrada");
-        }
-        if (this.pessoas.get(dni).getPartido() == null) {
-            throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa sem partido");
-        }
-        this.validador.validaData(dataDeInicio, "Erro ao cadastrar deputado: ");
     }
 
     /**
@@ -141,18 +108,6 @@ public class DeputadoController {
      */
     public boolean pessoaEhDeputado(String dni) {
         return this.pessoas.get(dni).getFuncao() != null;
-    }
-
-    /**
-     * Método que incrementa 1 ao atributo leis de Deputado a
-     * cada que vez que uma pessoa deputada propõe um projeto de lei.
-     *
-     * @param dni dni a ser procurado.
-     *
-     */
-    public void incrementaLeisDeputado(String dni) {
-        Funcao funcao = this.pessoas.get(dni).getFuncao();
-        funcao.incrementaNumeroDeLeis();
     }
 
     /**
@@ -171,7 +126,44 @@ public class DeputadoController {
         return totalDeputados;
     }
 
+    /**
+     * Busca uma pessoa a partir do dni.
+     *
+     * @param dni dni a ser buscado.
+     * @return Pessoa.
+     */
     public Pessoa buscaPessoa(String dni){
         return this.pessoas.get(dni);
+    }
+
+    /**
+     * Método responsável por validar um cadastro de uma pessoa.
+     *
+     * @param nome   nome da pessoa.
+     * @param dni    dni da pessoa.
+     * @param estado estado onde reside a pessoa.
+     */
+    private void validaCadastrarPessoa(String nome, String dni, String estado) {
+        this.validador.validaString(nome, "Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
+        this.validador.validaString(dni, "Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
+        this.validador.validaString(estado, "Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
+        this.validador.validaDNI(dni, "Erro ao cadastrar pessoa: ");
+    }
+
+    /**
+     * Método responsável por validar um cadastro de um deputado.
+     *
+     * @param dni          dni do deputado.
+     * @param dataDeInicio data de ínicio do mandato do deputado.
+     */
+    private void validaCadastrarDeputado(String dni, String dataDeInicio) {
+        this.validador.validaDNI(dni, "Erro ao cadastrar deputado: ");
+        if (!existePessoa(dni)) {
+            throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa nao encontrada");
+        }
+        if (this.pessoas.get(dni).getPartido() == null) {
+            throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa sem partido");
+        }
+        this.validador.validaData(dataDeInicio, "Erro ao cadastrar deputado: ");
     }
 }

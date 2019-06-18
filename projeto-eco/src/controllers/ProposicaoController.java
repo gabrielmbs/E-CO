@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProposicaoController {
+
     /**
      * Representa mapa onde se armazena as contagens específicas de cada tipo de lei em consonância
      * com seu ano de cadastro, com a chave no formato: "tipoDeLei AnoCadastro".
@@ -22,6 +23,10 @@ public class ProposicaoController {
      * com a chave no formato: "tipoDeLei ordemContagem/AnoDeCadastro".
      */
     private Map<String, ProposicaoAbstract> proposicoesDeLeis;
+
+    /**
+     * Atributo que será utilizado para validacoes.
+     */
     private Validador validador;
 
     public ProposicaoController() {
@@ -110,7 +115,8 @@ public class ProposicaoController {
         }
         Contador contador = this.contadores.get(chaveContador);
         String codigoLei = "PEC " + contador.getContagem() + "/" + ano;
-        this.proposicoesDeLeis.put(codigoLei, new ProjetoEmendaConstitucional(codigoLei, dni, ano, ementa, interesses, url, artigosConcatenados));
+        this.proposicoesDeLeis.put(codigoLei, new ProjetoEmendaConstitucional(codigoLei, dni, ano, ementa, interesses,
+                                    url, artigosConcatenados));
         contador.incrementaContagem();
         return codigoLei;
     }
@@ -125,9 +131,8 @@ public class ProposicaoController {
      * @param proximoLocal próximo locla no qual a proposta será votada.
      * @return um boolean que indica o resultado da votação.
      */
-    public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal, int chao, int votosFavoraveis,
-                                    Pessoa autor) {
-
+    public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal, int chao,
+                                 int votosFavoraveis, Pessoa autor) {
         if(this.proposicoesDeLeis.get(codigo).isConclusivo()){
             return votarComissaoPLConc(codigo, votosFavoraveis, chao, proximoLocal, autor);
         }
