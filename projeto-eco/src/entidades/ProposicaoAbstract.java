@@ -1,6 +1,6 @@
 package entidades;
 
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Representação abstrata de um Projeto , caracterizado pelo seu código de lei, dni de seu autor,
@@ -74,6 +74,8 @@ public abstract class ProposicaoAbstract {
      */
     protected String tipoDeProposicao;
 
+    protected List<String> tramitacao;
+
 
     /**
      * Método responsável por criar um Projeto de Emenda Constitucional no sistema, cujos dados: dni,
@@ -103,6 +105,7 @@ public abstract class ProposicaoAbstract {
         this.proposicaoAtiva = true;
         this.passouNoPlenario = false;
         this.passouNaCCJC = false;
+        this.tramitacao = new ArrayList<>();
     }
 
     /**
@@ -265,5 +268,13 @@ public abstract class ProposicaoAbstract {
      */
     public void setPassouNaCCJC(boolean passouNaCCJC) {
         this.passouNaCCJC = passouNaCCJC;
+    }
+
+    public void atualizaTramitacaoLei(String situacao){
+        this.tramitacao.add(situacao);
+    }
+
+    public List<String> getTramitacao() {
+        return tramitacao;
     }
 }

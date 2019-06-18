@@ -5,6 +5,7 @@ import util.Contador;
 import util.Validador;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProposicaoController {
@@ -304,4 +305,11 @@ public class ProposicaoController {
         return artigos;
     }
 
+    public String exibirTramitacao(String codigo) {
+        List<String> tramitacao = this.proposicoesDeLeis.get(codigo).getTramitacao();
+
+        String separador = ", ";
+        String tramitacaoFormatada = String.join(separador, tramitacao) + ".";
+        return tramitacaoFormatada;
+    }
 }
