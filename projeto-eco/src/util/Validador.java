@@ -1,6 +1,7 @@
 package util;
 
 import java.time.LocalDate;
+import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -10,26 +11,34 @@ import java.time.format.DateTimeParseException;
 public class Validador {
 
     /**
-     * Método que verifica se uma String é nula e lança uma exceção caso seja.
+     * Método responsável por fazer todas as validações de data de uma só vez.
      *
-     * @param parametro parametro a ser checado se é nulo.
-     * @param mensagem mensagem de erro que será lançada.
+     * @param data data a ser analisada.
+     * @param msg mensagem de erro que será lançada.
      */
-    private void validaStringNula(String parametro, String mensagem) {
-        if (parametro == null) {
-            throw new NullPointerException(mensagem);
-        }
+    public void validaData(String data, String msg){
+        String erroString = "data nao pode ser vazio ou nulo";
+        validaString(data, msg + erroString);
+        validaDataInvalida(data, msg);
+        validaDataFutura(data, msg);
     }
-
     /**
-     * Método que verifica se uma String é vazia e lança uma exceção caso seja.
+     * Método responsável por validar um ano de criação
+     * de um projeto de lei.
      *
-     * @param parametro parametro a ser checado se é vazia.
-     * @param mensagem mensagem de erro que será lançada.
+     * @param ano ano a ser analisado.
+     * @param msg mensagem de erro que será lançada.
      */
-    private  void validaStringVazia(String parametro, String mensagem) {
-        if ("".equals(parametro.trim())) {
-            throw new IllegalArgumentException(mensagem);
+    public void validaAnoLei(int ano, String msg){
+        int anoAtual = Year.now().getValue();
+        String msgAnoPosteriorAnoAtual = "ano posterior ao ano atual";
+        String msgAnoAnterior1988 = "ano anterior a 1988";
+        if (ano > anoAtual ){
+            throw new IllegalArgumentException(msg + msgAnoPosteriorAnoAtual);
+        }
+        else if (ano < 1988){
+            throw new IllegalArgumentException(msg + msgAnoAnterior1988);
+
         }
     }
 
@@ -109,16 +118,28 @@ public class Validador {
     }
 
     /**
-     * Método responsável por fazer todas as validações de data de uma só vez.
+     * Método que verifica se uma String é nula e lança uma exceção caso seja.
      *
-     * @param data data a ser analisada.
-     * @param msg mensagem de erro que será lançada.
+     * @param parametro parametro a ser checado se é nulo.
+     * @param mensagem mensagem de erro que será lançada.
      */
-    public void validaData(String data, String msg){
-        String erroString = "data nao pode ser vazio ou nulo";
-        validaString(data, msg + erroString);
-        validaDataInvalida(data, msg);
-        validaDataFutura(data, msg);
+    private void validaStringNula(String parametro, String mensagem) {
+        if (parametro == null) {
+            throw new NullPointerException(mensagem);
+        }
     }
+
+    /**
+     * Método que verifica se uma String é vazia e lança uma exceção caso seja.
+     *
+     * @param parametro parametro a ser checado se é vazia.
+     * @param mensagem mensagem de erro que será lançada.
+     */
+    private  void validaStringVazia(String parametro, String mensagem) {
+        if ("".equals(parametro.trim())) {
+            throw new IllegalArgumentException(mensagem);
+        }
+    }
+
 }
 

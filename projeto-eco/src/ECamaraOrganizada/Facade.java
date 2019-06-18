@@ -2,13 +2,13 @@ package ECamaraOrganizada;
 
 import easyaccept.EasyAccept;
 
-import java.util.List;
-
 public class Facade {
     public static void main(String[] args) {
         args = new String[]{"ECamaraOrganizada.Facade", "easyaccept_tests/use_case_1.txt",
                             "easyaccept_tests/use_case_2.txt", "easyaccept_tests/use_case_3.txt",
-                            "easyaccept_tests/use_case_4.txt", "easyaccept_tests/use_case_5.txt"};
+                            "easyaccept_tests/use_case_4.txt", "easyaccept_tests/use_case_5.txt",
+                            "easyaccept_tests/use_case_6.txt", "easyaccept_tests/use_case_7.txt"};
+
         EasyAccept.main(args);
     }
 
@@ -43,8 +43,36 @@ public class Facade {
         return this.camaraController.exibirBase();
     }
 
+    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo){
+        return this.camaraController.cadastrarPL(dni, ano, ementa, interesses, url, conclusivo);
+    }
+
+    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos){
+        return this.camaraController.cadastrarPLP(dni, ano, ementa, interesses, url, artigos);
+    }
+
+    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos){
+        return this.camaraController.cadastrarPEC(dni, ano, ementa, interesses, url, artigos);
+    }
+
+    public String exibirProjeto(String codigo){
+        return this.camaraController.exibirProjeto(codigo);
+    }
+
     public void cadastrarComissao(String tema, String politicos){
         this.camaraController.cadastrarComissao(tema, politicos);
+    }
+
+    public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
+        return this.camaraController.votarComissao(codigo, statusGovernista, proximoLocal);
+    }
+
+    public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
+        return this.camaraController.votarPlenario(codigo, statusGovernista, presentes);
+    }
+
+    public String exibirTramitacao(String codigo) {
+        return "";
     }
 
     public void limparSistema(){

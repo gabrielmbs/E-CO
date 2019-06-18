@@ -49,4 +49,12 @@ public class Deputado implements Funcao{
         String ano = this.dataInicio.substring(4);
         return "POL: " + representacao + " - " + dia + "/" + mes + "/" + ano + " - " + this.numeroDeLeis + " Leis";
     }
+
+    /**
+     * Incrementa em um o atributo numeroDeLeis sempre que é chamado.
+     *
+     */
+    public void incrementaNumeroDeLeis() {
+        this.numeroDeLeis++;
+    }
 }

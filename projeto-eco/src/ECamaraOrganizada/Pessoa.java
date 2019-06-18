@@ -38,7 +38,6 @@ public class Pessoa {
      * Partido (caso possua) ao qual a pessoa é filiada.
      */
     private String partido;
-
     /**
      * Atributo que sinaliza para o sistema
      * que a pessoa é "pessoa normal" ou deputado,
@@ -199,12 +198,17 @@ public class Pessoa {
         return partido;
     }
 
+
     /**
-     * Pega a funcao da pessao, ou seja, se ela ou nao deputado.
+     * Pega a funcao da pessoa, ou seja, se ela eh ou nao deputado.
      *
      * @return retorna a funcao da pessoa.
      */
     public Funcao getFuncao() {
         return funcao;
+    }
+
+    public String getInteresses() {
+        return interesses;
     }
 }
