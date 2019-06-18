@@ -547,7 +547,6 @@ public class CamaraController {
         }
         boolean retorno = false;
         if(votosFavoraveis >= chao){
-            this.proposicoesDeLeis.get(codigo).setLocalDeVotacao(proximoLocal);
             retorno = true;
         }
         this.proposicoesDeLeis.get(codigo).setLocalDeVotacao(proximoLocal);
