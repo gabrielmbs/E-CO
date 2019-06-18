@@ -67,9 +67,17 @@ class CamaraControllerTest {
         this.camaraController3.cadastrarPL("071222222-0", 2016, "Ementa PL conc","saude,educacao basica", "http://example.com/semana_saude",true);
         this.camaraController3.cadastrarPL("071222222-0", 2016, "Ementa PL conc","saude", "http://example.com/semana_saude",true);
         this.camaraController3.cadastrarPL("071222222-0", 2016, "Ementa PL conc","nutricao", "http://example.com/semana_saude",true);
+        this.camaraController3.cadastrarPL("071333333-0", 2016, "Ementa PLnconc","cidadania,educacao basica", "http://example.com/semana_cidadania",false);
+        this.camaraController3.cadastrarPL("071333333-0", 2016, "Ementa PLnconc","cidadania,educacao basica", "http://example.com/semana_cidadania",false);
+
 
         this.camaraController3.cadastrarPLP("071222222-0", 2016, "Ementa PLP","fiscal,jogos", "https://example.net/jogos%40aposta", "153");
-        this.camaraController3.cadastrarPEC("071222222-0", 2016, "Ementa PLP","saude", "https://example.com/sindicato/algo.html", "7,8");
+        this.camaraController3.cadastrarPLP("071222222-0", 2013, "Ementa PLP", "saude", "https://example.net/jogos%40aposta", "153");
+
+
+        this.camaraController3.cadastrarPEC("071222222-0", 2016, "Ementa PEC","saude", "https://example.com/sindicato/algo.html", "7,8");
+        this.camaraController3.cadastrarPEC("071222222-0", 2016, "Ementa PEC", "saude","https://example.com/sindicato/algo.html", "7,8" );
+
 
         this.camaraController3.cadastrarPartido("PartidoGov");
 
@@ -1097,4 +1105,75 @@ class CamaraControllerTest {
         assertTrue(this.camaraController3.votarComissao("PL 1/2017", "GOVERNISTA", "plenario"));
     }
 
+    void testExceptionVotarPlenarioPL(){
+        assertThrows(IllegalArgumentException.class, () -> this.camaraController3.votarPlenario("PL 1/2016", "GOVERNISTA","071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0,071000000-0"));
+        assertThrows(IllegalArgumentException.class, () -> this.camaraController3.votarPlenario("PL 1/2016", "GOVERNISTA","071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0,071000000-0"));
+        assertThrows(IllegalArgumentException.class, () -> this.camaraController3.votarPlenario("PL 4/2016", "GOVERNISTA","071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0,071000000-0"));
+        assertThrows(IllegalArgumentException.class, () -> this.camaraController3.votarPlenario("PL 6/2016", "GOVERNISTA","071111111-0"));
+
+    }
+
+    @Test
+    void testExceptionVotarPlenarioPL2(){
+        this.camaraController3.votarComissao("PL 7/2016", "GOVERNISTA", "CGOV");
+        this.camaraController3.votarComissao("PL 7/2016", "GOVERNISTA", "plenario");
+        assertThrows(IllegalArgumentException.class, () -> this.camaraController3.votarPlenario("PL 7/2016", "GOVERNISTA","071111111-0"));
+        this.camaraController3.votarPlenario("PL 7/2016", "OPOSICAO", "071111111-0,071222222-0,071333333-0,071777777-0,071888888-0,071999999-0");
+        assertThrows(IllegalArgumentException.class, () -> this.camaraController3.votarPlenario("PL 7/2016", "GOVERNISTA","071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0,071000000-0"));
+
+    }
+
+
+   @Test
+    void testBooleanVotarPlenarioPL(){
+        this.camaraController3.votarComissao("PL 6/2016", "GOVERNISTA", "CGOV");
+        this.camaraController3.votarComissao("PL 7/2016", "GOVERNISTA", "CGOV");
+        assertTrue(this.camaraController3.votarPlenario("PL 6/2016", "GOVERNISTA","071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0"));
+        assertTrue(this.camaraController3.votarComissao("PL 7/2016", "GOVERNISTA", "plenario"));
+        assertFalse(this.camaraController3.votarPlenario("PL 7/2016", "OPOSICAO", "071111111-0,071222222-0,071333333-0,071777777-0,071888888-0,071999999-0"));
+
+   }
+
+   @Test
+    void testBooleanPlenarioPLP(){
+       this.camaraController3.votarComissao("PLP 1/2016", "GOVERNISTA", "CGOV");
+       this.camaraController3.votarComissao("PLP 1/2016", "GOVERNISTA", "plenario");
+       assertFalse(this.camaraController3.votarPlenario("PLP 1/2016", "OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0"));
+
+   }
+
+   @Test
+    void testExceptionPlenarioPLP(){
+       this.camaraController3.votarComissao("PLP 1/2016", "GOVERNISTA", "CGOV");
+       this.camaraController3.votarComissao("PLP 1/2016", "GOVERNISTA", "plenario");
+       this.camaraController3.votarPlenario("PLP 1/2016", "OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0");
+       assertThrows(IllegalArgumentException.class, () ->  this.camaraController3.votarPlenario("PLP 1/2016", "OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0"));
+
+   }
+
+   @Test
+    void testExceptionPlenarioPEC(){
+       this.camaraController3.votarComissao("PEC 1/2016", "GOVERNISTA", "CGOV");
+       this.camaraController3.votarComissao("PEC 1/2016", "GOVERNISTA", "plenario");
+       this.camaraController3.votarPlenario("PEC 1/2016","OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0,071000000-0");
+
+       assertThrows(IllegalArgumentException.class, () -> this.camaraController3.votarComissao("PEC 1/2016", "GOVERNISTA", "plenario"));
+       assertThrows(IllegalArgumentException.class, () ->        this.camaraController3.votarPlenario("PEC 1/2016","OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0,071000000-0"));
+
+
+
+   }
+
+    @Test
+    void testBooleanPlenarioPEC(){
+        this.camaraController3.votarComissao("PEC 1/2016", "GOVERNISTA", "CGOV");
+        this.camaraController3.votarComissao("PEC 1/2016", "GOVERNISTA", "plenario");
+        this.camaraController3.votarComissao("PEC 2/2016", "GOVERNISTA", "CGOV");
+        this.camaraController3.votarComissao("PEC 2/2016", "GOVERNISTA", "plenario");
+        assertFalse(this.camaraController3.votarPlenario("PEC 1/2016","OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0,071000000-0"));
+        assertTrue(this.camaraController3.votarPlenario("PEC 2/2016","LIVRE", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0"));
+        assertTrue(this.camaraController3.votarPlenario("PEC 2/2016","LIVRE", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0"));
+
+    }
 }
+

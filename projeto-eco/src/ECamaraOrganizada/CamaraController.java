@@ -14,7 +14,18 @@ public class CamaraController {
      * Representa mapa de pessoa, com a chave representando o dni e valor a pessoa.
      */
     private Map<String, Pessoa> pessoas;
+    /**
+     * Representa mapa onde se armazena as proposições de lei armazenadas no sistema,
+     * com a chave no formato: "tipoDeLei ordemContagem/AnoDeCadastro".
+     */
     private Map<String, ProposicaoAbstract> proposicoesDeLeis;
+    /**
+     * Representa mapa onde se armazena as contagens específicas de cada tipo de lei em consonância
+     * com seu ano de cadastro, com a chave no formato: "tipoDeLei AnoCadastro".
+     *
+     * Permite o acompanhamento mais preciso da quantidade de um tipo específico de leis
+     * cadastradas em um ano.
+     */
     private Map<String, Contador> contadores;
 
     /**
