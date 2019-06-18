@@ -1,4 +1,4 @@
-package ECamaraOrganizada;
+package entidades;
 
 public interface Funcao {
     public String exibir(String representacao);
