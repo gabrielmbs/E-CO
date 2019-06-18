@@ -1,5 +1,7 @@
-package ECamaraOrganizada;
+package controllers;
 
+import entidades.Funcao;
+import entidades.Pessoa;
 import util.Validador;
 
 import java.util.HashMap;

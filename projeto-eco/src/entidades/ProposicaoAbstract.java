@@ -1,4 +1,4 @@
-package ECamaraOrganizada;
+package entidades;
 
 import java.util.Objects;
 

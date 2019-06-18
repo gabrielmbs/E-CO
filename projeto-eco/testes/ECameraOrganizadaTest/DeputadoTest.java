@@ -1,6 +1,6 @@
 package ECameraOrganizadaTest;
 
-import ECamaraOrganizada.Deputado;
+import entidades.Deputado;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
