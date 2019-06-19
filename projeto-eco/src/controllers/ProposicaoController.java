@@ -234,14 +234,20 @@ public class ProposicaoController {
         if (votosFavoraveis < chao && !proposicao.getPassouNaCCJC()) {
             proposicao.setProposicaoAtiva(false);
             proposicao.setPassouNaCCJC(true);
+            proposicao.atualizaTramitacaoLei("REPROVADO (" + proposicao.getLocalDeVotacao() +")");
         }else if(votosFavoraveis >= chao && !proposicao.getPassouNaCCJC()){
             proposicao.setPassouNaCCJC(true);
             proposicao.setSituacao("EM VOTACAO (" + proximoLocal + ")");
+            if (proposicao.getLocalDeVotacao().equals("CCJC")) {
+                proposicao.atualizaTramitacaoLei("APROVADO (" + proposicao.getLocalDeVotacao() + ")");
+            }
             proposicao.setLocalDeVotacao(proximoLocal);
+            proposicao.atualizaTramitacaoLei("EM VOTACAO (" + proposicao.getLocalDeVotacao() + ")");
             retorno = true;
         }else if(votosFavoraveis >= chao){
             if(proximoLocal.equals("-")){
                 proposicao.setSituacao("APROVADO");
+                proposicao.atualizaTramitacaoLei("APROVADO (" + proposicao.getLocalDeVotacao() +")");
                 autor.getFuncao().incrementaNumeroDeLeis();
                 proposicao.setProposicaoAtiva(false);
             }
@@ -250,6 +256,7 @@ public class ProposicaoController {
             proposicao.setProposicaoAtiva(false);
             if(proximoLocal.equals("-")){
                 proposicao.setSituacao("ARQUIVADO");
+                proposicao.atualizaTramitacaoLei("REPROVADO (" + proposicao.getLocalDeVotacao()+")");
 
             }
         }

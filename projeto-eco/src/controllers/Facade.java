@@ -72,6 +72,7 @@ public class Facade {
 
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
         return this.controllerGeral.votarPlenario(codigo, statusGovernista, presentes);
+
     }
 
     public String exibirTramitacao(String codigo) {

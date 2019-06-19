@@ -106,6 +106,7 @@ public abstract class ProposicaoAbstract {
         this.passouNoPlenario = false;
         this.passouNaCCJC = false;
         this.tramitacao = new ArrayList<>();
+        this.tramitacao.add("EM VOTACAO (CCJC)");
     }
 
     /**
@@ -155,9 +156,7 @@ public abstract class ProposicaoAbstract {
      *
      * @param situacao nova situação.
      */
-    public void setSituacao(String situacao) {
-        this.situacao = situacao;
-    }
+
 
     /**
      * Retorna o dni do autor da proposta.
@@ -271,7 +270,21 @@ public abstract class ProposicaoAbstract {
     }
 
     public void atualizaTramitacaoLei(String situacao){
-        this.tramitacao.add(situacao);
+        if(situacao.contains("REPROVADO") || situacao.contains("APROVADO")){
+            List<String> novaTramitacao = new ArrayList<String>();
+            for(String statusLei : this.tramitacao){
+                if(!statusLei.contains("EM VOTACAO")){
+                    novaTramitacao.add(statusLei);
+                }
+            }
+            novaTramitacao.add(situacao);
+            this.tramitacao = novaTramitacao;
+        }
+        else this.tramitacao.add(situacao);
+
+    }
+    public void setSituacao(String situacao) {
+            this.situacao = situacao;
     }
 
     public List<String> getTramitacao() {
