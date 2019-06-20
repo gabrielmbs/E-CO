@@ -245,13 +245,13 @@ public class ControllerGeral {
 
         String localDeVotacao = this.proposicaoController.buscaProposicao(codigo).getLocalDeVotacao();
         int votosFavoraveis = calculaVotosComissao(codigo, localDeVotacao, statusGovernista);
-        int chao = (this.comissoes.get(localDeVotacao).getDNIs().length / 2) + 1;
+        int participantes = this.comissoes.get(localDeVotacao).getDNIs().length;
+        int chao = this.proposicaoController.buscaProposicao(codigo).caulculaChao(participantes);
 
         ProposicaoAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
         Pessoa deputado = this.deputadoController.buscaPessoa(proposicao.getDniAutor());
 
-        return this.proposicaoController.votarComissao(codigo, statusGovernista, proximoLocal, chao, votosFavoraveis,
-                                                        deputado);
+        return this.proposicaoController.votarComissao(codigo, proximoLocal, chao, votosFavoraveis, deputado);
     }
 
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
@@ -286,31 +286,6 @@ public class ControllerGeral {
     }
 
     /**
-     * Esse método auxiliar retorna um inteiro que informa se foi aprovado ou não o voto.
-     * 1 para aprovado - 1 para reprovado.
-     *
-     * @param codigo código da proposição.
-     * @param statusGovernista status.
-     * @return int.
-     */
-    private int votoPolitico(String codigo, String statusGovernista, String dni){
-        Pessoa deputado = this.deputadoController.buscaPessoa(dni);
-        boolean ehDaBase = this.base.contains(deputado.getPartido());
-        boolean temInteressesEmComum = intEmComum(deputado, codigo);
-        int saida = 0;
-        if("GOVERNISTA".equals(statusGovernista) && ehDaBase) {
-            saida = 1;
-        }else if("OPOSICAO".equals(statusGovernista) && ehDaBase){
-            saida = -1;
-        }else if("LIVRE".equals(statusGovernista) && temInteressesEmComum){
-            saida = 1;
-        }else if("LIVRE".equals(statusGovernista) && !temInteressesEmComum){
-            saida = -1;
-        }
-        return saida;
-    }
-
-    /**
      * Método auxiliar que indica se um deputado e uma proposição têm interesses em comum.
      *
      * @param deputado deputado a ser analisado.
@@ -342,7 +317,10 @@ public class ControllerGeral {
     private int calculaVotosComissao(String codigo, String comissao, String statusGovernista) {
         int votosFavoraveis = 0;
         for (String dni : this.comissoes.get(comissao).getDNIs()) {
-            if (votoPolitico(codigo, statusGovernista, dni) == 1) {
+            Pessoa deputado = this.deputadoController.buscaPessoa(dni);
+            boolean ehDaBase = this.base.contains(deputado.getPartido());
+            boolean temInteressesEmComum = intEmComum(deputado, codigo);
+            if (deputado.getFuncao().votoPolitico(statusGovernista, ehDaBase, temInteressesEmComum) == 1) {
                 votosFavoraveis++;
             }
         }
@@ -361,7 +339,10 @@ public class ControllerGeral {
     private int calculaVotosPlenario(String codigo, String statusGovernista, String[] presentes) {
         int votosFavoraveis = 0;
         for (String dni : presentes) {
-            if (votoPolitico(codigo, statusGovernista, dni) == 1) {
+            Pessoa deputado = this.deputadoController.buscaPessoa(dni);
+            boolean ehDaBase = this.base.contains(deputado.getPartido());
+            boolean temInteressesEmComum = intEmComum(deputado, codigo);
+            if (deputado.getFuncao().votoPolitico(statusGovernista, ehDaBase, temInteressesEmComum) == 1) {
                 votosFavoraveis++;
             }
         }

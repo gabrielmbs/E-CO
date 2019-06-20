@@ -3,7 +3,6 @@ package controllers;
 import entidades.*;
 import util.Contador;
 import util.Validador;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -127,11 +126,10 @@ public class ProposicaoController {
      * local no qual a porposta será votada.
      *
      * @param codigo código da proposta.
-     * @param statusGovernista status da proposta.
      * @param proximoLocal próximo locla no qual a proposta será votada.
      * @return um boolean que indica o resultado da votação.
      */
-    public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal, int chao,
+    public boolean votarComissao(String codigo, String proximoLocal, int chao,
                                  int votosFavoraveis, Pessoa autor) {
         if(this.proposicoesDeLeis.get(codigo).isConclusivo()){
             return votarComissaoPLConc(codigo, votosFavoraveis, chao, proximoLocal, autor);
@@ -157,23 +155,19 @@ public class ProposicaoController {
         if(!this.proposicoesDeLeis.get(codigo).getProposicaoAtiva()){
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
         }
-        int chao = 0;
+        int chao = this.proposicoesDeLeis.get(codigo).caulculaChao(deputados.length);
         boolean retorno = false;
         if ("PL".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao()) &&
                 !this.proposicoesDeLeis.get(codigo).isConclusivo()) {
-            chao = (deputados.length / 2) + 1;
             this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
             if (votosFavoraveis >= chao) {
-                retorno = true;
                 deputado.getFuncao().incrementaNumeroDeLeis();
+                return true;
             }
-        } else if ("PLP".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
-            chao = (totalDeputados / 2) + 1;
-            retorno = aprovadaOuArquivada(codigo, votosFavoraveis, chao, deputado);
-        } else if ("PEC".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
-            chao = (((3/5) * totalDeputados) / 2) + 1;
-            retorno = aprovadaOuArquivada(codigo, votosFavoraveis, chao,deputado);
+            return false;
         }
+        chao = this.proposicoesDeLeis.get(codigo).caulculaChao(totalDeputados);
+        retorno = aprovadaOuArquivada(codigo, votosFavoraveis, chao, deputado);
         return retorno;
     }
 
