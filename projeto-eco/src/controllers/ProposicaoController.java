@@ -166,6 +166,7 @@ public class ProposicaoController {
             this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
             if (votosFavoraveis >= chao) {
                 retorno = true;
+                this.proposicoesDeLeis.get(codigo).atualizaTramitacaoLei("APROVADO (Plenario)");
                 deputado.getFuncao().incrementaNumeroDeLeis();
             }
         } else if ("PLP".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
@@ -211,8 +212,13 @@ public class ProposicaoController {
         boolean retorno = false;
         if(votosFavoraveis >= chao){
             retorno = true;
+            proposicao.atualizaTramitacaoLei("APROVADO (" + proposicao.getLocalDeVotacao() + ")");
         }
         proposicao.setLocalDeVotacao(proximoLocal);
+        if(proposicao.getLocalDeVotacao().equals("plenario")){
+            proposicao.atualizaTramitacaoLei("EM VOTACAO (Plenario)");
+        }
+        else proposicao.atualizaTramitacaoLei("EM VOTACAO (" + proposicao.getLocalDeVotacao() + ")");
         proposicao.setPassouNaCCJC(true);
         return retorno;
     }
@@ -234,13 +240,11 @@ public class ProposicaoController {
         if (votosFavoraveis < chao && !proposicao.getPassouNaCCJC()) {
             proposicao.setProposicaoAtiva(false);
             proposicao.setPassouNaCCJC(true);
-            proposicao.atualizaTramitacaoLei("REPROVADO (" + proposicao.getLocalDeVotacao() +")");
+            proposicao.atualizaTramitacaoLei("REJEITADO (" + proposicao.getLocalDeVotacao() +")");
         }else if(votosFavoraveis >= chao && !proposicao.getPassouNaCCJC()){
             proposicao.setPassouNaCCJC(true);
             proposicao.setSituacao("EM VOTACAO (" + proximoLocal + ")");
-            if (proposicao.getLocalDeVotacao().equals("CCJC")) {
-                proposicao.atualizaTramitacaoLei("APROVADO (" + proposicao.getLocalDeVotacao() + ")");
-            }
+            proposicao.atualizaTramitacaoLei("APROVADO (" + proposicao.getLocalDeVotacao() + ")");
             proposicao.setLocalDeVotacao(proximoLocal);
             proposicao.atualizaTramitacaoLei("EM VOTACAO (" + proposicao.getLocalDeVotacao() + ")");
             retorno = true;
@@ -256,7 +260,7 @@ public class ProposicaoController {
             proposicao.setProposicaoAtiva(false);
             if(proximoLocal.equals("-")){
                 proposicao.setSituacao("ARQUIVADO");
-                proposicao.atualizaTramitacaoLei("REPROVADO (" + proposicao.getLocalDeVotacao()+")");
+                proposicao.atualizaTramitacaoLei("REJEITADO (" + proposicao.getLocalDeVotacao()+")");
 
             }
         }
