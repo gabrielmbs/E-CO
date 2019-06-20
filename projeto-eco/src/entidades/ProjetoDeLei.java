@@ -54,4 +54,9 @@ public class ProjetoDeLei extends ProposicaoAbstract {
         }
         else return "Projeto de Lei" + super.toString() + this.situacao;
     }
+
+    @Override
+    public int caulculaChao(int participantes) {
+        return ((participantes / 2) + 1);
+    }
 }

@@ -56,4 +56,9 @@ public class ProjetoLeiComplementar extends ProposicaoAbstract {
     public String toString(){
         return "Projeto de Lei Complementar" + super.toString() + this.artigos + " - " + this.situacao;
     }
+
+    @Override
+    public int caulculaChao(int participantes) {
+        return ((participantes/2) + 1);
+    }
 }

@@ -269,6 +269,7 @@ public abstract class ProposicaoAbstract {
         this.passouNaCCJC = passouNaCCJC;
     }
 
+
     public void atualizaTramitacaoLei(String situacao){
         if(situacao.contains("REJEITADO") || situacao.contains("APROVADO")){
             List<String> novaTramitacao = new ArrayList<String>();
@@ -290,4 +291,6 @@ public abstract class ProposicaoAbstract {
     public List<String> getTramitacao() {
         return tramitacao;
     }
+    public abstract int caulculaChao(int participantes);
+
 }
