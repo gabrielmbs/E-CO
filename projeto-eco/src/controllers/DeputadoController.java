@@ -166,4 +166,11 @@ public class DeputadoController {
         }
         this.validador.validaData(dataDeInicio, "Erro ao cadastrar deputado: ");
     }
+
+    public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {
+        if(!existePessoa(dni)){
+            throw new IllegalArgumentException("Erro: pessoa nao encontrada");
+        }
+        this.pessoas.get(dni).configurarEstrategiaPropostaRelacionada(estrategia);
+    }
 }

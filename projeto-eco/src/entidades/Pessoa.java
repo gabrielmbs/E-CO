@@ -51,6 +51,8 @@ public class Pessoa {
      */
     private Validador validador;
 
+    private EstrategiaDesempate estrategiaBuscaProposta;
+
     /**
      * Os métodos construtores a seguir são sobrecarregados de modo
      * a podermos instanciar uma pessoa que possua filiação a algum partido
@@ -85,6 +87,7 @@ public class Pessoa {
         this.dni = dni;
         this.estado = estado;
         this.interesses = interesses;
+        this.estrategiaBuscaProposta = new EstrategiaConstitucional();
     }
 
     /**
@@ -210,5 +213,17 @@ public class Pessoa {
 
     public String getInteresses() {
         return interesses;
+    }
+
+    public void configurarEstrategiaPropostaRelacionada(String estrategia) {
+        if("CONSTITUCIONAL".equals(estrategia)){
+            this.estrategiaBuscaProposta = new EstrategiaConstitucional();
+        } else if("CONCLUSAO".equals(estrategia)){
+            this.estrategiaBuscaProposta = new EstrategiaConclusao();
+        } else if("APROVACAO".equals(estrategia)){
+            this.estrategiaBuscaProposta = new EstrategiaAprovacao();
+        } else{
+            throw new IllegalArgumentException("Erro: estrategia nao existe");
+        }
     }
 }
