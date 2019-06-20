@@ -57,4 +57,25 @@ public class Deputado implements Funcao{
     public void incrementaNumeroDeLeis() {
         this.numeroDeLeis++;
     }
+
+    /**
+     * Esse método auxiliar retorna um inteiro que informa se foi aprovado ou não o voto.
+     * 1 para aprovado - 1 para reprovado.
+     *
+     * @param statusGovernista status.
+     * @return int.
+     */
+    public int votoPolitico(String statusGovernista, boolean ehDaBase, boolean temInteressesEmComum) {
+        int saida = 0;
+        if("GOVERNISTA".equals(statusGovernista) && ehDaBase) {
+            saida = 1;
+        }else if("OPOSICAO".equals(statusGovernista) && ehDaBase){
+            saida = -1;
+        }else if("LIVRE".equals(statusGovernista) && temInteressesEmComum){
+            saida = 1;
+        }else if("LIVRE".equals(statusGovernista) && !temInteressesEmComum){
+            saida = -1;
+        }
+        return saida;
+    }
 }
