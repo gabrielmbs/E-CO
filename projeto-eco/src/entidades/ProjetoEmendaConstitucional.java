@@ -58,4 +58,9 @@ public class ProjetoEmendaConstitucional extends ProposicaoAbstract {
     public String toString(){
         return "Projeto de Emenda Constitucional" + super.toString() + this.artigos + " - " + this.situacao;
     }
+
+    @Override
+    public int caulculaChao(int participantes) {
+        return (((3/5) * participantes) / 2) + 1;
+    }
 }
