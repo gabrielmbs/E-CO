@@ -169,6 +169,8 @@ public class ProposicaoController {
                 this.proposicoesDeLeis.get(codigo).atualizaTramitacaoLei("APROVADO (Plenario)");
                 deputado.getFuncao().incrementaNumeroDeLeis();
             }
+            this.proposicoesDeLeis.get(codigo).atualizaTramitacaoLei("REJEITADO (Plenario)");
+
         } else if ("PLP".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
             chao = (totalDeputados / 2) + 1;
             retorno = aprovadaOuArquivada(codigo, votosFavoraveis, chao, deputado);
