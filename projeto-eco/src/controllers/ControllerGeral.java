@@ -460,4 +460,12 @@ public class ControllerGeral {
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
         }
     }
+
+    public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {
+
+    }
+
+    public String pegarPropostaRelacionada(String dni) {
+        return null;
+    }
 }
