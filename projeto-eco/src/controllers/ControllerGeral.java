@@ -446,7 +446,8 @@ public class ControllerGeral {
     }
 
     public String pegarPropostaRelacionada(String dni) {
-        Set<String> interessesPessoa = new HashSet<>(Arrays.asList(this.deputadoController.buscaPessoa(dni).getInteresses().split(",")));
+        Pessoa pessoa = this.deputadoController.buscaPessoa(dni);
+        Set<String> interessesPessoa = new HashSet<>(Arrays.asList(pessoa.getInteresses().split(",")));
         Set<ProposicaoAbstract> interessesPropostas = new HashSet<>(this.proposicaoController.getProposicoesDeLeis().values());
         List<ProposicaoAbstract> maioresPropostas = new ArrayList<>();
         int soma = 0;
@@ -469,6 +470,8 @@ public class ControllerGeral {
         if (maioresPropostas.size() == 1) {
             result = null;
         }
+        
+        result = pessoa.getEstrategiaBuscaProposta().pegarPropostaRelacionada(maioresPropostas);
 
         return result;
     }
