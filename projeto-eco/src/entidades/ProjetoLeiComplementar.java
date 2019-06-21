@@ -30,7 +30,8 @@ public class ProjetoLeiComplementar extends ProposicaoAbstract {
      *
      *
      */
-    public ProjetoLeiComplementar(String codigoLei, String dni, int ano, String ementa, String interesses, String url, String artigos) {
+    public ProjetoLeiComplementar(String codigoLei, String dni, int ano, String ementa, String interesses, String url,
+                                  String artigos) {
         super(dni, ano, codigoLei, ementa, interesses, url);
         this.validador = new Validador();
         this.validador.validaString(codigoLei,"Erro ao cadastrar projeto: codigo de lei nao pode ser vazio ou nulo");

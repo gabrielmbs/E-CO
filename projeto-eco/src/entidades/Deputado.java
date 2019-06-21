@@ -59,23 +59,18 @@ public class Deputado implements Funcao{
     }
 
     /**
-     * Esse método auxiliar retorna um inteiro que informa se foi aprovado ou não o voto.
-     * 1 para aprovado - 1 para reprovado.
+     * Esse método retorna um boolean que informa se foi aprovado ou não o voto.
      *
      * @param statusGovernista status.
-     * @return int.
+     * @return boolean informando se o voto foi ou não aprovado.
      */
-    public int votoPolitico(String statusGovernista, boolean ehDaBase, boolean temInteressesEmComum) {
-        int saida = 0;
+    public boolean votoPolitico(String statusGovernista, boolean ehDaBase, boolean temInteressesEmComum) {
+        boolean result = false;
         if("GOVERNISTA".equals(statusGovernista) && ehDaBase) {
-            saida = 1;
-        }else if("OPOSICAO".equals(statusGovernista) && ehDaBase){
-            saida = -1;
+            result = true;
         }else if("LIVRE".equals(statusGovernista) && temInteressesEmComum){
-            saida = 1;
-        }else if("LIVRE".equals(statusGovernista) && !temInteressesEmComum){
-            saida = -1;
+            result = true;
         }
-        return saida;
+        return result;
     }
 }
