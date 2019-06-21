@@ -441,4 +441,15 @@ public class ControllerGeral {
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
         }
     }
+
+    public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {
+        this.validador.validaString(estrategia, "Erro: ");
+        this.validador.validaString(dni, "Erro: ");
+        this.validador.validaDNI(dni,"Erro: ");
+        this.deputadoController.configurarEstrategiaPropostaRelacionada(dni,estrategia);
+    }
+
+    public String pegarPropostaRelacionada(String dni) {
+        return null;
+    }
 }
