@@ -2,12 +2,8 @@ package controllers;
 
 import entidades.*;
 import util.Validador;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-import java.util.Map;
+
+import java.util.*;
 
 public class ControllerGeral {
     private DeputadoController deputadoController;
@@ -450,6 +446,30 @@ public class ControllerGeral {
     }
 
     public String pegarPropostaRelacionada(String dni) {
-        return null;
+        Set<String> interessesPessoa = new HashSet<>(Arrays.asList(this.deputadoController.buscaPessoa(dni).getInteresses().split(",")));
+        Set<ProposicaoAbstract> interessesPropostas = new HashSet<>(this.proposicaoController.getProposicoesDeLeis().values());
+        List<ProposicaoAbstract> maioresPropostas = new ArrayList<>();
+        int soma = 0;
+        for (ProposicaoAbstract proposta : interessesPropostas) {
+            int aux = 0;
+            for (String interesse : interessesPessoa) {
+                if (proposta.getInteresses().contains(interesse)) {
+                    aux++;
+                }
+            }
+            if (aux > soma) {
+                soma = aux;
+                maioresPropostas.clear();
+                maioresPropostas.add(proposta);
+            } else if (aux == soma) {
+                maioresPropostas.add(proposta);
+            }
+        }
+        String result = "";
+        if (maioresPropostas.size() == 1) {
+            result = null;
+        }
+
+        return result;
     }
 }

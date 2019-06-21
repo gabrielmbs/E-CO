@@ -3,8 +3,8 @@ package controllers;
 import entidades.*;
 import util.Contador;
 import util.Validador;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.*;
 
 public class ProposicaoController {
 
@@ -60,6 +60,10 @@ public class ProposicaoController {
                 conclusivo));
         contador.incrementaContagem();
         return codigoLei;
+    }
+
+    public Map<String, ProposicaoAbstract> getProposicoesDeLeis() {
+        return proposicoesDeLeis;
     }
 
     /**
@@ -296,5 +300,4 @@ public class ProposicaoController {
         }
         return artigos;
     }
-
 }

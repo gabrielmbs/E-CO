@@ -1,6 +1,9 @@
 package entidades;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Representação abstrata de um Projeto , caracterizado pelo seu código de lei, dni de seu autor,
