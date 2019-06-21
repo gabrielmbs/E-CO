@@ -156,7 +156,6 @@ public class ProposicaoController {
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
         }
         int chao = this.proposicoesDeLeis.get(codigo).caulculaChao(deputados.length);
-        boolean retorno = false;
         if ("PL".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao()) &&
                 !this.proposicoesDeLeis.get(codigo).isConclusivo()) {
             this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
@@ -167,8 +166,8 @@ public class ProposicaoController {
             return false;
         }
         chao = this.proposicoesDeLeis.get(codigo).caulculaChao(totalDeputados);
-        retorno = aprovadaOuArquivada(codigo, votosFavoraveis, chao, deputado);
-        return retorno;
+        boolean result = aprovadaOuArquivada(codigo, votosFavoraveis, chao, deputado);
+        return result;
     }
 
     /**
@@ -201,13 +200,13 @@ public class ProposicaoController {
         if ("plenario".equals(proximoLocal)) {
             proposicao.setSituacao("EM VOTACAO (Plenario - 1o turno)");
         }
-        boolean retorno = false;
+        boolean result = false;
         if(votosFavoraveis >= chao){
-            retorno = true;
+            result = true;
         }
         proposicao.setLocalDeVotacao(proximoLocal);
         proposicao.setPassouNaCCJC(true);
-        return retorno;
+        return result;
     }
 
     /**
@@ -222,7 +221,7 @@ public class ProposicaoController {
      * @return um boolean que indica o resultado da votação.
      */
     private boolean votarComissaoPLConc(String codigo, int votosFavoraveis, int chao, String proximoLocal, Pessoa autor) {
-        boolean retorno = false;
+        boolean result = false;
         ProposicaoAbstract proposicao = buscaProposicao(codigo);
         if (votosFavoraveis < chao && !proposicao.getPassouNaCCJC()) {
             proposicao.setProposicaoAtiva(false);
@@ -231,14 +230,14 @@ public class ProposicaoController {
             proposicao.setPassouNaCCJC(true);
             proposicao.setSituacao("EM VOTACAO (" + proximoLocal + ")");
             proposicao.setLocalDeVotacao(proximoLocal);
-            retorno = true;
+            result = true;
         }else if(votosFavoraveis >= chao){
             if(proximoLocal.equals("-")){
                 proposicao.setSituacao("APROVADO");
                 autor.getFuncao().incrementaNumeroDeLeis();
                 proposicao.setProposicaoAtiva(false);
             }
-            retorno = true;
+            result = true;
         }else if(votosFavoraveis < chao){
             proposicao.setProposicaoAtiva(false);
             if(proximoLocal.equals("-")){
@@ -246,7 +245,7 @@ public class ProposicaoController {
 
             }
         }
-        return retorno;
+        return result;
     }
 
     /**
@@ -260,10 +259,10 @@ public class ProposicaoController {
      * @return um boolean que indica o resultado da votação.
      */
     private boolean aprovadaOuArquivada(String codigo, int votosFavoraveis, int chao, Pessoa deputado) {
-        boolean retorno = false;
+        boolean result = false;
         ProposicaoAbstract proposicao = buscaProposicao(codigo);
         if (votosFavoraveis >= chao) {
-            retorno = true;
+            result = true;
             if (proposicao.getPassouNoPlenario()) {
                 buscaProposicao(codigo).setSituacao("APROVADO");
                 deputado.getFuncao().incrementaNumeroDeLeis();
@@ -277,7 +276,7 @@ public class ProposicaoController {
             proposicao.setProposicaoAtiva(false);
 
         }
-        return retorno;
+        return result;
     }
 
     /**
