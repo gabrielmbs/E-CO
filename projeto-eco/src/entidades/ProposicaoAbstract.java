@@ -8,7 +8,6 @@ import java.util.Set;
 /**
  * Representação abstrata de um Projeto , caracterizado pelo seu código de lei, dni de seu autor,
  * ementa, interesses e url, todos do tipo String e ano do tipo int.
- *
  */
 public abstract class ProposicaoAbstract {
 
@@ -66,7 +65,7 @@ public abstract class ProposicaoAbstract {
      * Situação em que se encontra o projeto.
      */
     protected String situacao;
-    
+
     /**
      * Local onde o projeto se encontra para votação.
      */
@@ -82,17 +81,15 @@ public abstract class ProposicaoAbstract {
      * Método responsável por criar um Projeto de Emenda Constitucional no sistema, cujos dados: dni,
      * ementa, interesses, url e artigos, todos do tipo String, ano do tipo int
      * são passados como parâmetro.
-     *
+     * <p>
      * Inicializa o atributo situação como "EM VOTACAO (CCJC)".
      *
-     * @param codigoLei código da lei.
-     * @param dniAutor dni do autor do projeto.
-     * @param ementa ementa do projeto.
-     * @param interesses interesses do projeto.
+     * @param codigoLei    código da lei.
+     * @param dniAutor     dni do autor do projeto.
+     * @param ementa       ementa do projeto.
+     * @param interesses   interesses do projeto.
      * @param urlDocumento endereço url do projeto.
-     * @param ano ano de criacção do projeto
-     *
-     *
+     * @param ano          ano de criacção do projeto
      */
     public ProposicaoAbstract(String dniAutor, Integer ano, String codigoLei, String ementa, String interesses, String urlDocumento) {
         this.dniAutor = dniAutor;
@@ -113,9 +110,8 @@ public abstract class ProposicaoAbstract {
      * da classe ProposicaoAbstract. Um projeto é igual a outro projeto se ambos possuírem código de lei iguais.
      *
      * @param o parâmetro a ser comparado.
-     *
      * @return true, se os objetos forem iguais, false, se os objetos forem diferentes
-     *                                                    ou se o objeto passado como parâmetro for null.
+     * ou se o objeto passado como parâmetro for null.
      */
     @Override
     public boolean equals(Object o) {
@@ -138,14 +134,14 @@ public abstract class ProposicaoAbstract {
     /**
      * Retorna a representação em String do projeto. A representação
      * segue o formato: - this.código da lei - dni do autor - ementa -
-     *
+     * <p>
      * É usado para compor o toString individual de cada tipo específico
      * de projeto de lei.
      *
      * @return retorna a representação em String do projeto
      */
     @Override
-    public String toString(){
+    public String toString() {
         return " - " + this.codigoLei + " - " + this.dniAutor +
                 " - " + this.ementa + " - ";
     }
@@ -271,4 +267,8 @@ public abstract class ProposicaoAbstract {
     }
 
     public abstract int caulculaChao(int participantes);
+
+    public String getCodigoLei() {
+        return codigoLei;
+    }
 }
