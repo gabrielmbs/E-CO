@@ -76,6 +76,8 @@ public abstract class ProposicaoAbstract {
      */
     protected String tipoDeProposicao;
 
+    protected int quantidadeDeComissoes;
+
 
     /**
      * Método responsável por criar um Projeto de Emenda Constitucional no sistema, cujos dados: dni,
@@ -103,6 +105,7 @@ public abstract class ProposicaoAbstract {
         this.proposicaoAtiva = true;
         this.passouNoPlenario = false;
         this.passouNaCCJC = false;
+        this.quantidadeDeComissoes = 0;
     }
 
     /**
@@ -270,5 +273,17 @@ public abstract class ProposicaoAbstract {
 
     public String getCodigoLei() {
         return codigoLei;
+    }
+
+    public void setQuantidadeDeComissoes() {
+        this.quantidadeDeComissoes++;
+    }
+
+    public String getSituacao() {
+        return situacao;
+    }
+
+    public Integer getQuantidadeDeComissoes() {
+        return quantidadeDeComissoes;
     }
 }

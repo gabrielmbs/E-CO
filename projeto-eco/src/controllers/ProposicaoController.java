@@ -3,7 +3,6 @@ package controllers;
 import entidades.*;
 import util.Contador;
 import util.Validador;
-
 import java.util.*;
 
 public class ProposicaoController {
@@ -210,6 +209,7 @@ public class ProposicaoController {
         }
         proposicao.setLocalDeVotacao(proximoLocal);
         proposicao.setPassouNaCCJC(true);
+        proposicao.setQuantidadeDeComissoes();
         return result;
     }
 
@@ -230,6 +230,7 @@ public class ProposicaoController {
         if (votosFavoraveis < chao && !proposicao.getPassouNaCCJC()) {
             proposicao.setProposicaoAtiva(false);
             proposicao.setPassouNaCCJC(true);
+            proposicao.setQuantidadeDeComissoes();
         }else if(votosFavoraveis >= chao && !proposicao.getPassouNaCCJC()){
             proposicao.setPassouNaCCJC(true);
             proposicao.setSituacao("EM VOTACAO (" + proximoLocal + ")");
@@ -240,13 +241,14 @@ public class ProposicaoController {
                 proposicao.setSituacao("APROVADO");
                 autor.getFuncao().incrementaNumeroDeLeis();
                 proposicao.setProposicaoAtiva(false);
+                proposicao.setQuantidadeDeComissoes();
             }
             result = true;
         }else if(votosFavoraveis < chao){
             proposicao.setProposicaoAtiva(false);
+            proposicao.setQuantidadeDeComissoes();
             if(proximoLocal.equals("-")){
                 proposicao.setSituacao("ARQUIVADO");
-
             }
         }
         return result;
