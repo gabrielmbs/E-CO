@@ -226,4 +226,8 @@ public class Pessoa {
             throw new IllegalArgumentException("Erro: estrategia nao existe");
         }
     }
+
+    public EstrategiaDesempate getEstrategiaBuscaProposta() {
+        return estrategiaBuscaProposta;
+    }
 }

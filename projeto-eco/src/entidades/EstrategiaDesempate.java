@@ -1,5 +1,7 @@
 package entidades;
 
+import java.util.List;
+
 public interface EstrategiaDesempate {
-    public String pegarPropostaRelacionada(String dni);
+    public String pegarPropostaRelacionada(List maioresPropostas);
 }
