@@ -1,77 +1,81 @@
-package ECamaraOrganizada;
+package controllers;
 
 import easyaccept.EasyAccept;
 
 public class Facade {
     public static void main(String[] args) {
-        args = new String[]{"ECamaraOrganizada.Facade", "easyaccept_tests/use_case_1.txt",
-                            "easyaccept_tests/use_case_2.txt", "easyaccept_tests/use_case_3.txt",
-                            "easyaccept_tests/use_case_4.txt", "easyaccept_tests/use_case_5.txt",
-                            "easyaccept_tests/use_case_6.txt", "easyaccept_tests/use_case_7.txt"};
+        args = new String[]{"controllers.Facade",
+                "easyaccept_tests/use_case_7.txt"};
+
+//        "easyaccept_tests/use_case_1.txt",
+//                "easyaccept_tests/use_case_2.txt",
+//                "easyaccept_tests/use_case_3.txt",
+//                "easyaccept_tests/use_case_4.txt",
+//                "easyaccept_tests/use_case_5.txt",
         EasyAccept.main(args);
     }
 
-    private CamaraController camaraController;
+    private ControllerGeral controllerGeral;
 
     public Facade(){
-        this.camaraController = new CamaraController();
+        this.controllerGeral = new ControllerGeral();
     }
 
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses) {
-        return this.camaraController.cadastrarPessoa(nome, dni, estado, interesses);
+        return this.controllerGeral.cadastrarPessoa(nome, dni, estado, interesses);
     }
 
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
-        return this.camaraController.cadastrarPessoa(nome, dni, estado, interesses, partido);
+        return this.controllerGeral.cadastrarPessoa(nome, dni, estado, interesses, partido);
 
     }
 
     public void cadastrarDeputado(String DNI, String dataDeInicio){
-        this.camaraController.cadastrarDeputado(DNI, dataDeInicio);
+        this.controllerGeral.cadastrarDeputado(DNI, dataDeInicio);
     }
 
     public String exibirPessoa(String DNI){
-        return this.camaraController.exibirPessoa(DNI);
+        return this.controllerGeral.exibirPessoa(DNI);
     }
 
     public void cadastrarPartido(String partido){
-        this.camaraController.cadastrarPartido(partido);
+        this.controllerGeral.cadastrarPartido(partido);
     }
 
     public String exibirBase(){
-        return this.camaraController.exibirBase();
+        return this.controllerGeral.exibirBase();
     }
 
     public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo){
-        return this.camaraController.cadastrarPL(dni, ano, ementa, interesses, url, conclusivo);
+        return this.controllerGeral.cadastrarPL(dni, ano, ementa, interesses, url, conclusivo);
     }
 
     public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos){
-        return this.camaraController.cadastrarPLP(dni, ano, ementa, interesses, url, artigos);
+        return this.controllerGeral.cadastrarPLP(dni, ano, ementa, interesses, url, artigos);
     }
 
     public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos){
-        return this.camaraController.cadastrarPEC(dni, ano, ementa, interesses, url, artigos);
+        return this.controllerGeral.cadastrarPEC(dni, ano, ementa, interesses, url, artigos);
     }
 
     public String exibirProjeto(String codigo){
-        return this.camaraController.exibirProjeto(codigo);
+        return this.controllerGeral.exibirProjeto(codigo);
     }
 
     public void cadastrarComissao(String tema, String politicos){
-        this.camaraController.cadastrarComissao(tema, politicos);
+        this.controllerGeral.cadastrarComissao(tema, politicos);
     }
 
     public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
-        return true;
+        return this.controllerGeral.votarComissao(codigo, statusGovernista, proximoLocal);
     }
 
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
-        return true;
+        return this.controllerGeral.votarPlenario(codigo, statusGovernista, presentes);
     }
 
     public String exibirTramitacao(String codigo) {
-    return "";
+        return "";
     }
 
     public void limparSistema(){

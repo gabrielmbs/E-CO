@@ -1,13 +1,12 @@
-package ECamaraOrganizada;
+package entidades;
 
 import util.Validador;
 
 /**
- * Representação de um Projeto de Emenda Constitucional, caracterizado pelo seu código de lei, dni de seu autor,
- * ementa, interesses, url e artigos, todos do tipo String,  ano do tipo int.
- *
+ * Representação de um Projeto de Lei Complementar, caracterizado pelo seu código de lei, dni de seu autor,
+ * ementa, interesses, url e artigos, todos do tipo String e  ano do tipo int.
  */
-public class ProjetoEmendaConstitucional extends ProposicaoAbstract {
+public class ProjetoLeiComplementar extends ProposicaoAbstract {
     /**
      * Atributo que denota sobre quais artigos da Constituição o projeto vai atuar.
      */
@@ -16,24 +15,10 @@ public class ProjetoEmendaConstitucional extends ProposicaoAbstract {
      * Atributo que será utilizado para validacoes.
      */
     private Validador validador;
-
     /**
      * Método responsável por criar um Projeto de Emenda Constitucional no sistema, cujos dados: dni,
      * ementa, interesses, url e artigos, todos do tipo String, ano do tipo int
      * são passados como parâmetro.
-     *
-     * Ademais, checa-se se o dni passado é válido (composto apenas de números
-     * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
-     * uma exceção com uma mensagem indicando que o dni é inválido.
-     *
-     * Verifica-se ainda, se o ano passado é anterior à 1988 ou posterior a 2019. Se for,
-     * IllegalArgumentException será lançado.
-     *
-     * Checa-se se cada um desses parâmetros são nulos ou vazios, e se forem, exceções do tipo NullPointerException
-     * e IllegalArgumentExeception serão lançadas, respectivamente.
-     *
-     * Usa-se o construtor da classe ProposicaoAbstract para inicializar os atributos dni, ano, codigoLei, ementa,
-     * interesses e url.
      *
      * @param codigoLei código da lei.
      * @param dni dni do autor do projeto.
@@ -45,7 +30,8 @@ public class ProjetoEmendaConstitucional extends ProposicaoAbstract {
      *
      *
      */
-    public ProjetoEmendaConstitucional(String codigoLei, String dni, int ano, String ementa, String interesses, String url, String artigos) {
+    public ProjetoLeiComplementar(String codigoLei, String dni, int ano, String ementa, String interesses, String url,
+                                  String artigos) {
         super(dni, ano, codigoLei, ementa, interesses, url);
         this.validador = new Validador();
         this.validador.validaString(codigoLei,"Erro ao cadastrar projeto: codigo de lei nao pode ser vazio ou nulo");
@@ -57,17 +43,23 @@ public class ProjetoEmendaConstitucional extends ProposicaoAbstract {
         this.validador.validaAnoLei(ano, "Erro ao cadastrar projeto: ");
         this.validador.validaString(artigos, "Erro ao cadastrar projeto: artigo nao pode ser vazio ou nulo");
         this.artigos = artigos;
-
+        this.tipoDeProposicao = "PLP";
+        this.conclusivo = false;
     }
 
     /**
      * Retorna a representação em String do projeto. A representação
-     * segue o formato "Projeto de Emenda Constitucional - Código - DNI - Ementa - Artigos - Situação".
+     * segue o formato "Projeto de Lei Complementar - Código - DNI - Ementa - Artigos - Situação".
      *
      * @return retorna a representação em String do projeto
      */
     @Override
     public String toString(){
-        return "Projeto de Emenda Constitucional" + super.toString() + this.artigos + " - " + this.situacao;
+        return "Projeto de Lei Complementar" + super.toString() + this.artigos + " - " + this.situacao;
+    }
+
+    @Override
+    public int caulculaChao(int participantes) {
+        return ((participantes/2) + 1);
     }
 }

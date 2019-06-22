@@ -1,4 +1,4 @@
-package ECamaraOrganizada;
+package entidades;
 
 import util.Validador;
 
@@ -50,7 +50,27 @@ public class Deputado implements Funcao{
         return "POL: " + representacao + " - " + dia + "/" + mes + "/" + ano + " - " + this.numeroDeLeis + " Leis";
     }
 
-    public void setNumeroDeLeis() {
+    /**
+     * Incrementa em um o atributo numeroDeLeis sempre que é chamado.
+     *
+     */
+    public void incrementaNumeroDeLeis() {
         this.numeroDeLeis++;
+    }
+
+    /**
+     * Esse método retorna um boolean que informa se foi aprovado ou não o voto.
+     *
+     * @param statusGovernista status.
+     * @return boolean informando se o voto foi ou não aprovado.
+     */
+    public boolean votoPolitico(String statusGovernista, boolean ehDaBase, boolean temInteressesEmComum) {
+        boolean result = false;
+        if("GOVERNISTA".equals(statusGovernista) && ehDaBase) {
+            result = true;
+        }else if("LIVRE".equals(statusGovernista) && temInteressesEmComum){
+            result = true;
+        }
+        return result;
     }
 }

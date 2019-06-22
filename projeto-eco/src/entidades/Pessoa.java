@@ -1,4 +1,4 @@
-package ECamaraOrganizada;
+package entidades;
 
 import util.Validador;
 
@@ -207,5 +207,9 @@ public class Pessoa implements Serializable {
      */
     public Funcao getFuncao() {
         return funcao;
+    }
+
+    public String getInteresses() {
+        return interesses;
     }
 }
