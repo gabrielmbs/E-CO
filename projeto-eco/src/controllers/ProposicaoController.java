@@ -163,6 +163,7 @@ public class ProposicaoController {
                 !this.proposicoesDeLeis.get(codigo).isConclusivo()) {
             this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
             if (votosFavoraveis >= chao) {
+                this.proposicoesDeLeis.get(codigo).setQuantiadeDeAprovacoes();
                 deputado.getFuncao().incrementaNumeroDeLeis();
                 return true;
             }
@@ -205,6 +206,7 @@ public class ProposicaoController {
         }
         boolean result = false;
         if(votosFavoraveis >= chao){
+            proposicao.setQuantiadeDeAprovacoes();
             result = true;
         }
         proposicao.setLocalDeVotacao(proximoLocal);
@@ -235,6 +237,8 @@ public class ProposicaoController {
             proposicao.setPassouNaCCJC(true);
             proposicao.setSituacao("EM VOTACAO (" + proximoLocal + ")");
             proposicao.setLocalDeVotacao(proximoLocal);
+            proposicao.setQuantidadeDeComissoes();
+            proposicao.setQuantiadeDeAprovacoes();
             result = true;
         }else if(votosFavoraveis >= chao){
             if(proximoLocal.equals("-")){
@@ -243,6 +247,7 @@ public class ProposicaoController {
                 proposicao.setProposicaoAtiva(false);
                 proposicao.setQuantidadeDeComissoes();
             }
+            proposicao.setQuantiadeDeAprovacoes();
             result = true;
         }else if(votosFavoraveis < chao){
             proposicao.setProposicaoAtiva(false);
@@ -268,6 +273,7 @@ public class ProposicaoController {
         boolean result = false;
         ProposicaoAbstract proposicao = buscaProposicao(codigo);
         if (votosFavoraveis >= chao) {
+            proposicao.setQuantiadeDeAprovacoes();
             result = true;
             if (proposicao.getPassouNoPlenario()) {
                 buscaProposicao(codigo).setSituacao("APROVADO");
@@ -280,7 +286,6 @@ public class ProposicaoController {
         } else {
             proposicao.setSituacao("ARQUIVADO");
             proposicao.setProposicaoAtiva(false);
-
         }
         return result;
     }

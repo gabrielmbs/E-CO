@@ -51,6 +51,6 @@ public class EstrategiaConclusao implements EstrategiaDesempate {
                 result = null;
             }
         }
-        return null;
+        return result;
     }
 }

@@ -1,10 +1,34 @@
 package entidades;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class EstrategiaAprovacao implements EstrategiaDesempate {
     @Override
     public String pegarPropostaRelacionada(List<ProposicaoAbstract> maioresPropostas) {
-        return null;
+
+        List<ProposicaoAbstract> listaMaisAprovadas = new ArrayList<>();
+        int aux = 0;
+        for (ProposicaoAbstract proposicao : maioresPropostas) {
+            if (proposicao.getQuantiadeDeAprovacoes() > aux) {
+                aux = proposicao.getQuantiadeDeAprovacoes();
+                listaMaisAprovadas.clear();
+                listaMaisAprovadas.add(proposicao);
+            } else if (proposicao.getQuantiadeDeAprovacoes() == aux) {
+                listaMaisAprovadas.add(proposicao);
+            }
+        }
+
+        String result = "";
+        if (listaMaisAprovadas.size() >= 1) {
+            if (listaMaisAprovadas.size() == 1) {
+                result = null;
+            } else {
+                Collections.sort(listaMaisAprovadas, new ComparaPropostaPorAprovacoes());
+                result = null;
+            }
+        }
+        return result;
     }
 }
