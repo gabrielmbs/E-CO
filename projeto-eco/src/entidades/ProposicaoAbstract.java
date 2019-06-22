@@ -271,7 +271,8 @@ public abstract class ProposicaoAbstract {
 
 
     public void atualizaTramitacaoLei(String situacao){
-        if(situacao.contains("REJEITADO") || situacao.contains("APROVADO")){
+
+        if((situacao.contains("REJEITADO") || situacao.contains("APROVADO"))){
             List<String> novaTramitacao = new ArrayList<String>();
             for(String statusLei : this.tramitacao){
                 if(!statusLei.contains("EM VOTACAO")){

@@ -29,10 +29,13 @@ public class ProposicaoController {
      */
     private Validador validador;
 
+    private boolean segundoTurnoPlenario;
+
     public ProposicaoController() {
         this.proposicoesDeLeis = new HashMap<>();
         this.validador = new Validador();
         this.contadores = new HashMap<>();
+        this.segundoTurnoPlenario = false;
     }
 
     /**
@@ -150,6 +153,7 @@ public class ProposicaoController {
      */
     public boolean votarPlenario(String codigo, String[] deputados, Pessoa deputado,
                                  int votosFavoraveis, int totalDeputados) {
+
         if(!this.proposicoesDeLeis.get(codigo).getPassouNaCCJC()){
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao em comissao");
         }
@@ -164,22 +168,18 @@ public class ProposicaoController {
             if (votosFavoraveis >= chao) {
 
                 retorno = true;
-                this.proposicoesDeLeis.get(codigo).atualizaTramitacaoLei("APROVADO (Plenario)");
+                if(!this.proposicoesDeLeis.get(codigo).getTipoDeProposicao().equals("PL")) {
+                    if (!this.proposicoesDeLeis.get(codigo).getPassouNoPlenario()) {
+                        this.proposicoesDeLeis.get(codigo).atualizaTramitacaoLei("APROVADO (Plenario - 1o turno)");
+                    } else this.proposicoesDeLeis.get(codigo).atualizaTramitacaoLei("APROVADO (Plenario - 2o turno)");
+                }
+                else this.proposicoesDeLeis.get(codigo).atualizaTramitacaoLei("APROVADO (Plenario)");
 
                 deputado.getFuncao().incrementaNumeroDeLeis();
                 return true;
+            } else{
+                this.proposicoesDeLeis.get(codigo).atualizaTramitacaoLei("REJEITADO (Plenario)");
             }
-
-            else this.proposicoesDeLeis.get(codigo).atualizaTramitacaoLei("REJEITADO (Plenario)");
-
-        } else if ("PLP".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
-            chao = (totalDeputados / 2) + 1;
-            retorno = aprovadaOuArquivada(codigo, votosFavoraveis, chao, deputado);
-        } else if ("PEC".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao())) {
-            chao = (((3/5) * totalDeputados) / 2) + 1;
-            retorno = aprovadaOuArquivada(codigo, votosFavoraveis, chao,deputado);
-
-            return false;
 
         }
         chao = this.proposicoesDeLeis.get(codigo).caulculaChao(totalDeputados);
@@ -216,17 +216,25 @@ public class ProposicaoController {
         ProposicaoAbstract proposicao = buscaProposicao(codigo);
         if ("plenario".equals(proximoLocal)) {
             proposicao.setSituacao("EM VOTACAO (Plenario - 1o turno)");
+            proposicao.atualizaTramitacaoLei("EM VOTACAO (Plenario - 1o turno)");
         }
         boolean retorno = false;
-        if(votosFavoraveis >= chao){
+        if(votosFavoraveis >= chao) {
             retorno = true;
             proposicao.atualizaTramitacaoLei("APROVADO (" + proposicao.getLocalDeVotacao() + ")");
+            if (proximoLocal.equals("plenario")) {
+                if (proposicao.getTipoDeProposicao().equals("PL")) {
+                    proposicao.atualizaTramitacaoLei("EM VOTACAO (Plenario)");
+                }
+                else proposicao.atualizaTramitacaoLei("EM VOTACAO (Plenario - 1o turno)");
+            }
+            else proposicao.atualizaTramitacaoLei("EM VOTACAO (" + proximoLocal + ")");
+
+        }
+        else{
+            proposicao.atualizaTramitacaoLei("REJEITADO (" + proposicao.getLocalDeVotacao() + ")");
         }
         proposicao.setLocalDeVotacao(proximoLocal);
-        if(proposicao.getLocalDeVotacao().equals("plenario")){
-            proposicao.atualizaTramitacaoLei("EM VOTACAO (Plenario)");
-        }
-        else proposicao.atualizaTramitacaoLei("EM VOTACAO (" + proposicao.getLocalDeVotacao() + ")");
         proposicao.setPassouNaCCJC(true);
         return retorno;
     }
@@ -288,17 +296,26 @@ public class ProposicaoController {
     private boolean aprovadaOuArquivada(String codigo, int votosFavoraveis, int chao, Pessoa deputado) {
         boolean retorno = false;
         ProposicaoAbstract proposicao = buscaProposicao(codigo);
+
         if (votosFavoraveis >= chao) {
             retorno = true;
             if (proposicao.getPassouNoPlenario()) {
                 buscaProposicao(codigo).setSituacao("APROVADO");
+                proposicao.atualizaTramitacaoLei("APROVADO (Plenario - 2o turno)");
                 deputado.getFuncao().incrementaNumeroDeLeis();
                 proposicao.setProposicaoAtiva(false);
             } else {
+                proposicao.atualizaTramitacaoLei("APROVADO (Plenario - 1o turno)");
                 proposicao.setSituacao("EM VOTACAO (Plenario - 2o turno)");
+                proposicao.atualizaTramitacaoLei("EM VOTACAO (Plenario - 2o turno");
                 proposicao.setPassouNoPlenario(true);
             }
         } else {
+            if(!proposicao.getPassouNoPlenario()){
+                proposicao.atualizaTramitacaoLei("REJEITADO (Plenario - 1o turno)");
+
+            }
+            else proposicao.atualizaTramitacaoLei("REJEITADO (Plenario - 2o turno");
             proposicao.setSituacao("ARQUIVADO");
             proposicao.setProposicaoAtiva(false);
 
