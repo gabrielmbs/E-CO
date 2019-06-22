@@ -307,7 +307,7 @@ public class ProposicaoController {
             } else {
                 proposicao.atualizaTramitacaoLei("APROVADO (Plenario - 1o turno)");
                 proposicao.setSituacao("EM VOTACAO (Plenario - 2o turno)");
-                proposicao.atualizaTramitacaoLei("EM VOTACAO (Plenario - 2o turno");
+                proposicao.atualizaTramitacaoLei("EM VOTACAO (Plenario - 2o turno)");
                 proposicao.setPassouNoPlenario(true);
             }
         } else {
@@ -315,7 +315,7 @@ public class ProposicaoController {
                 proposicao.atualizaTramitacaoLei("REJEITADO (Plenario - 1o turno)");
 
             }
-            else proposicao.atualizaTramitacaoLei("REJEITADO (Plenario - 2o turno");
+            else proposicao.atualizaTramitacaoLei("REJEITADO (Plenario - 2o turno)");
             proposicao.setSituacao("ARQUIVADO");
             proposicao.setProposicaoAtiva(false);
 
