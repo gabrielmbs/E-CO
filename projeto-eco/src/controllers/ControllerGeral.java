@@ -320,7 +320,7 @@ public class ControllerGeral {
             Pessoa deputado = this.deputadoController.buscaPessoa(dni);
             boolean ehDaBase = this.base.contains(deputado.getPartido());
             boolean temInteressesEmComum = intEmComum(deputado, codigo);
-            if (deputado.getFuncao().votoPolitico(statusGovernista, ehDaBase, temInteressesEmComum) == 1) {
+            if (deputado.getFuncao().votoPolitico(statusGovernista, ehDaBase, temInteressesEmComum)) {
                 votosFavoraveis++;
             }
         }
@@ -342,7 +342,7 @@ public class ControllerGeral {
             Pessoa deputado = this.deputadoController.buscaPessoa(dni);
             boolean ehDaBase = this.base.contains(deputado.getPartido());
             boolean temInteressesEmComum = intEmComum(deputado, codigo);
-            if (deputado.getFuncao().votoPolitico(statusGovernista, ehDaBase, temInteressesEmComum) == 1) {
+            if (deputado.getFuncao().votoPolitico(statusGovernista, ehDaBase, temInteressesEmComum)) {
                 votosFavoraveis++;
             }
         }
