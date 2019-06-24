@@ -1,6 +1,6 @@
 package ECameraOrganizadaTest;
 
-import ECamaraOrganizada.CamaraController;
+import controllers.ControllerGeral;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,17 +8,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CamaraControllerTest {
 
-    private CamaraController camaraController;
+    private ControllerGeral camaraController;
 
-    private CamaraController camaraController2;
+    private ControllerGeral camaraController2;
 
-    private CamaraController camaraController3;
+    private ControllerGeral camaraController3;
 
     @BeforeEach
     void criaPessoaController() {
-        this.camaraController = new CamaraController();
-        this.camaraController2 = new CamaraController();
-        this.camaraController3 = new CamaraController();
+        this.camaraController = new ControllerGeral();
+        this.camaraController2 = new ControllerGeral();
+        this.camaraController3 = new ControllerGeral();
 
         // sem interesse e sem partido
         this.camaraController.cadastrarPessoa("Jonas", "12345678-9", "PB", "");
@@ -1062,7 +1062,7 @@ class CamaraControllerTest {
 
     @Test
     void testVotarComissaoCCJCNaoCadastrada() {
-        CamaraController camaraController1 = new CamaraController();
+        ControllerGeral camaraController1 = new ControllerGeral();
         camaraController1.cadastrarPessoa("P1", "071111111-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
         camaraController1.cadastrarDeputado("071111111-0", "29022016");
         camaraController1.cadastrarPL("071111111-0", 2016, "Ementa PL conc","saude,educacao basica", "http://example.com/semana_saude",true);
@@ -1159,9 +1159,6 @@ class CamaraControllerTest {
 
        assertThrows(IllegalArgumentException.class, () -> this.camaraController3.votarComissao("PEC 1/2016", "GOVERNISTA", "plenario"));
        assertThrows(IllegalArgumentException.class, () ->        this.camaraController3.votarPlenario("PEC 1/2016","OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0,071000000-0"));
-
-
-
    }
 
     @Test
@@ -1173,7 +1170,6 @@ class CamaraControllerTest {
         assertFalse(this.camaraController3.votarPlenario("PEC 1/2016","OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0,071000000-0"));
         assertTrue(this.camaraController3.votarPlenario("PEC 2/2016","LIVRE", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0"));
         assertTrue(this.camaraController3.votarPlenario("PEC 2/2016","LIVRE", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0"));
-
     }
 }
 

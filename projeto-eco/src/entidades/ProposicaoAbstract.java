@@ -1,4 +1,4 @@
-package ECamaraOrganizada;
+package entidades;
 
 import java.util.Objects;
 
@@ -266,4 +266,6 @@ public abstract class ProposicaoAbstract {
     public void setPassouNaCCJC(boolean passouNaCCJC) {
         this.passouNaCCJC = passouNaCCJC;
     }
+
+    public abstract int caulculaChao(int participantes);
 }

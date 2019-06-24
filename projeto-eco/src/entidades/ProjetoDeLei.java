@@ -1,4 +1,4 @@
-package ECamaraOrganizada;
+package entidades;
 
 import util.Validador;
 
@@ -28,7 +28,8 @@ public class ProjetoDeLei extends ProposicaoAbstract {
      * @param conclusivo situção conclusiva do projeto
      *
      */
-    public ProjetoDeLei(String codigoLei, String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
+    public ProjetoDeLei(String codigoLei, String dni, int ano, String ementa, String interesses, String url,
+                        boolean conclusivo) {
         super(dni, ano, codigoLei, ementa, interesses, url);
         this.validador = new Validador();
         this.validador.validaString(codigoLei,"Erro ao cadastrar projeto: codigo de lei nao pode ser vazio ou nulo");
@@ -53,5 +54,10 @@ public class ProjetoDeLei extends ProposicaoAbstract {
             return "Projeto de Lei" + super.toString() + "Conclusiva"  + " - " + this.situacao;
         }
         else return "Projeto de Lei" + super.toString() + this.situacao;
+    }
+
+    @Override
+    public int caulculaChao(int participantes) {
+        return ((participantes / 2) + 1);
     }
 }

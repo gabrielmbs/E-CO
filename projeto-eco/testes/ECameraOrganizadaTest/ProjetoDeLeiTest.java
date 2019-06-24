@@ -1,6 +1,6 @@
 package ECameraOrganizadaTest;
 
-import ECamaraOrganizada.ProjetoDeLei;
+import entidades.ProjetoDeLei;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
