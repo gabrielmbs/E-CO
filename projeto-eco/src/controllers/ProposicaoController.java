@@ -4,6 +4,7 @@ import entidades.*;
 import util.Contador;
 import util.Validador;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProposicaoController {
@@ -28,10 +29,13 @@ public class ProposicaoController {
      */
     private Validador validador;
 
+    private boolean segundoTurnoPlenario;
+
     public ProposicaoController() {
         this.proposicoesDeLeis = new HashMap<>();
         this.validador = new Validador();
         this.contadores = new HashMap<>();
+        this.segundoTurnoPlenario = false;
     }
 
     /**
@@ -149,6 +153,7 @@ public class ProposicaoController {
      */
     public boolean votarPlenario(String codigo, String[] deputados, Pessoa deputado,
                                  int votosFavoraveis, int totalDeputados) {
+
         if(!this.proposicoesDeLeis.get(codigo).getPassouNaCCJC()){
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao em comissao");
         }
@@ -160,10 +165,16 @@ public class ProposicaoController {
                 !this.proposicoesDeLeis.get(codigo).isConclusivo()) {
             this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
             if (votosFavoraveis >= chao) {
+
+                retorno = true;
+                this.proposicoesDeLeis.get(codigo).atualizaTramitacaoLei("APROVADO (Plenario)");
+
                 deputado.getFuncao().incrementaNumeroDeLeis();
                 return true;
+            } else{
+                this.proposicoesDeLeis.get(codigo).atualizaTramitacaoLei("REJEITADO (Plenario)");
             }
-            return false;
+
         }
         chao = this.proposicoesDeLeis.get(codigo).caulculaChao(totalDeputados);
         boolean result = aprovadaOuArquivada(codigo, votosFavoraveis, chao, deputado);
@@ -199,7 +210,24 @@ public class ProposicaoController {
         ProposicaoAbstract proposicao = buscaProposicao(codigo);
         if ("plenario".equals(proximoLocal)) {
             proposicao.setSituacao("EM VOTACAO (Plenario - 1o turno)");
+            proposicao.atualizaTramitacaoLei("EM VOTACAO (Plenario - 1o turno)");
         }
+        boolean retorno = false;
+        if(votosFavoraveis >= chao) {
+            retorno = true;
+            proposicao.atualizaTramitacaoLei("APROVADO (" + proposicao.getLocalDeVotacao() + ")");
+            if (proximoLocal.equals("plenario")) {
+                if (proposicao.getTipoDeProposicao().equals("PL")) {
+                    proposicao.atualizaTramitacaoLei("EM VOTACAO (Plenario)");
+                }
+                else proposicao.atualizaTramitacaoLei("EM VOTACAO (Plenario - 1o turno)");
+            }
+            else proposicao.atualizaTramitacaoLei("EM VOTACAO (" + proximoLocal + ")");
+
+        }
+        else{
+            proposicao.atualizaTramitacaoLei("REJEITADO (" + proposicao.getLocalDeVotacao() + ")");
+
         boolean result = false;
         if(votosFavoraveis >= chao){
             result = true;
@@ -226,14 +254,20 @@ public class ProposicaoController {
         if (votosFavoraveis < chao && !proposicao.getPassouNaCCJC()) {
             proposicao.setProposicaoAtiva(false);
             proposicao.setPassouNaCCJC(true);
+            proposicao.atualizaTramitacaoLei("REJEITADO (" + proposicao.getLocalDeVotacao() +")");
         }else if(votosFavoraveis >= chao && !proposicao.getPassouNaCCJC()){
             proposicao.setPassouNaCCJC(true);
             proposicao.setSituacao("EM VOTACAO (" + proximoLocal + ")");
+            proposicao.atualizaTramitacaoLei("APROVADO (" + proposicao.getLocalDeVotacao() + ")");
             proposicao.setLocalDeVotacao(proximoLocal);
+            proposicao.atualizaTramitacaoLei("EM VOTACAO (" + proposicao.getLocalDeVotacao() + ")");
+            retorno = true;
+
             result = true;
         }else if(votosFavoraveis >= chao){
             if(proximoLocal.equals("-")){
                 proposicao.setSituacao("APROVADO");
+                proposicao.atualizaTramitacaoLei("APROVADO (" + proposicao.getLocalDeVotacao() +")");
                 autor.getFuncao().incrementaNumeroDeLeis();
                 proposicao.setProposicaoAtiva(false);
             }
@@ -242,6 +276,7 @@ public class ProposicaoController {
             proposicao.setProposicaoAtiva(false);
             if(proximoLocal.equals("-")){
                 proposicao.setSituacao("ARQUIVADO");
+                proposicao.atualizaTramitacaoLei("REJEITADO (" + proposicao.getLocalDeVotacao()+")");
 
             }
         }
@@ -261,17 +296,27 @@ public class ProposicaoController {
     private boolean aprovadaOuArquivada(String codigo, int votosFavoraveis, int chao, Pessoa deputado) {
         boolean result = false;
         ProposicaoAbstract proposicao = buscaProposicao(codigo);
+
         if (votosFavoraveis >= chao) {
             result = true;
             if (proposicao.getPassouNoPlenario()) {
                 buscaProposicao(codigo).setSituacao("APROVADO");
+                proposicao.atualizaTramitacaoLei("APROVADO (Plenario - 2o turno)");
                 deputado.getFuncao().incrementaNumeroDeLeis();
                 proposicao.setProposicaoAtiva(false);
             } else {
+                proposicao.atualizaTramitacaoLei("APROVADO (Plenario - 1o turno)");
                 proposicao.setSituacao("EM VOTACAO (Plenario - 2o turno)");
+                proposicao.atualizaTramitacaoLei("EM VOTACAO (Plenario - 2o turno)");
                 proposicao.setPassouNoPlenario(true);
             }
         } else {
+            if(!"PL".equals(proposicao.getTipoDeProposicao())) {
+                if (!proposicao.getPassouNoPlenario()) {
+                    proposicao.atualizaTramitacaoLei("REJEITADO (Plenario - 1o turno)");
+                }
+                else proposicao.atualizaTramitacaoLei("REJEITADO (Plenario - 2o turno)");
+            }
             proposicao.setSituacao("ARQUIVADO");
             proposicao.setProposicaoAtiva(false);
 
@@ -297,4 +342,14 @@ public class ProposicaoController {
         return artigos;
     }
 
+    public String exibirTramitacao(String codigo) {
+        if(!existeLei(codigo)){
+            throw new NullPointerException("Erro ao exibir tramitacao: projeto inexistente");
+        }
+        List<String> tramitacao = this.proposicoesDeLeis.get(codigo).getTramitacao();
+
+        String separador = ", ";
+        String tramitacaoFormatada = String.join(separador, tramitacao);
+        return tramitacaoFormatada;
+    }
 }
