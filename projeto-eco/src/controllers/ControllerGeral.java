@@ -441,4 +441,8 @@ public class ControllerGeral {
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
         }
     }
+
+    public String exibirTramitacao(String codigo) {
+        return this.proposicaoController.exibirTramitacao(codigo);
+    }
 }
