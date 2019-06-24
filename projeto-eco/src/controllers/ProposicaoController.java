@@ -168,12 +168,7 @@ public class ProposicaoController {
             if (votosFavoraveis >= chao) {
 
                 retorno = true;
-                if(!this.proposicoesDeLeis.get(codigo).getTipoDeProposicao().equals("PL")) {
-                    if (!this.proposicoesDeLeis.get(codigo).getPassouNoPlenario()) {
-                        this.proposicoesDeLeis.get(codigo).atualizaTramitacaoLei("APROVADO (Plenario - 1o turno)");
-                    } else this.proposicoesDeLeis.get(codigo).atualizaTramitacaoLei("APROVADO (Plenario - 2o turno)");
-                }
-                else this.proposicoesDeLeis.get(codigo).atualizaTramitacaoLei("APROVADO (Plenario)");
+                this.proposicoesDeLeis.get(codigo).atualizaTramitacaoLei("APROVADO (Plenario)");
 
                 deputado.getFuncao().incrementaNumeroDeLeis();
                 return true;
@@ -311,11 +306,12 @@ public class ProposicaoController {
                 proposicao.setPassouNoPlenario(true);
             }
         } else {
-            if(!proposicao.getPassouNoPlenario()){
-                proposicao.atualizaTramitacaoLei("REJEITADO (Plenario - 1o turno)");
-
+            if(!"PL".equals(proposicao.getTipoDeProposicao())) {
+                if (!proposicao.getPassouNoPlenario()) {
+                    proposicao.atualizaTramitacaoLei("REJEITADO (Plenario - 1o turno)");
+                }
+                else proposicao.atualizaTramitacaoLei("REJEITADO (Plenario - 2o turno)");
             }
-            else proposicao.atualizaTramitacaoLei("REJEITADO (Plenario - 2o turno)");
             proposicao.setSituacao("ARQUIVADO");
             proposicao.setProposicaoAtiva(false);
 
@@ -342,10 +338,13 @@ public class ProposicaoController {
     }
 
     public String exibirTramitacao(String codigo) {
+        if(!existeLei(codigo)){
+            throw new NullPointerException("Erro ao exibir tramitacao: projeto inexistente");
+        }
         List<String> tramitacao = this.proposicoesDeLeis.get(codigo).getTramitacao();
 
         String separador = ", ";
-        String tramitacaoFormatada = String.join(separador, tramitacao) + ".";
+        String tramitacaoFormatada = String.join(separador, tramitacao);
         return tramitacaoFormatada;
     }
 }
