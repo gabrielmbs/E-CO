@@ -436,13 +436,15 @@ public class ControllerGeral {
     }
 
     public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {
-        this.validador.validaString(estrategia, "Erro: ");
-        this.validador.validaString(dni, "Erro: ");
-        this.validador.validaDNI(dni, "Erro: ");
+        this.validador.validaString(dni, "Erro ao configurar estrategia: pessoa nao pode ser vazia ou nula");
+        this.validador.validaDNI(dni, "Erro ao configurar estrategia: ");
+        this.validador.validaString(estrategia, "Erro ao configurar estrategia: estrategia vazia");
         this.deputadoController.configurarEstrategiaPropostaRelacionada(dni, estrategia);
     }
 
     public String pegarPropostaRelacionada(String dni) {
+        this.validador.validaString(dni, "Erro ao pegar proposta relacionada: pessoa nao pode ser vazia ou nula");
+        this.validador.validaDNI(dni, "Erro ao pegar proposta relacionada: ");
         Pessoa pessoa = this.deputadoController.buscaPessoa(dni);
         Set<String> interessesPessoa = new HashSet<>(Arrays.asList(pessoa.getInteresses().split(",")));
         Set<ProposicaoAbstract> interessesPropostas = new HashSet<>(this.proposicaoController.getProposicoesDeLeis().values());
@@ -459,13 +461,17 @@ public class ControllerGeral {
                 soma = aux;
                 maioresPropostas.clear();
                 maioresPropostas.add(proposta);
-            } else if (aux == soma) {
+            } else if (aux == soma && aux != 0) {
                 maioresPropostas.add(proposta);
             }
         }
         String result = "";
         if (maioresPropostas.size() == 1) {
-            result = null;
+            result = maioresPropostas.get(0).getCodigoLei();
+        }
+
+        if (maioresPropostas.size() == 0) {
+            return "";
         }
 
         result = pessoa.getEstrategiaBuscaProposta().pegarPropostaRelacionada(maioresPropostas);
@@ -473,4 +479,7 @@ public class ControllerGeral {
         return result;
     }
 
+    public String exibirTramitacao(String codigo) {
+        return this.proposicaoController.exibirTramitacao(codigo);
+    }
 }

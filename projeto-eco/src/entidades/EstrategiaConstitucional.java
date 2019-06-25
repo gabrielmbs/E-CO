@@ -25,28 +25,27 @@ public class EstrategiaConstitucional implements EstrategiaDesempate {
         String result = "";
         if (listaPECs.size() >= 1) {
             if (listaPECs.size() == 1) {
-                result = null;
+                result = listaPECs.get(0).getCodigoLei();
             } else {
                 Collections.sort(listaPECs, new ComparadorPropostaCodigo());
-                result = null;
+                result = listaPECs.get(0).getCodigoLei();
             }
 
         } else if (listaPLPs.size() >= 1) {
             if (listaPLPs.size() == 1) {
-                result = null;
+                result = listaPLPs.get(0).getCodigoLei();
             } else {
                 Collections.sort(listaPLPs, new ComparadorPropostaCodigo());
-                result = null;
+                result = listaPLPs.get(0).getCodigoLei();
             }
         } else if (listaPLs.size() >= 1) {
             if (listaPLs.size() == 1) {
-                result = null;
+                result = listaPLs.get(0).getCodigoLei();
             } else {
                 Collections.sort(listaPLs, new ComparadorPropostaCodigo());
-                result = null;
+                result = listaPLs.get(0).getCodigoLei();
             }
         }
-
         return result;
     }
 }

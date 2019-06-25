@@ -31,24 +31,24 @@ public class EstrategiaConclusao implements EstrategiaDesempate {
         String result = "";
         if (listaTurno2.size() >= 1) {
             if (listaTurno2.size() == 1) {
-                result = null;
+                result = listaTurno2.get(0).getCodigoLei();
             } else {
                 Collections.sort(listaTurno2, new ComparadorPropostaCodigo());
-                result = null;
+                result = listaTurno2.get(0).getCodigoLei();
             }
         } else if (listaTurno1.size() >= 1) {
             if (listaTurno1.size() == 1) {
-                result = null;
+                result = listaTurno1.get(0).getCodigoLei();
             } else {
                 Collections.sort(listaTurno1, new ComparadorPropostaCodigo());
-                result = null;
+                result = listaTurno1.get(0).getCodigoLei();
             }
         } else {
             if (listaPassouEmMaisComissoes.size() == 1) {
-                result = null;
+                result = listaPassouEmMaisComissoes.get(0).getCodigoLei();
             } else {
-                Collections.sort(listaPassouEmMaisComissoes, new ComparaPropostaPorVotacoes());
-                result = null;
+                Collections.sort(listaPassouEmMaisComissoes, new ComparadorPropostaCodigo());
+                result = listaPassouEmMaisComissoes.get(0).getCodigoLei();
             }
         }
         return result;

@@ -221,7 +221,7 @@ public class Pessoa {
         } else if ("APROVACAO".equals(estrategia)) {
             this.estrategiaBuscaProposta = new EstrategiaAprovacao();
         } else {
-            throw new IllegalArgumentException("Erro: estrategia nao existe");
+            throw new IllegalArgumentException("Erro ao configurar estrategia: estrategia invalida");
         }
     }
 

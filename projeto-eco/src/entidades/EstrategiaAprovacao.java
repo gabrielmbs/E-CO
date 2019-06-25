@@ -23,10 +23,10 @@ public class EstrategiaAprovacao implements EstrategiaDesempate {
         String result = "";
         if (listaMaisAprovadas.size() >= 1) {
             if (listaMaisAprovadas.size() == 1) {
-                result = null;
+                result = listaMaisAprovadas.get(0).getCodigoLei();
             } else {
-                Collections.sort(listaMaisAprovadas, new ComparaPropostaPorAprovacoes());
-                result = null;
+                Collections.sort(listaMaisAprovadas, new ComparadorPropostaCodigo());
+                result = listaMaisAprovadas.get(0).getCodigoLei();
             }
         }
         return result;
