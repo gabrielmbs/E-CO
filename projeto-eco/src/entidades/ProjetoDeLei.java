@@ -2,12 +2,14 @@ package entidades;
 
 import util.Validador;
 
+import java.io.Serializable;
+
 /**
  * Representação de um Projeto de Lei, caracterizado pelo seu código de lei, dni de seu autor,
  * ementa, interesses e url, todos do tipo String,  ano do tipo int e conclusivo do tipo boolean.
  *
  */
-public class ProjetoDeLei extends ProposicaoAbstract {
+public class ProjetoDeLei extends ProposicaoAbstract implements Serializable {
 
     /**
      * Atributo que será utilizado para validações.

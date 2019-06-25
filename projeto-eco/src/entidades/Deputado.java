@@ -2,11 +2,13 @@ package entidades;
 
 import util.Validador;
 
+import java.io.Serializable;
+
 /**
  * Representação de um deputado que tem um número de leis (que, por padrão, se inicia em 0) e uma data de ínicio
  * de mandato.
  */
-public class Deputado implements Funcao{
+public class Deputado implements Funcao, Serializable {
 
     /**
      * Número de leis do deputado.

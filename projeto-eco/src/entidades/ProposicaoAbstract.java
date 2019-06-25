@@ -1,13 +1,15 @@
 package entidades;
 
+import java.io.Serializable;
 import java.util.*;
+
 
 /**
  * Representação abstrata de um Projeto , caracterizado pelo seu código de lei, dni de seu autor,
  * ementa, interesses e url, todos do tipo String e ano do tipo int.
  *
  */
-public abstract class ProposicaoAbstract {
+public abstract class ProposicaoAbstract implements Serializable {
 
     /**
      * DNI do autor do projeto.

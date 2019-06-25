@@ -1,11 +1,12 @@
 package entidades;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Classe representa uma commisão, ela guarda atributos especificos de cada comissão e gerecia as mesmas.
  */
-public class Comissao {
+public class Comissao implements Serializable {
     /**
      * Representa os deputados que fazem parte da comissão
      */

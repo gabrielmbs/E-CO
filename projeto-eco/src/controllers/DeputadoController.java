@@ -1,5 +1,6 @@
 package controllers;
 
+import entidades.Persistencia;
 import entidades.Pessoa;
 import util.Validador;
 
@@ -15,7 +16,10 @@ public class DeputadoController {
      */
     private Map<String, Pessoa> pessoas;
 
+    private Persistencia persistencia;
+
     public DeputadoController() {
+        this.persistencia = new Persistencia();
         this.validador = new Validador();
         this.pessoas = new HashMap<>();
     }
@@ -165,5 +169,21 @@ public class DeputadoController {
             throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa sem partido");
         }
         this.validador.validaData(dataDeInicio, "Erro ao cadastrar deputado: ");
+    }
+
+    public void limparSistema() {
+        this.persistencia.limpar("mapaPessoas");
+    }
+
+    public void salvarSistema() {
+        this.persistencia.salvar(this.pessoas, "mapaPessoas");
+    }
+
+    public void carregarSistema() {
+        Object obj = this.persistencia.carregar("mapaPessoas");
+        this.pessoas = new HashMap<>();
+        if(obj != null){
+            this.pessoas = (Map<String, Pessoa>) obj;
+        }
     }
 }

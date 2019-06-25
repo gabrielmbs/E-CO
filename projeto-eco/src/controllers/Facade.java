@@ -7,8 +7,9 @@ public class Facade {
         args = new String[]{"controllers.Facade",
                 "easyaccept_tests/use_case_1.txt","easyaccept_tests/use_case_2.txt",
                 "easyaccept_tests/use_case_3.txt","easyaccept_tests/use_case_4.txt",
-                "easyaccept_tests/use_case_5.txt","easyaccept_tests/use_case_6.txt"};
-//        "easyaccept_tests/use_case_7.txt","easyaccept_tests/use_case_8.txt"}
+                "easyaccept_tests/use_case_5.txt","easyaccept_tests/use_case_6.txt", "easyaccept_tests/use_case_7.txt",
+                "easyaccept_tests/use_case_8.txt", "easyaccept_tests/use_case_9.txt"};
+
         EasyAccept.main(args);
     }
 
@@ -77,15 +78,15 @@ public class Facade {
     }
 
     public void limparSistema(){
-
+        this.controllerGeral.limparSistema();
     }
 
     public void salvarSistema(){
-
+        this.controllerGeral.salvarSistema();
     }
 
     public void carregarSistema(){
-
+        this.controllerGeral.carregarSistema();
     }
 }
 
