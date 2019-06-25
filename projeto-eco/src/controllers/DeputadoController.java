@@ -180,9 +180,10 @@ public class DeputadoController {
     }
 
     public void carregarSistema() {
-        Map<String, Pessoa> aux = (HashMap<String, Pessoa>) this.persistencia.carregar("mapaPessoas");
-        if(aux != null){
-            this.pessoas = aux;
+        Object obj = this.persistencia.carregar("mapaPessoas");
+        this.pessoas = new HashMap<>();
+        if(obj != null){
+            this.pessoas = (Map<String, Pessoa>) obj;
         }
     }
 }

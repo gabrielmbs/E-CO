@@ -458,13 +458,16 @@ public class ControllerGeral {
     }
 
     public void carregarSistema() {
-        Map<String, Comissao> aux = (HashMap<String, Comissao>) this.persistencia.carregar("mapaComissoes");
+        Object aux = this.persistencia.carregar("mapaComissoes");
+        this.comissoes = new HashMap<>();
         if (aux != null) {
-            this.comissoes = aux;
+            this.comissoes = (Map<String, Comissao>) aux;
         }
-        Set<String> aux2 = (HashSet<String>) this.persistencia.carregar("base");
+
+        Object aux2 = this.persistencia.carregar("base");
+        this.base = new HashSet<>();
         if (aux2 != null) {
-            this.base = aux2;
+            this.base = (Set<String>) aux2;
         }
         this.proposicaoController.carregarSistema();
         this.deputadoController.carregarSistema();

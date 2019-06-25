@@ -14,7 +14,7 @@ public class Persistencia {
     /**
      * Extensão padrão do arquivo a ser salvo.
      */
-    public static final String EXTENSAO_ARQUIVO = ".txt";
+    public static final String EXTENSAO_ARQUIVO = ".dat";
 
     /**
      * Caminho do diretorio onde o arquivo será armazenado.
@@ -76,19 +76,23 @@ public class Persistencia {
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         Object obj = null;
+        File file = new File(this.caminhoDiretorio + nomeArquivo + EXTENSAO_ARQUIVO);
 
-        try {
-            fis = new FileInputStream(this.caminhoDiretorio + nomeArquivo + EXTENSAO_ARQUIVO);
-            ois = new ObjectInputStream(fis);
-            obj = ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            if (ois != null) {
-                try {
-                    ois.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+        if (file.length() != 0) {
+            try {
+                fis = new FileInputStream(file);
+                ois = new ObjectInputStream(fis);
+                obj = ois.readObject();
+
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            } finally {
+                if (ois != null) {
+                    try {
+                        ois.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

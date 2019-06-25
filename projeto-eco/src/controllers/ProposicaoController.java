@@ -351,13 +351,16 @@ public class ProposicaoController {
     }
 
     public void carregarSistema() {
-        Map<String, Contador> aux = (HashMap<String, Contador>) this.persistencia.carregar("mapaContadores");
+        Object aux = this.persistencia.carregar("mapaContadores");
+        this.contadores = new HashMap<>();
         if (aux != null) {
-            this.contadores = aux;
+            this.contadores = (Map<String, Contador>) aux;
         }
-        Map<String, ProposicaoAbstract> aux2 = (HashMap<String, ProposicaoAbstract>) this.persistencia.carregar("mapaProposicoesDeLeis");
+
+        Object aux2 = this.persistencia.carregar("mapaProposicoesDeLeis");
+        this.proposicoesDeLeis = new HashMap<>();
         if (aux2 != null) {
-            this.proposicoesDeLeis = aux2;
+            this.proposicoesDeLeis = (Map<String, ProposicaoAbstract>) aux2;
         }
     }
 
