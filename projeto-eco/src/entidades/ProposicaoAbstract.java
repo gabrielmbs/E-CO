@@ -1,13 +1,15 @@
 package entidades;
 
-import java.util.Objects;
+import java.io.Serializable;
+import java.util.*;
+
 
 /**
  * Representação abstrata de um Projeto , caracterizado pelo seu código de lei, dni de seu autor,
  * ementa, interesses e url, todos do tipo String e ano do tipo int.
  *
  */
-public abstract class ProposicaoAbstract {
+public abstract class ProposicaoAbstract implements Serializable {
 
     /**
      * DNI do autor do projeto.
@@ -74,6 +76,8 @@ public abstract class ProposicaoAbstract {
      */
     protected String tipoDeProposicao;
 
+    protected List<String> tramitacao;
+
 
     /**
      * Método responsável por criar um Projeto de Emenda Constitucional no sistema, cujos dados: dni,
@@ -103,6 +107,8 @@ public abstract class ProposicaoAbstract {
         this.proposicaoAtiva = true;
         this.passouNoPlenario = false;
         this.passouNaCCJC = false;
+        this.tramitacao = new ArrayList<>();
+        this.tramitacao.add("EM VOTACAO (CCJC)");
     }
 
     /**
@@ -152,9 +158,7 @@ public abstract class ProposicaoAbstract {
      *
      * @param situacao nova situação.
      */
-    public void setSituacao(String situacao) {
-        this.situacao = situacao;
-    }
+
 
     /**
      * Retorna o dni do autor da proposta.
@@ -267,5 +271,29 @@ public abstract class ProposicaoAbstract {
         this.passouNaCCJC = passouNaCCJC;
     }
 
+
+    public void atualizaTramitacaoLei(String situacao){
+
+        if((situacao.contains("REJEITADO") || situacao.contains("APROVADO"))){
+            List<String> novaTramitacao = new ArrayList<String>();
+            for(String statusLei : this.tramitacao){
+                if(!statusLei.contains("EM VOTACAO")){
+                    novaTramitacao.add(statusLei);
+                }
+            }
+            novaTramitacao.add(situacao);
+            this.tramitacao = novaTramitacao;
+        }
+        else this.tramitacao.add(situacao);
+
+    }
+    public void setSituacao(String situacao) {
+            this.situacao = situacao;
+    }
+
+    public List<String> getTramitacao() {
+        return tramitacao;
+    }
     public abstract int caulculaChao(int participantes);
+
 }

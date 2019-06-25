@@ -1,5 +1,6 @@
 package util;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
@@ -8,7 +9,7 @@ import java.time.format.DateTimeParseException;
 /**
  * Classe responsável por toda a validação no sistema.
  */
-public class Validador {
+public class Validador implements Serializable {
 
     /**
      * Método responsável por fazer todas as validações de data de uma só vez.

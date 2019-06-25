@@ -2,11 +2,13 @@ package entidades;
 
 import util.Validador;
 
+import java.io.Serializable;
+
 /**
  * Representação de um Projeto de Lei Complementar, caracterizado pelo seu código de lei, dni de seu autor,
  * ementa, interesses, url e artigos, todos do tipo String e  ano do tipo int.
  */
-public class ProjetoLeiComplementar extends ProposicaoAbstract {
+public class ProjetoLeiComplementar extends ProposicaoAbstract implements Serializable {
     /**
      * Atributo que denota sobre quais artigos da Constituição o projeto vai atuar.
      */
@@ -30,8 +32,8 @@ public class ProjetoLeiComplementar extends ProposicaoAbstract {
      *
      *
      */
-    public ProjetoLeiComplementar(String codigoLei, String dni, int ano, String ementa, String interesses, String url,
-                                  String artigos) {
+    public ProjetoLeiComplementar(String codigoLei, String dni, int ano, String ementa, String interesses,
+                                  String url, String artigos) {
         super(dni, ano, codigoLei, ementa, interesses, url);
         this.validador = new Validador();
         this.validador.validaString(codigoLei,"Erro ao cadastrar projeto: codigo de lei nao pode ser vazio ou nulo");

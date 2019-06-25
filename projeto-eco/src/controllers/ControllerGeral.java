@@ -2,6 +2,7 @@ package controllers;
 
 import entidades.*;
 import util.Validador;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.HashMap;
@@ -32,6 +33,8 @@ public class ControllerGeral {
      */
     private ProposicaoController proposicaoController;
 
+    private Persistencia persistencia;
+
     /**
      * Constrói o controller geral.
      */
@@ -41,6 +44,7 @@ public class ControllerGeral {
         this.comissoes = new HashMap<>();
         this.deputadoController = new DeputadoController();
         this.proposicaoController = new ProposicaoController();
+        this.persistencia = new Persistencia();
     }
 
     /**
@@ -98,7 +102,7 @@ public class ControllerGeral {
 
     /**
      * Método responsável por cadastrar um partido no sistema, recebendo como parâmetro o nome do partido.
-     *
+     * <p>
      * Checa-se se esse parâmetro é nulo ou vazio, e se for, exceções do tipo NullPointerException
      * e IllegalArgumentExeception serão lançadas, respectivamente.
      *
@@ -117,7 +121,7 @@ public class ControllerGeral {
     public String exibirBase() {
         List<String> listaPartidos = new ArrayList<>(this.base);
         listaPartidos.sort(String::compareTo);
-        
+
         if (listaPartidos.size() == 0) {
             return "";
         }
@@ -133,13 +137,12 @@ public class ControllerGeral {
      * ementa, interesses e url, todos do tipo String, ano do tipo int e
      * conclusivo do tipo boolean, são passados como parâmetro.
      *
-     * @param dni dni do autor do projeto.
-     * @param ementa ementa do projeto.
+     * @param dni        dni do autor do projeto.
+     * @param ementa     ementa do projeto.
      * @param interesses interesses do projeto.
-     * @param url endereço url do projeto.
-     * @param ano ano de criação do projeto.
+     * @param url        endereço url do projeto.
+     * @param ano        ano de criação do projeto.
      * @param conclusivo situção conclusiva do projeto
-     *
      * @return retorna o código da lei cadastrada.
      */
     public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
@@ -156,13 +159,12 @@ public class ControllerGeral {
      * ementa, interesses, url e artigos, todos do tipo String e ano do tipo int
      * são passados como parâmetro.
      *
-     * @param dni dni da pessoa deputada autor da lei.
-     * @param ementa ementa da lei.
+     * @param dni        dni da pessoa deputada autor da lei.
+     * @param ementa     ementa da lei.
      * @param interesses interesses da lei.
-     * @param url endereço url da lei.
-     * @param artigos artigos da constituição sobre os quais a lei vai atuar.
-     * @param ano ano de criação do projeto
-     *
+     * @param url        endereço url da lei.
+     * @param artigos    artigos da constituição sobre os quais a lei vai atuar.
+     * @param ano        ano de criação do projeto
      * @return retorna o código da lei cadastrada.
      */
     public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
@@ -179,13 +181,12 @@ public class ControllerGeral {
      * ementa, interesses, url e artigos, todos do tipo String e ano do tipo int
      * são passados como parâmetro.
      *
-     * @param dni dni da pessoa deputada autor da lei.
-     * @param ementa ementa da lei.
+     * @param dni        dni da pessoa deputada autor da lei.
+     * @param ementa     ementa da lei.
      * @param interesses interesses da lei.
-     * @param url endereço url da lei.
-     * @param artigos artigos da constituição sobre os quais a lei vai atuar.
-     * @param ano ano de criação do projeto
-     *
+     * @param url        endereço url da lei.
+     * @param artigos    artigos da constituição sobre os quais a lei vai atuar.
+     * @param ano        ano de criação do projeto
      * @return retorna o código da lei cadastrada.
      */
     public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
@@ -205,7 +206,7 @@ public class ControllerGeral {
      * @return a representação em String da pessoa, caso ela já tenha sido cadastrado.
      */
     public String exibirProjeto(String codigo) {
-        this.validador.validaString(codigo,"Erro ao exibir projeto: codigo de lei nao pode ser vazio ou nulo");
+        this.validador.validaString(codigo, "Erro ao exibir projeto: codigo de lei nao pode ser vazio ou nulo");
         if (!this.proposicaoController.existeLei(codigo)) {
             throw new NullPointerException("Erro ao exibir projeto: projeto inexistente");
         } else {
@@ -217,10 +218,10 @@ public class ControllerGeral {
      * O método cadastraComissao serve para cadastrar no sistema uma comissão que possui um tema e uma lista de politicos
      * que o compõe.
      *
-     * @param tema representa o tema da comissão
+     * @param tema      representa o tema da comissão
      * @param politicos lista de politicos separados por ",".
      */
-    public void cadastrarComissao (String tema, String politicos){
+    public void cadastrarComissao(String tema, String politicos) {
         this.validador.validaString(tema, "Erro ao cadastrar comissao: tema nao pode ser vazio ou nulo");
         this.validador.validaString(politicos, "Erro ao cadastrar comissao: lista de politicos nao pode ser vazio ou nulo");
         if (this.comissoes.containsKey(tema)) {
@@ -235,9 +236,9 @@ public class ControllerGeral {
      * parâmetro o código da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE), e o próximo
      * local no qual a porposta será votada.
      *
-     * @param codigo código da proposta.
+     * @param codigo           código da proposta.
      * @param statusGovernista status da proposta.
-     * @param proximoLocal próximo locla no qual a proposta será votada.
+     * @param proximoLocal     próximo locla no qual a proposta será votada.
      * @return um boolean que indica o resultado da votação.
      */
     public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
@@ -271,7 +272,7 @@ public class ControllerGeral {
      * @param politicos uma String, que representa dnis separados por ","
      * @return Um array de Strings, que contem as dnis.
      */
-    private String[] geraArrayDeDNIsValidos (String politicos){
+    private String[] geraArrayDeDNIsValidos(String politicos) {
         String[] arrayDeDNIs = politicos.split(",");
         for (String dni : arrayDeDNIs) {
             this.validador.validaDNI(dni, "Erro ao cadastrar comissao: ");
@@ -289,15 +290,15 @@ public class ControllerGeral {
      * Método auxiliar que indica se um deputado e uma proposição têm interesses em comum.
      *
      * @param deputado deputado a ser analisado.
-     * @param codigo codigo da proposição a ser analisada.
+     * @param codigo   codigo da proposição a ser analisada.
      * @return boolean indicando se tem ou não interesse em comum.
      */
     private boolean intEmComum(Pessoa deputado, String codigo) {
         String[] interessesDep = deputado.getInteresses().split(",");
         String[] interessesPl = this.proposicaoController.buscaProposicao(codigo).getInteresses().split(",");
-        for(int i=0; i < interessesDep.length; i++){
-            for(int j = 0; j < interessesPl.length; j++){
-                if(interessesDep[i].equals(interessesPl[j])){
+        for (int i = 0; i < interessesDep.length; i++) {
+            for (int j = 0; j < interessesPl.length; j++) {
+                if (interessesDep[i].equals(interessesPl[j])) {
                     return true;
                 }
             }
@@ -309,8 +310,8 @@ public class ControllerGeral {
      * Esse método auxiliar retorna um inteiro que informa a quantiade de votos favoráveis à
      * aprovação de de determinada proposta em uma comissão.
      *
-     * @param codigo código da proposta a ser votada.
-     * @param comissao comissão na quala  proposta será votada.
+     * @param codigo           código da proposta a ser votada.
+     * @param comissao         comissão na quala  proposta será votada.
      * @param statusGovernista status da proposta.
      * @return um inteiro que indica a quantiade de votos favoráveis.
      */
@@ -331,9 +332,9 @@ public class ControllerGeral {
      * Esse método auxiliar retorna um inteiro que informa a quantidade de votos favoráveis
      * à aprovação de uma determinada proposta no plenário.
      *
-     * @param codigo código da proposta a ser votada.
+     * @param codigo           código da proposta a ser votada.
      * @param statusGovernista status da proposta a ser votada.
-     * @param presentes deputados presentes no plenário.
+     * @param presentes        deputados presentes no plenário.
      * @return um inteiro que indica a quantidade de votos favoráveis.
      */
     private int calculaVotosPlenario(String codigo, String statusGovernista, String[] presentes) {
@@ -370,7 +371,7 @@ public class ControllerGeral {
                 throw new IllegalArgumentException("Erro ao votar proposta: quorum invalido");
             }
         } else if (ePEC) {
-            int quorum = (((3/5) * totalDeputados) / 2) + 1;
+            int quorum = (((3 / 5) * totalDeputados) / 2) + 1;
             if (deputados.length < quorum) {
                 throw new IllegalArgumentException("Erro ao votar proposta: quorum invalido");
             }
@@ -380,11 +381,11 @@ public class ControllerGeral {
     /**
      * Método responsável por validar o cadastro de um projeto de lei.
      *
-     * @param dni dni da lei a ser cadastrada.
-     * @param ementa ementea da lei a ser cadastrada.
+     * @param dni        dni da lei a ser cadastrada.
+     * @param ementa     ementea da lei a ser cadastrada.
      * @param interesses interesses da lei a ser cadastrada.
-     * @param url url da lei a ser cadastrada.
-     * @param ano ano da lei a ser cadastrada.
+     * @param url        url da lei a ser cadastrada.
+     * @param ano        ano da lei a ser cadastrada.
      */
     private void validaCadastrarLei(String dni, String ementa, String interesses, String url, int ano) {
         this.validador.validaString(ementa, "Erro ao cadastrar projeto: ementa nao pode ser vazia ou nula");
@@ -399,16 +400,16 @@ public class ControllerGeral {
      * Método responsável por validar o cadastro de um projeto de lei
      * que opere sobre artigos da Constituição.
      *
-     * @param dni dni da lei a ser cadastrada.
-     * @param ementa ementea da lei a ser cadastrada.
+     * @param dni        dni da lei a ser cadastrada.
+     * @param ementa     ementea da lei a ser cadastrada.
      * @param interesses interesses da lei a ser cadastrada.
-     * @param url url da lei a ser cadastrada.
-     * @param ano ano da lei a ser cadastrada.
-     * @param artigos artigos com os quais a lei irá trabalhar
+     * @param url        url da lei a ser cadastrada.
+     * @param ano        ano da lei a ser cadastrada.
+     * @param artigos    artigos com os quais a lei irá trabalhar
      */
     private void validaCadastrarLeiComArtigo(String dni, String ementa, String interesses, String url, int ano,
                                              String artigos) {
-        validaCadastrarLei(dni,ementa, interesses, url, ano);
+        validaCadastrarLei(dni, ementa, interesses, url, ano);
         this.validador.validaString(artigos, "Erro ao cadastrar projeto: artigo nao pode ser vazio ou nulo");
     }
 
@@ -417,28 +418,61 @@ public class ControllerGeral {
      * método votarComissão. Ele lança exceções quando dados inválidos são passados como
      * parâmetro.
      *
-     * @param codigo código da proposta a ser votada.
+     * @param codigo           código da proposta a ser votada.
      * @param statusGovernista status da proposta a ser votada.
-     * @param proximoLocal próximo local no qual a proposta será votada.
+     * @param proximoLocal     próximo local no qual a proposta será votada.
      */
     private void validaVotarComissao(String codigo, String statusGovernista, String proximoLocal) {
         validador.validaString(proximoLocal, "Erro ao votar proposta: proximo local vazio");
         ProposicaoAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
-        if(!"GOVERNISTA".equals(statusGovernista) && !"OPOSICAO".equals(statusGovernista) &&
-                !"LIVRE".equals(statusGovernista)){
+        if (!"GOVERNISTA".equals(statusGovernista) && !"OPOSICAO".equals(statusGovernista) &&
+                !"LIVRE".equals(statusGovernista)) {
             throw new IllegalArgumentException("Erro ao votar proposta: status invalido");
         }
         if (!this.comissoes.containsKey("CCJC")) {
             throw new IllegalArgumentException("Erro ao votar proposta: CCJC nao cadastrada");
         }
-        if(!this.proposicaoController.existeLei(codigo)){
+        if (!this.proposicaoController.existeLei(codigo)) {
             throw new IllegalArgumentException("Erro ao votar proposta: projeto inexistente");
         }
-        if("plenario".equals(proposicao.getLocalDeVotacao())){
+        if ("plenario".equals(proposicao.getLocalDeVotacao())) {
             throw new IllegalArgumentException("Erro ao votar proposta: proposta encaminhada ao plenario");
         }
-        if(!proposicao.getProposicaoAtiva()) {
+        if (!proposicao.getProposicaoAtiva()) {
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
         }
     }
+
+    public void limparSistema() {
+        this.persistencia.limpar("mapaComissoes");
+        this.persistencia.limpar("base");
+        this.deputadoController.limparSistema();
+        this.proposicaoController.limparSistema();
+    }
+
+    public void salvarSistema() {
+        this.persistencia.salvar(this.comissoes, "mapaComissoes");
+        this.persistencia.salvar(this.base, "base");
+        this.proposicaoController.salvarSistema();
+        this.deputadoController.salvarSistema();
+    }
+
+    public void carregarSistema() {
+        Map<String, Comissao> aux = (HashMap<String, Comissao>) this.persistencia.carregar("mapaComissoes");
+        if (aux != null) {
+            this.comissoes = aux;
+        }
+        Set<String> aux2 = (HashSet<String>) this.persistencia.carregar("base");
+        if (aux2 != null) {
+            this.base = aux2;
+        }
+        this.proposicaoController.carregarSistema();
+        this.deputadoController.carregarSistema();
+    }
+
+    public String exibirTramitacao(String codigo) {
+        return this.proposicaoController.exibirTramitacao(codigo);
+
+    }
+
 }
