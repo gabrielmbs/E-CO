@@ -25,8 +25,8 @@ public class EstrategiaAprovacao implements EstrategiaDesempate {
             if (listaMaisAprovadas.size() == 1) {
                 result = listaMaisAprovadas.get(0).getCodigoLei();
             } else {
-                Collections.sort(listaMaisAprovadas, new ComparaPropostaPorVotacoes());
-                result = listaMaisAprovadas.get(listaMaisAprovadas.size() - 1).getCodigoLei();
+                Collections.sort(listaMaisAprovadas, new ComparadorPropostaCodigo());
+                result = listaMaisAprovadas.get(0).getCodigoLei();
             }
         }
         return result;

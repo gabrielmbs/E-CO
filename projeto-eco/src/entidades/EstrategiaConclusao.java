@@ -17,7 +17,7 @@ public class EstrategiaConclusao implements EstrategiaDesempate {
                 listaTurno2.add(proposta);
             } else if (proposta.getSituacao().contains("1o turno")) {
                 listaTurno1.add(proposta);
-            } else if (!proposta.getSituacao().equals("EM VOTACAO")) {
+            } else {
                 if (proposta.getQuantidadeDeComissoes() > aux) {
                     aux =proposta.getQuantidadeDeComissoes();
                     listaPassouEmMaisComissoes.clear();
@@ -30,26 +30,22 @@ public class EstrategiaConclusao implements EstrategiaDesempate {
 
         String result = "";
         if (listaTurno2.size() >= 1) {
-            if (listaTurno2.size() == 1) {
-                result = listaTurno2.get(0).getCodigoLei();
-            } else {
-                Collections.sort(listaTurno2, new ComparadorPropostaCodigo());
-                result = listaTurno2.get(0).getCodigoLei();
-            }
+            result = verificaProposicaoRelevante(listaTurno2);
         } else if (listaTurno1.size() >= 1) {
-            if (listaTurno1.size() == 1) {
-                result = listaTurno1.get(0).getCodigoLei();
-            } else {
-                Collections.sort(listaTurno1, new ComparadorPropostaCodigo());
-                result = listaTurno1.get(0).getCodigoLei();
-            }
+            result = verificaProposicaoRelevante(listaTurno1);
         } else {
-            if (listaPassouEmMaisComissoes.size() == 1) {
-                result = listaPassouEmMaisComissoes.get(0).getCodigoLei();
-            } else {
-                Collections.sort(listaPassouEmMaisComissoes, new ComparadorPropostaCodigo());
-                result = listaPassouEmMaisComissoes.get(0).getCodigoLei();
-            }
+            result = verificaProposicaoRelevante(listaPassouEmMaisComissoes);
+        }
+        return result;
+    }
+
+    private String verificaProposicaoRelevante(List<ProposicaoAbstract> proposicoes) {
+        String result = "";
+        if (proposicoes.size() == 1) {
+                result = proposicoes.get(0).getCodigoLei();
+        } else {
+                Collections.sort(proposicoes, new ComparadorPropostaCodigo());
+                result = proposicoes.get(0).getCodigoLei();
         }
         return result;
     }

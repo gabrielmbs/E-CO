@@ -1,6 +1,7 @@
 package controllers;
 
 import entidades.*;
+import util.Stream;
 import util.Validador;
 
 import java.util.*;
@@ -455,10 +456,11 @@ public class ControllerGeral {
     public String pegarPropostaRelacionada(String dni) {
         this.validador.validaString(dni, "Erro ao pegar proposta relacionada: pessoa nao pode ser vazia ou nula");
         this.validador.validaDNI(dni, "Erro ao pegar proposta relacionada: ");
+
         Pessoa pessoa = this.deputadoController.buscaPessoa(dni);
         Set<String> interessesPessoa = new HashSet<>(Arrays.asList(pessoa.getInteresses().split(",")));
         Set<ProposicaoAbstract> interessesPropostas = new HashSet<>(this.proposicaoController.getProposicoesDeLeis().values());
-        List<ProposicaoAbstract> maioresPropostas = new ArrayList<>();
+        List<ProposicaoAbstract> propostasRelevantes = new ArrayList<>();
         int soma = 0;
         for (ProposicaoAbstract proposta : interessesPropostas) {
             int aux = 0;
@@ -467,24 +469,24 @@ public class ControllerGeral {
                     aux++;
                 }
             }
-            if (aux > soma) {
+            if (aux > soma && proposta.getProposicaoAtiva()) {
                 soma = aux;
-                maioresPropostas.clear();
-                maioresPropostas.add(proposta);
-            } else if (aux == soma && aux != 0) {
-                maioresPropostas.add(proposta);
+                propostasRelevantes.clear();
+                propostasRelevantes.add(proposta);
+            } else if (aux == soma && aux != 0 && proposta.getProposicaoAtiva()) {
+                propostasRelevantes.add(proposta);
             }
         }
         String result = "";
-        if (maioresPropostas.size() == 1) {
-            result = maioresPropostas.get(0).getCodigoLei();
+        if (propostasRelevantes.size() == 1) {
+            result = propostasRelevantes.get(0).getCodigoLei();
         }
 
-        if (maioresPropostas.size() == 0) {
+        if (propostasRelevantes.size() == 0) {
             return "";
         }
 
-        result = pessoa.getEstrategiaBuscaProposta().pegarPropostaRelacionada(maioresPropostas);
+        result = pessoa.getEstrategiaBuscaProposta().pegarPropostaRelacionada(propostasRelevantes);
 
         return result;
     }
