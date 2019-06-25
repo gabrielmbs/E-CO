@@ -4,6 +4,12 @@ import entidades.*;
 import util.Validador;
 
 import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+import java.util.Map;
 
 public class ControllerGeral {
     private DeputadoController deputadoController;
@@ -28,6 +34,8 @@ public class ControllerGeral {
      */
     private ProposicaoController proposicaoController;
 
+    private Persistencia persistencia;
+
     /**
      * Constrói o controller geral.
      */
@@ -37,6 +45,7 @@ public class ControllerGeral {
         this.comissoes = new HashMap<>();
         this.deputadoController = new DeputadoController();
         this.proposicaoController = new ProposicaoController();
+        this.persistencia = new Persistencia();
     }
 
     /**
@@ -435,6 +444,7 @@ public class ControllerGeral {
         }
     }
 
+
     public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {
         this.validador.validaString(dni, "Erro ao configurar estrategia: pessoa nao pode ser vazia ou nula");
         this.validador.validaDNI(dni, "Erro ao configurar estrategia: ");
@@ -477,6 +487,36 @@ public class ControllerGeral {
         result = pessoa.getEstrategiaBuscaProposta().pegarPropostaRelacionada(maioresPropostas);
 
         return result;
+    }
+
+    public void limparSistema() {
+        this.persistencia.limpar("mapaComissoes");
+        this.persistencia.limpar("base");
+        this.deputadoController.limparSistema();
+        this.proposicaoController.limparSistema();
+    }
+
+    public void salvarSistema() {
+        this.persistencia.salvar(this.comissoes, "mapaComissoes");
+        this.persistencia.salvar(this.base, "base");
+        this.proposicaoController.salvarSistema();
+        this.deputadoController.salvarSistema();
+    }
+
+    public void carregarSistema() {
+        Object aux = this.persistencia.carregar("mapaComissoes");
+        this.comissoes = new HashMap<>();
+        if (aux != null) {
+            this.comissoes = (Map<String, Comissao>) aux;
+        }
+
+        Object aux2 = this.persistencia.carregar("base");
+        this.base = new HashSet<>();
+        if (aux2 != null) {
+            this.base = (Set<String>) aux2;
+        }
+        this.proposicaoController.carregarSistema();
+        this.deputadoController.carregarSistema();
     }
 
     public String exibirTramitacao(String codigo) {

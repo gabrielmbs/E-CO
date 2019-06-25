@@ -1,10 +1,11 @@
 package entidades;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class EstrategiaConstitucional implements EstrategiaDesempate {
+public class EstrategiaConstitucional implements EstrategiaDesempate, Serializable {
 
     @Override
     public String pegarPropostaRelacionada(List<ProposicaoAbstract> maioresPropostas) {

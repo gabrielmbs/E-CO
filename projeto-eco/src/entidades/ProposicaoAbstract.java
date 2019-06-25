@@ -1,12 +1,14 @@
 package entidades;
 
+import java.io.Serializable;
 import java.util.*;
+
 
 /**
  * Representação abstrata de um Projeto , caracterizado pelo seu código de lei, dni de seu autor,
  * ementa, interesses e url, todos do tipo String e ano do tipo int.
  */
-public abstract class ProposicaoAbstract {
+public abstract class ProposicaoAbstract implements Serializable {
 
     /**
      * DNI do autor do projeto.
@@ -77,6 +79,10 @@ public abstract class ProposicaoAbstract {
 
     protected int quantiadeDeAprovacoes;
 
+
+    /**
+     * Lista que armazena todas as situações e pareceres das votaçoẽs pela qual o projeto de lei passou.
+     */
     protected List<String> tramitacao;
 
 
@@ -271,7 +277,12 @@ public abstract class ProposicaoAbstract {
         this.passouNaCCJC = passouNaCCJC;
     }
 
-
+    /**
+     * Método responsável por adicionar uma nova situação à lista de pareceres das votações
+     * de um determinado projeto de lei
+     *
+     * @param situacao parecer atual do projeto de lei em questão.
+     */
     public void atualizaTramitacaoLei(String situacao){
 
         if((situacao.contains("REJEITADO") || situacao.contains("APROVADO"))){
@@ -287,10 +298,20 @@ public abstract class ProposicaoAbstract {
         else this.tramitacao.add(situacao);
 
     }
+    /**
+     * Altera o atributo situacao a partir de um novo status passado como parâmetro.
+     *
+     * @param situacao novo status.
+     */
     public void setSituacao(String situacao) {
             this.situacao = situacao;
     }
 
+    /**
+     * Retorna a lista de situações e pareceres de votações para um determinado projeto de lei.
+     *
+     * @return lista de situações e pareceres de votações para um determinado projeto de lei.
+     */
     public List<String> getTramitacao() {
         return tramitacao;
     }

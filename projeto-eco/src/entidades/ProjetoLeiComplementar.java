@@ -2,11 +2,13 @@ package entidades;
 
 import util.Validador;
 
+import java.io.Serializable;
+
 /**
  * Representação de um Projeto de Lei Complementar, caracterizado pelo seu código de lei, dni de seu autor,
  * ementa, interesses, url e artigos, todos do tipo String e  ano do tipo int.
  */
-public class ProjetoLeiComplementar extends ProposicaoAbstract {
+public class ProjetoLeiComplementar extends ProposicaoAbstract implements Serializable {
     /**
      * Atributo que denota sobre quais artigos da Constituição o projeto vai atuar.
      */

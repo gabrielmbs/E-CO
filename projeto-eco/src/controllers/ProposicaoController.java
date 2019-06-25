@@ -29,12 +29,15 @@ public class ProposicaoController {
      */
     private Validador validador;
 
+    private Persistencia persistencia;
+
     private boolean segundoTurnoPlenario;
 
     public ProposicaoController() {
         this.proposicoesDeLeis = new HashMap<>();
         this.validador = new Validador();
         this.contadores = new HashMap<>();
+        this.persistencia = new Persistencia();
         this.segundoTurnoPlenario = false;
     }
 
@@ -152,6 +155,10 @@ public class ProposicaoController {
      * no plenário (DNIs separados por vírgula), todos do tipo String. O método retorna um boolena que indica
      * o resultado da votação.
      *
+     * Ao longo das condições referentes à situação atual de um determinado projeto de lei,
+     * tal situação é registrada, de modo a compor a tramitação do projeto, que pode ser
+     * posteriormente resgatada.
+     *
      * @param codigo código da proposta.
      * @return um boolean que indica o resultado da votação.
      */
@@ -195,6 +202,12 @@ public class ProposicaoController {
         return this.proposicoesDeLeis.containsKey(codigo);
     }
 
+    /**
+     * Método que recupera um projeto de lei no sistema, buscando no mapa que os organiza.
+     *
+     * @param codigo codigo da lei a ser procurado.
+     * @return Object a lei pesquisada.
+     */
     public ProposicaoAbstract buscaProposicao(String codigo){
         return this.proposicoesDeLeis.get(codigo);
     }
@@ -203,6 +216,10 @@ public class ProposicaoController {
      * Esse método auxiliar é responsável por realizar a votação de uma PL não conclusiva
      * em uma determinada comissão, ele retorna um boolean que indica o resultado da
      * votação.
+     *
+     * Ao longo das condições referentes à situação atual de um determinado projeto de lei,
+     * tal situação é registrada, de modo a compor a tramitação do projeto, que pode ser
+     * posteriormente resgatada.
      *
      * @param codigo código da proposta a ser votada.
      * @param votosFavoraveis votos favoráveis à aprovação da proposta.
@@ -243,6 +260,10 @@ public class ProposicaoController {
      * Esse método auxiliar é responsável por realizar a votação de uma PL conclusiva
      * em uma determinada comissão, ele retorna um boolean que indica o resultado da
      * votação.
+     *
+     * Ao longo das condições referentes à situação atual de um determinado projeto de lei,
+     * tal situação é registrada, de modo a compor a tramitação do projeto, que pode ser
+     * posteriormente resgatada.
      *
      * @param codigo código da proposta a ser votada.
      * @param votosFavoraveis votos favoráveis à aprovação da proposta.
@@ -293,6 +314,10 @@ public class ProposicaoController {
      * ou Arquivada no Plenário. Além disso ele atualiza o atributo númeroDeLeis do deputado e
      * atualiza o atributo situação da proposição.
      *
+     *  Ao longo das condições referentes à situação atual de um determinado projeto de lei,
+     *  tal situação é registrada, de modo a compor a tramitação do projeto, que pode ser
+     *  posteriormente resgatada.
+     *
      * @param codigo código da proposição a ser votada.
      * @param votosFavoraveis votos à favor da aprovação.
      * @param chao mínimo de votos necessário para aprovar a proposição.
@@ -332,8 +357,9 @@ public class ProposicaoController {
     /**
      * Método responsável por separar artigos com vírgula e espaço, como no
      * formato a seguir: "artigo1, artigo2, ..., artigoN".
+     *
      * @param artigos String base para geração da nova string dos artigos concatenados.
-     * @return
+     * @return String dos artigos separados por ", "
      */
     private String contatenaArtigos(String artigos){
         if(artigos.contains(",")){
@@ -346,6 +372,39 @@ public class ProposicaoController {
         }
         return artigos;
     }
+
+    public void limparSistema() {
+        this.persistencia.limpar("mapaProposicoesDeLeis");
+        this.persistencia.limpar("mapaContadores");
+    }
+
+    public void salvarSistema() {
+        this.persistencia.salvar(this.proposicoesDeLeis, "mapaProposicoesDeLeis");
+        this.persistencia.salvar(this.contadores, "mapaContadores");
+    }
+
+    public void carregarSistema() {
+        Object aux = this.persistencia.carregar("mapaContadores");
+        this.contadores = new HashMap<>();
+        if (aux != null) {
+            this.contadores = (Map<String, Contador>) aux;
+        }
+
+        Object aux2 = this.persistencia.carregar("mapaProposicoesDeLeis");
+        this.proposicoesDeLeis = new HashMap<>();
+        if (aux2 != null) {
+            this.proposicoesDeLeis = (Map<String, ProposicaoAbstract>) aux2;
+        }
+    }
+
+
+    /**
+     * Método responsável por exibir a tramitação de um determinado projeto de lei,
+     * recuperada pela pesquisa no mapa que as armazena por meio de seu código.
+     *
+     * @param codigo String que identifica o projeto de lei.
+     * @return String com todas as situações e pareceres da lei ao longo de suas votações.
+     */
 
     public String exibirTramitacao(String codigo) {
         if(!existeLei(codigo)){

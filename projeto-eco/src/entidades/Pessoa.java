@@ -2,6 +2,7 @@ package entidades;
 
 import util.Validador;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Objects;
  * <p>
  * É o dni que identifica uma pessoa.
  */
-public class Pessoa {
+public class Pessoa implements Serializable {
 
     /**
      * Nome da pessoa.
