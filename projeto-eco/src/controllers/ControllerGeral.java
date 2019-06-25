@@ -32,6 +32,8 @@ public class ControllerGeral {
      */
     private ProposicaoController proposicaoController;
 
+    private Persistencia persistencia;
+
     /**
      * Constrói o controller geral.
      */
@@ -41,6 +43,7 @@ public class ControllerGeral {
         this.comissoes = new HashMap<>();
         this.deputadoController = new DeputadoController();
         this.proposicaoController = new ProposicaoController();
+        this.persistencia = new Persistencia();
     }
 
     /**
@@ -440,5 +443,32 @@ public class ControllerGeral {
         if(!proposicao.getProposicaoAtiva()) {
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
         }
+    }
+
+    public void limparSistema() {
+        this.persistencia.limpar("mapaComissoes");
+        this.persistencia.limpar("base");
+        this.deputadoController.limparSistema();
+        this.proposicaoController.limparSistema();
+    }
+
+    public void salvarSistema() {
+        this.persistencia.salvar(this.comissoes,"mapaComissoes");
+        this.persistencia.salvar(this.base,"base");
+        this.proposicaoController.salvarSistema();
+        this.deputadoController.salvarSistema();
+    }
+
+    public void carregarSistema() {
+        Map<String, Comissao> aux = (HashMap<String, Comissao>) this.persistencia.carregar("mapaComissoes");
+        if (aux != null) {
+            this.comissoes = aux;
+        }
+        Set<String> aux2 = (HashSet<String>) this.persistencia.carregar("base");
+        if (aux2 != null) {
+            this.base = aux2;
+        }
+        this.proposicaoController.carregarSistema();
+        this.deputadoController.carregarSistema();
     }
 }

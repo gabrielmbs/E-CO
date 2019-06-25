@@ -28,10 +28,13 @@ public class ProposicaoController {
      */
     private Validador validador;
 
+    private Persistencia persistencia;
+
     public ProposicaoController() {
         this.proposicoesDeLeis = new HashMap<>();
         this.validador = new Validador();
         this.contadores = new HashMap<>();
+        this.persistencia = new Persistencia();
     }
 
     /**
@@ -297,4 +300,24 @@ public class ProposicaoController {
         return artigos;
     }
 
+    public void limparSistema() {
+        this.persistencia.limpar("mapaProposicoesDeLeis");
+        this.persistencia.limpar("mapaContadores");
+    }
+
+    public void salvarSistema() {
+        this.persistencia.salvar(this.proposicoesDeLeis, "mapaProposicoesDeLeis");
+        this.persistencia.salvar(this.contadores, "mapaContadores");
+    }
+
+    public void carregarSistema() {
+        Map<String, Contador> aux = (HashMap<String, Contador>) this.persistencia.carregar("mapaContadores");
+        if (aux != null) {
+            this.contadores = aux;
+        }
+        Map<String, ProposicaoAbstract> aux2 = (HashMap<String, ProposicaoAbstract>) this.persistencia.carregar("mapaProposicoesDeLeis");
+        if (aux2 != null) {
+            this.proposicoesDeLeis = aux2;
+        }
+    }
 }

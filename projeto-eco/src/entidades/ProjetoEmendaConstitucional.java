@@ -2,12 +2,14 @@ package entidades;
 
 import util.Validador;
 
+import java.io.Serializable;
+
 /**
  * Representação de um Projeto de Emenda Constitucional, caracterizado pelo seu código de lei, dni de seu autor,
  * ementa, interesses, url e artigos, todos do tipo String,  ano do tipo int.
  *
  */
-public class ProjetoEmendaConstitucional extends ProposicaoAbstract {
+public class ProjetoEmendaConstitucional extends ProposicaoAbstract implements Serializable {
     /**
      * Atributo que denota sobre quais artigos da Constituição o projeto vai atuar.
      */

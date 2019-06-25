@@ -79,16 +79,15 @@ public class Facade {
     }
 
     public void limparSistema(){
-
+        this.controllerGeral.limparSistema();
     }
 
     public void salvarSistema(){
-
-
+        this.controllerGeral.salvarSistema();
     }
 
     public void carregarSistema(){
-
+        this.controllerGeral.carregarSistema();
     }
 }
 

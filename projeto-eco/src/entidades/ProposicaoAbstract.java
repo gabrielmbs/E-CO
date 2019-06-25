@@ -1,5 +1,6 @@
 package entidades;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Objects;
  * ementa, interesses e url, todos do tipo String e ano do tipo int.
  *
  */
-public abstract class ProposicaoAbstract {
+public abstract class ProposicaoAbstract implements Serializable {
 
     /**
      * DNI do autor do projeto.
