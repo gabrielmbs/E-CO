@@ -296,6 +296,7 @@ public class ProposicaoController {
             }
             proposicao.setQuantiadeDeAprovacoes();
             result = true;
+
         }else if(votosFavoraveis < chao){
             proposicao.setProposicaoAtiva(false);
             proposicao.setQuantidadeDeComissoes();

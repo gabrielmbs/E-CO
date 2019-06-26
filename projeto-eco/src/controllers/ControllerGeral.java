@@ -477,17 +477,8 @@ public class ControllerGeral {
                 propostasRelevantes.add(proposta);
             }
         }
-        String result = "";
-        if (propostasRelevantes.size() == 1) {
-            result = propostasRelevantes.get(0).getCodigoLei();
-        }
 
-        if (propostasRelevantes.size() == 0) {
-            return "";
-        }
-
-        result = pessoa.getEstrategiaBuscaProposta().pegarPropostaRelacionada(propostasRelevantes);
-
+        String result = pessoa.getEstrategiaBuscaProposta().pegarPropostaRelacionada(propostasRelevantes);
         return result;
     }
 
