@@ -172,13 +172,10 @@ public class ProposicaoController {
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
         }
         int chao = this.proposicoesDeLeis.get(codigo).caulculaChao(deputados.length);
-        boolean result = false;
         if ("PL".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao()) &&
                 !this.proposicoesDeLeis.get(codigo).isConclusivo()) {
             this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
             if (votosFavoraveis >= chao) {
-                this.proposicoesDeLeis.get(codigo).setQuantiadeDeAprovacoes();
-                result = true;
                 this.proposicoesDeLeis.get(codigo).atualizaTramitacaoLei("APROVADO (Plenario)");
                 deputado.getFuncao().incrementaNumeroDeLeis();
                 return true;
@@ -187,8 +184,7 @@ public class ProposicaoController {
             }
 
         }
-        chao = this.proposicoesDeLeis.get(codigo).caulculaChao(totalDeputados);
-        result = aprovadaOuArquivada(codigo, votosFavoraveis, chao, deputado);
+        boolean result = aprovadaOuArquivada(codigo, votosFavoraveis, chao, deputado);
         return result;
     }
 
@@ -327,7 +323,7 @@ public class ProposicaoController {
         boolean result = false;
         ProposicaoAbstract proposicao = buscaProposicao(codigo);
 
-        if (votosFavoraveis >= chao) {
+        if (votosFavoraveis > chao) {
             proposicao.setQuantiadeDeAprovacoes();
             result = true;
             if (proposicao.getPassouNoPlenario()) {
