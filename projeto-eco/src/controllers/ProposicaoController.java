@@ -176,6 +176,7 @@ public class ProposicaoController {
                 !this.proposicoesDeLeis.get(codigo).isConclusivo()) {
             this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
             if (votosFavoraveis >= chao) {
+                this.proposicoesDeLeis.get(codigo).setQuantiadeDeAprovacoes();
                 this.proposicoesDeLeis.get(codigo).atualizaTramitacaoLei("APROVADO (Plenario)");
                 deputado.getFuncao().incrementaNumeroDeLeis();
                 return true;
@@ -184,6 +185,7 @@ public class ProposicaoController {
             }
 
         }
+        chao = this.proposicoesDeLeis.get(codigo).caulculaChao(totalDeputados);
         boolean result = aprovadaOuArquivada(codigo, votosFavoraveis, chao, deputado);
         return result;
     }
@@ -323,7 +325,7 @@ public class ProposicaoController {
         boolean result = false;
         ProposicaoAbstract proposicao = buscaProposicao(codigo);
 
-        if (votosFavoraveis > chao) {
+        if (votosFavoraveis >= chao) {
             proposicao.setQuantiadeDeAprovacoes();
             result = true;
             if (proposicao.getPassouNoPlenario()) {

@@ -70,11 +70,7 @@ public class Deputado implements Funcao, Serializable {
         boolean result = false;
         if("GOVERNISTA".equals(statusGovernista) && ehDaBase) {
             result = true;
-        }
-        if("LIVRE".equals(statusGovernista) && temInteressesEmComum){
-            result = true;
-        }
-        if("OPOSICAO".equals(statusGovernista) && !ehDaBase){
+        }else if("LIVRE".equals(statusGovernista) && temInteressesEmComum){
             result = true;
         }
         return result;
