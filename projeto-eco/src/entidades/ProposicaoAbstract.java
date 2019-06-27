@@ -43,17 +43,17 @@ public abstract class ProposicaoAbstract implements Serializable {
     /**
      * Indica se um projeto está tramitando pela câmara ou se já foi encerrado.
      */
-    private boolean proposicaoAtiva;
+    protected boolean proposicaoAtiva;
 
     /**
      * Indica se uma proposta já foi votada no plenário.
      */
-    private boolean passouNoPlenario;
+    protected boolean passouNoPlenario;
 
     /**
      * Atributo que indica se uma proposta já passou pela CCJC.
      */
-    private boolean passouNaCCJC;
+    protected boolean passouNaCCJC;
 
     /**
      * Atributo que denota o estado conclusivo do Projeto de Lei.
@@ -77,7 +77,7 @@ public abstract class ProposicaoAbstract implements Serializable {
 
     protected int quantidadeDeComissoes;
 
-    protected int quantiadeDeAprovacoes;
+    protected int quantidadeDeAprovacoes;
 
 
     /**
@@ -113,7 +113,7 @@ public abstract class ProposicaoAbstract implements Serializable {
         this.passouNoPlenario = false;
         this.passouNaCCJC = false;
         this.quantidadeDeComissoes = 0;
-        this.quantiadeDeAprovacoes = 0;
+        this.quantidadeDeAprovacoes = 0;
         this.tramitacao = new ArrayList<>();
         this.tramitacao.add("EM VOTACAO (CCJC)");
     }
@@ -296,7 +296,6 @@ public abstract class ProposicaoAbstract implements Serializable {
             this.tramitacao = novaTramitacao;
         }
         else this.tramitacao.add(situacao);
-
     }
     /**
      * Altera o atributo situacao a partir de um novo status passado como parâmetro.
@@ -315,7 +314,84 @@ public abstract class ProposicaoAbstract implements Serializable {
     public List<String> getTramitacao() {
         return tramitacao;
     }
+
+    public abstract void verificaQuorum(String[] deputados, int totalDeDeputados);
+
     public abstract int calculaChao(int participantes);
+
+    public abstract boolean votarNaoConclusivoNaComissao(String proximoLocal, int chao, int votosFavoraveis, Pessoa autor);
+
+    public boolean votarPLConclusivaNaComissao(String proximoLocal, int chao, int votosFavoraveis, Pessoa autor) {
+        boolean result = false;
+        if (votosFavoraveis < chao && !this.passouNaCCJC) {
+            this.proposicaoAtiva = false;
+            this.passouNaCCJC = true;
+            this.quantidadeDeComissoes++;
+            atualizaTramitacaoLei("REJEITADO (" + this.localDeVotacao +")");
+        }else if(votosFavoraveis >= chao && !this.passouNaCCJC){
+            this.passouNaCCJC = true;
+            this.situacao = "EM VOTACAO (" + proximoLocal + ")";
+            atualizaTramitacaoLei("APROVADO (" + this.localDeVotacao + ")");
+            this.localDeVotacao = proximoLocal;
+            this.quantidadeDeComissoes++;
+            this.quantidadeDeAprovacoes++;
+            atualizaTramitacaoLei("EM VOTACAO (" + this.localDeVotacao + ")");
+            result = true;
+        }else if(votosFavoraveis >= chao){
+            if(proximoLocal.equals("-")){
+                this.situacao = "APROVADO";
+                atualizaTramitacaoLei("APROVADO (" + this.localDeVotacao +")");
+                autor.getFuncao().incrementaNumeroDeLeis();
+                this.proposicaoAtiva = false;
+                this.quantidadeDeComissoes++;
+            }
+            this.quantidadeDeAprovacoes++;
+            result = true;
+
+        }else if(votosFavoraveis < chao){
+            this.proposicaoAtiva = false;
+            this.quantidadeDeComissoes++;
+            if(proximoLocal.equals("-")){
+                this.situacao = "ARQUIVADO";
+                atualizaTramitacaoLei("REJEITADO (" + this.localDeVotacao + ")");
+            }
+        }
+        return result;
+    }
+
+    public boolean votarPlenario(String[] deputados, Pessoa deputado, int votosFavoraveis, int totalDeputados) {
+        if(!this.passouNaCCJC){
+            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao em comissao");
+        }
+        if(!this.proposicaoAtiva){
+            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
+        }
+        int chao = calculaChao(totalDeputados);
+        boolean result = false;
+        if (votosFavoraveis >= chao) {
+            this.quantidadeDeAprovacoes++;
+            result = true;
+            if (this.passouNoPlenario) {
+                this.situacao = "APROVADO";
+                atualizaTramitacaoLei("APROVADO (Plenario - 2o turno)");
+                deputado.getFuncao().incrementaNumeroDeLeis();
+                this.proposicaoAtiva = false;
+            } else {
+                atualizaTramitacaoLei("APROVADO (Plenario - 1o turno)");
+                this.situacao = "EM VOTACAO (Plenario - 2o turno)";
+                atualizaTramitacaoLei("EM VOTACAO (Plenario - 2o turno)");
+                this.passouNoPlenario = true;
+            }
+        } else {
+            if (!this.passouNoPlenario) {
+                atualizaTramitacaoLei("REJEITADO (Plenario - 1o turno)");
+            }
+            else atualizaTramitacaoLei("REJEITADO (Plenario - 2o turno)");
+            this.situacao = "ARQUIVADO";
+            this.proposicaoAtiva = false;
+        }
+        return result;
+    }
 
     public String getCodigoLei() {
         return codigoLei;
@@ -333,11 +409,11 @@ public abstract class ProposicaoAbstract implements Serializable {
         return quantidadeDeComissoes;
     }
 
-    public Integer getQuantiadeDeAprovacoes() {
-        return quantiadeDeAprovacoes;
+    public Integer getQuantidadeDeAprovacoes() {
+        return quantidadeDeAprovacoes;
     }
 
-    public void setQuantiadeDeAprovacoes() {
-        this.quantiadeDeAprovacoes++;
+    public void setQuantidadeDeAprovacoes() {
+        this.quantidadeDeAprovacoes++;
     }
 }

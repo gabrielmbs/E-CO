@@ -13,11 +13,11 @@ public class EstrategiaAprovacao implements EstrategiaDesempate {
         List<ProposicaoAbstract> listaMaisAprovadas = new ArrayList<>();
         int aux = 0;
         for (ProposicaoAbstract proposicao : maioresPropostas) {
-            if (proposicao.getQuantiadeDeAprovacoes() > aux) {
-                aux = proposicao.getQuantiadeDeAprovacoes();
+            if (proposicao.getQuantidadeDeAprovacoes() > aux) {
+                aux = proposicao.getQuantidadeDeAprovacoes();
                 listaMaisAprovadas.clear();
                 listaMaisAprovadas.add(proposicao);
-            } else if (proposicao.getQuantiadeDeAprovacoes() == aux) {
+            } else if (proposicao.getQuantidadeDeAprovacoes() == aux) {
                 listaMaisAprovadas.add(proposicao);
             }
         }

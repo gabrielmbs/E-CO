@@ -259,12 +259,12 @@ public class ControllerGeral {
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
         ProposicaoAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
         Pessoa deputado = this.deputadoController.buscaPessoa(proposicao.getDniAutor());
-        int totalDeputados = this.deputadoController.totalDeputados();
+        int totalDeDeputados = this.deputadoController.totalDeputados();
         String[] deputados = presentes.split(",");
-        verificaQuorum(codigo, deputados);
+        proposicao.verificaQuorum(deputados, totalDeDeputados);
         int votosFavoraveis = calculaVotosPlenario(codigo, statusGovernista, deputados);
         return this.proposicaoController.votarPlenario(codigo, deputados, deputado, votosFavoraveis,
-                totalDeputados);
+                totalDeDeputados);
     }
 
     /**
@@ -360,24 +360,24 @@ public class ControllerGeral {
      * @param codigo
      * @param deputados
      */
-    private void verificaQuorum(String codigo, String[] deputados) {
-        ProposicaoAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
-        boolean ePL = "PL".equals(proposicao.getTipoDeProposicao());
-        boolean ePLP = "PLP".equals(proposicao.getTipoDeProposicao());
-        boolean ePEC = "PEC".equals(proposicao.getTipoDeProposicao());
-        int totalDeputados = this.deputadoController.totalDeputados();
-        if (ePL || ePLP) {
-            int quorum = (totalDeputados / 2) + 1;
-            if (deputados.length < quorum) {
-                throw new IllegalArgumentException("Erro ao votar proposta: quorum invalido");
-            }
-        } else if (ePEC) {
-            int quorum = ((3 / 5) * totalDeputados) + 1;
-            if (deputados.length < quorum) {
-                throw new IllegalArgumentException("Erro ao votar proposta: quorum invalido");
-            }
-        }
-    }
+//    private void verificaQuorum(String codigo, String[] deputados) {
+//        ProposicaoAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
+//        boolean ePL = "PL".equals(proposicao.getTipoDeProposicao());
+//        boolean ePLP = "PLP".equals(proposicao.getTipoDeProposicao());
+//        boolean ePEC = "PEC".equals(proposicao.getTipoDeProposicao());
+//        int totalDeputados = this.deputadoController.totalDeputados();
+//        if (ePL || ePLP) {
+//            int quorum = (totalDeputados / 2) + 1;
+//            if (deputados.length < quorum) {
+//                throw new IllegalArgumentException("Erro ao votar proposta: quorum invalido");
+//            }
+//        } else if (ePEC) {
+//            int quorum = ((3 / 5) * totalDeputados) + 1;
+//            if (deputados.length < quorum) {
+//                throw new IllegalArgumentException("Erro ao votar proposta: quorum invalido");
+//            }
+//        }
+//    }
 
     /**
      * Método responsável por validar o cadastro de um projeto de lei.

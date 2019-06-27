@@ -1,7 +1,6 @@
 package entidades;
 
 import util.Validador;
-
 import java.io.Serializable;
 
 /**
@@ -61,7 +60,36 @@ public class ProjetoLeiComplementar extends ProposicaoAbstract implements Serial
     }
 
     @Override
+    public void verificaQuorum(String[] deputados, int totalDeDeputados) {
+        int quorum = (totalDeDeputados / 2) + 1;
+        if (deputados.length < quorum) {
+            throw new IllegalArgumentException("Erro ao votar proposta: quorum invalido");
+        }
+    }
+
+    @Override
     public int calculaChao(int participantes) {
         return ((participantes/2) + 1);
+    }
+
+    @Override
+    public boolean votarNaoConclusivoNaComissao(String proximoLocal, int chao, int votosFavoraveis, Pessoa autor) {
+        boolean result = false;
+        if(votosFavoraveis >= chao) {
+            this.quantidadeDeAprovacoes++;
+            result = true;
+            atualizaTramitacaoLei("APROVADO (" + this.localDeVotacao + ")");
+            if ("plenario".equals(proximoLocal)) {
+                this.situacao = "EM VOTACAO (Plenario - 1o turno)";
+                atualizaTramitacaoLei("EM VOTACAO (Plenario - 1o turno)");
+            } else atualizaTramitacaoLei("EM VOTACAO (" + proximoLocal + ")");
+        }
+        else{
+            atualizaTramitacaoLei("REJEITADO (" + this.localDeVotacao + ")");
+        }
+        this.localDeVotacao = proximoLocal;
+        this.passouNaCCJC = true;
+        this.quantidadeDeComissoes++;
+        return result;
     }
 }

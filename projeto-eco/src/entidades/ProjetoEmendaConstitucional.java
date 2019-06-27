@@ -63,7 +63,37 @@ public class ProjetoEmendaConstitucional extends ProposicaoAbstract implements S
     }
 
     @Override
+    public void verificaQuorum(String[] deputados, int totalDeDeputados) {
+        int quorum = ((3 / 5) * totalDeDeputados) + 1;
+        if (deputados.length < quorum) {
+            throw new IllegalArgumentException("Erro ao votar proposta: quorum invalido");
+        }
+    }
+
+    @Override
     public int calculaChao(int participantes) {
         return ((3*participantes)/5 + 1);
+    }
+
+    @Override
+    public boolean votarNaoConclusivoNaComissao(String proximoLocal, int chao, int votosFavoraveis, Pessoa autor) {
+        boolean result = false;
+        if ("plenario".equals(proximoLocal)) {
+            this.situacao = "EM VOTACAO (Plenario - 1o turno)";
+            atualizaTramitacaoLei("EM VOTACAO (Plenario - 1o turno)");
+        } else atualizaTramitacaoLei("EM VOTACAO (" + proximoLocal + ")");
+
+        if(votosFavoraveis >= chao) {
+            this.quantidadeDeAprovacoes++;
+            result = true;
+            atualizaTramitacaoLei("APROVADO (" + this.localDeVotacao + ")");
+        }
+        else{
+            atualizaTramitacaoLei("REJEITADO (" + this.localDeVotacao + ")");
+        }
+        this.localDeVotacao = proximoLocal;
+        this.passouNaCCJC = true;
+        this.quantidadeDeComissoes++;
+        return result;
     }
 }
