@@ -115,6 +115,10 @@ public abstract class ProposicaoAbstract implements Serializable {
         this.passouNaCCJC = false;
         this.quantidadeDeComissoes = 0;
         this.quantidadeDeAprovacoes = 0;
+        this.inicializaTramitacao();
+    }
+
+    private void inicializaTramitacao(){
         this.tramitacao = new ArrayList<>();
         this.tramitacao.add("EM VOTACAO (CCJC)");
     }
