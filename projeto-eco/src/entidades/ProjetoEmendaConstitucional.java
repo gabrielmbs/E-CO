@@ -63,7 +63,7 @@ public class ProjetoEmendaConstitucional extends ProposicaoAbstract implements S
     }
 
     @Override
-    public int caulculaChao(int participantes) {
-        return (((3/5) * participantes) / 2) + 1;
+    public int calculaChao(int participantes) {
+        return ((3*participantes)/5 + 1);
     }
 }

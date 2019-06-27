@@ -5,12 +5,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class EstrategiaConclusao implements EstrategiaDesempate {
-
-    List<ProposicaoAbstract> listaTurno2 = new ArrayList<>();
-    List<ProposicaoAbstract> listaTurno1 = new ArrayList<>();
-    List<ProposicaoAbstract> listaPassouEmMaisComissoes = new ArrayList<>();
+    
     @Override
     public String pegarPropostaRelacionada(List<ProposicaoAbstract> maioresPropostas) {
+        List<ProposicaoAbstract> listaTurno2 = new ArrayList<>();
+        List<ProposicaoAbstract> listaTurno1 = new ArrayList<>();
+        List<ProposicaoAbstract> listaPassouEmMaisComissoes = new ArrayList<>();
         int aux = 0;
         for (ProposicaoAbstract proposta : maioresPropostas) {
             if (proposta.getSituacao().contains("2o turno")) {

@@ -315,7 +315,7 @@ public abstract class ProposicaoAbstract implements Serializable {
     public List<String> getTramitacao() {
         return tramitacao;
     }
-    public abstract int caulculaChao(int participantes);
+    public abstract int calculaChao(int participantes);
 
     public String getCodigoLei() {
         return codigoLei;

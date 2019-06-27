@@ -61,7 +61,7 @@ public class ProjetoLeiComplementar extends ProposicaoAbstract implements Serial
     }
 
     @Override
-    public int caulculaChao(int participantes) {
+    public int calculaChao(int participantes) {
         return ((participantes/2) + 1);
     }
 }
