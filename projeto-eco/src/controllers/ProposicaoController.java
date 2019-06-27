@@ -140,10 +140,8 @@ public class ProposicaoController {
      * @param proximoLocal próximo locla no qual a proposta será votada.
      * @return um boolean que indica o resultado da votação.
      */
-    public boolean votarComissao(String codigo, String proximoLocal, int chao,
-                                 int votosFavoraveis, Pessoa autor) {
+    public boolean votarComissao(String codigo, String proximoLocal, int chao, int votosFavoraveis, Pessoa autor) {
         ProposicaoAbstract proposicao = this.proposicoesDeLeis.get(codigo);
-
         if(proposicao.isConclusivo()){
             return proposicao.votarPLConclusivaNaComissao(proximoLocal, chao, votosFavoraveis, autor);
         }

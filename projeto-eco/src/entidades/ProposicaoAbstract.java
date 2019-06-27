@@ -100,7 +100,8 @@ public abstract class ProposicaoAbstract implements Serializable {
      * @param urlDocumento endereço url do projeto.
      * @param ano          ano de criacção do projeto
      */
-    public ProposicaoAbstract(String dniAutor, Integer ano, String codigoLei, String ementa, String interesses, String urlDocumento) {
+    public ProposicaoAbstract(String dniAutor, Integer ano, String codigoLei, String ementa, String interesses,
+                              String urlDocumento) {
         this.dniAutor = dniAutor;
         this.ano = ano;
         this.codigoLei = codigoLei;
