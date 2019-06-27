@@ -1,4 +1,6 @@
-package entidades;
+package comparators;
+
+import entidades.ProposicaoAbstract;
 
 import java.util.Comparator;
 

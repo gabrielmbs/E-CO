@@ -1,5 +1,7 @@
 package entidades;
 
+import comparators.ComparadorPropostaCodigo;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
