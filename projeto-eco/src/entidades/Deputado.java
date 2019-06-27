@@ -72,6 +72,8 @@ public class Deputado implements Funcao, Serializable {
             result = true;
         }else if("LIVRE".equals(statusGovernista) && temInteressesEmComum){
             result = true;
+        }else if("OPOSICAO".equals(statusGovernista) && !ehDaBase){
+            result = true;
         }
         return result;
     }
