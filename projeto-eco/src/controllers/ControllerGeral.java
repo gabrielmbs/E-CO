@@ -1,7 +1,6 @@
 package controllers;
 
 import entidades.*;
-import util.Stream;
 import util.Validador;
 
 import java.util.*;
@@ -249,7 +248,7 @@ public class ControllerGeral {
         String localDeVotacao = this.proposicaoController.buscaProposicao(codigo).getLocalDeVotacao();
         int votosFavoraveis = calculaVotosComissao(codigo, localDeVotacao, statusGovernista);
         int participantes = this.comissoes.get(localDeVotacao).getDNIs().length;
-        int chao = this.proposicaoController.buscaProposicao(codigo).caulculaChao(participantes);
+        int chao = (participantes/2 + 1);
 
         ProposicaoAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
         Pessoa deputado = this.deputadoController.buscaPessoa(proposicao.getDniAutor());
@@ -373,7 +372,7 @@ public class ControllerGeral {
                 throw new IllegalArgumentException("Erro ao votar proposta: quorum invalido");
             }
         } else if (ePEC) {
-            int quorum = (((3 / 5) * totalDeputados) / 2) + 1;
+            int quorum = ((3 / 5) * totalDeputados) + 1;
             if (deputados.length < quorum) {
                 throw new IllegalArgumentException("Erro ao votar proposta: quorum invalido");
             }
