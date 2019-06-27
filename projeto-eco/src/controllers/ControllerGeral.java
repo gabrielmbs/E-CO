@@ -248,7 +248,7 @@ public class ControllerGeral {
         String localDeVotacao = this.proposicaoController.buscaProposicao(codigo).getLocalDeVotacao();
         int votosFavoraveis = calculaVotosComissao(codigo, localDeVotacao, statusGovernista);
         int participantes = this.comissoes.get(localDeVotacao).getDNIs().length;
-        int chao = this.proposicaoController.buscaProposicao(codigo).calculaChao(participantes);
+        int chao = (participantes/2 + 1);
 
         ProposicaoAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
         Pessoa deputado = this.deputadoController.buscaPessoa(proposicao.getDniAutor());
