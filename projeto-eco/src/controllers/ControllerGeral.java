@@ -303,6 +303,11 @@ public class ControllerGeral {
         return result;
     }
 
+    /**
+     *  Esse método é responsável por limpar as informações das coleções presentes no ControllerGeral
+     *  e nos demais controllers do sistema. Criando um arquivo da extensão .dat vazio no diretório files/ .
+     *
+     */
     public void limparSistema() {
         this.persistencia.limpar("mapaComissoes");
         this.persistencia.limpar("base");
@@ -310,6 +315,11 @@ public class ControllerGeral {
         this.proposicaoController.limparSistema();
     }
 
+    /**
+     * Esse método é responsável por fazer a persistência dos dados, ou seja, ele grava todas as informações
+     * das coleções presentes no ControllerGeral e nos demais controller do sistema. Criando um arquivo da
+     * extensão .dat com as informações no diretório files/ .
+     */
     public void salvarSistema() {
         this.persistencia.salvar(this.comissoes, "mapaComissoes");
         this.persistencia.salvar(this.base, "base");
@@ -317,6 +327,11 @@ public class ControllerGeral {
         this.pessoaController.salvarSistema();
     }
 
+    /**
+     * Esse método é responsável por carregar os dados do ControllerGeral e dos demais controllers do sistema
+     * armazenados diretório files/ .
+     *
+     */
     public void carregarSistema() {
         Object aux = this.persistencia.carregar("mapaComissoes");
         this.comissoes = new HashMap<>();
