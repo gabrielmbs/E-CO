@@ -144,7 +144,17 @@ public abstract class PropostaAbstract implements Serializable {
      */
     public abstract boolean votarComissao(String proximoLocal, int chao, int votosFavoraveis, Pessoa autor);
 
-    public boolean votarPlenario(String[] deputados, Pessoa deputado, int votosFavoraveis, int totalDeputados) {
+    /**
+     * Método responsável por realizar a votação de um determinada proposição no plenário, ele recebe como parâmetros
+     * o deputado que criou a lei, a quantidade de votos favoráveis à aprovação da lei e o total de deputados cadastrados
+     * no sistema. O método retorna um boolean que indica se a lei foi aprovada ou não.
+     *
+     * @param deputado o deputado que criou a lei.
+     * @param votosFavoraveis votos favoráveis à aprovação da lei.
+     * @param totalDeputados total de deputados cadastrados no sistema.
+     * @return um boolean que indica se a lei foi ou não aprovada.
+     */
+    public boolean votarPlenario(Pessoa deputado, int votosFavoraveis, int totalDeputados) {
         if(!this.passouNaCCJC){
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao em comissao");
         }
@@ -320,10 +330,20 @@ public abstract class PropostaAbstract implements Serializable {
         return situacao;
     }
 
+    /**
+     * Retorna a quantidade de comissões por onde uma determinada proposição passou.
+     *
+     * @return Integer que indica por quantas comissões a proposição passou.
+     */
     public Integer getQuantidadeDeComissoes() {
         return quantidadeDeComissoes;
     }
 
+    /**
+     * Retorna a quantidade de aprovações que uma determinada proposição teve ao longo de sua tramitação.
+     *
+     * @return Integer que indica quantas aprovações a proposição teve.
+     */
     public Integer getQuantidadeDeAprovacoes() {
         return quantidadeDeAprovacoes;
     }

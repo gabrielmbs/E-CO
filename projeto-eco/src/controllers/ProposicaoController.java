@@ -66,6 +66,11 @@ public class ProposicaoController {
         return codigoLei;
     }
 
+    /**
+     * Retorna o mapa com todas as Proposições de Leis.
+     *
+     * @return o mapa de proposições.
+     */
     public Map<String, PropostaAbstract> getProposicoesDeLeis() {
         return proposicoesDeLeis;
     }
@@ -111,7 +116,6 @@ public class ProposicaoController {
      * @param url endereço url da lei.
      * @param artigos artigos da constituição sobre os quais a lei vai atuar.
      * @param ano ano de criação do projeto
-     *
      * @return retorna o código da lei cadastrada.
      */
     public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
@@ -130,11 +134,15 @@ public class ProposicaoController {
 
     /**
      * Esse método é responsável por realizar a votação de uma proposta em uma determinada comissão, ele recebe como
-     * parâmetro o código da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE), e o próximo
-     * local no qual a porposta será votada.
+     * parâmetro o código da proposta a ser votada, o próximo local no qual a porposta será votada, o chão que define
+     * quantos votos são necessários para aprovar a proposição, os votos favoráveis à aprovação da porposição e o autor
+     * da lei. O método retorna um boolean que indica se a porposição foi ou não aprovada.
      *
      * @param codigo código da proposta.
      * @param proximoLocal próximo locla no qual a proposta será votada.
+     * @param chao mínimo de votos necessários para aprovação da proposição.
+     * @param votosFavoraveis votos favoráveis à aprovação da proposição.
+     * @param autor o autor da proposição a ser votada.
      * @return um boolean que indica o resultado da votação.
      */
     public boolean votarComissao(String codigo, String proximoLocal, int chao, int votosFavoraveis, Pessoa autor) {
@@ -144,21 +152,38 @@ public class ProposicaoController {
 
     /**
      * Esse método é responsável por realizar a votação de uma proposta no plenário, ele recebe como parâmetro
-     * o código da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE), e os presentes
-     * no plenário (DNIs separados por vírgula), todos do tipo String. O método retorna um boolena que indica
-     * o resultado da votação.
-     *
-     * Ao longo das condições referentes à situação atual de um determinado projeto de lei,
-     * tal situação é registrada, de modo a compor a tramitação do projeto, que pode ser
-     * posteriormente resgatada.
+     * o código da proposta a ser votada, o autor da proposição ser votada, o número de votos favoráveis à aprovação da
+     * proposição e o total de deputados cadastrados no sistema. O método retorna um boolean que indica se a proposição
+     * foi o não aprovada.
      *
      * @param codigo código da proposta.
+     * @param deputado o autor da lei.
+     * @param votosFavoraveis quantidade de votos favoráveis à aprovação.
+     * @param totalDeputados total de deputados cadastrados no sistema.
      * @return um boolean que indica o resultado da votação.
      */
-    public boolean votarPlenario(String codigo, String[] deputados, Pessoa deputado, int votosFavoraveis,
-                                 int totalDeputados) {
+    public boolean votarPlenario(String codigo, Pessoa deputado, int votosFavoraveis, int totalDeputados) {
         PropostaAbstract proposicao = this.proposicoesDeLeis.get(codigo);
-        return proposicao.votarPlenario(deputados, deputado, votosFavoraveis, totalDeputados);
+        return proposicao.votarPlenario(deputado, votosFavoraveis, totalDeputados);
+    }
+
+    /**
+     * Método responsável por exibir a tramitação de um determinado projeto de lei,
+     * recuperada pela pesquisa no mapa que as armazena por meio de seu código.
+     *
+     * @param codigo String que identifica o projeto de lei.
+     * @return String com todas as situações e pareceres da lei ao longo de suas votações.
+     */
+
+    public String exibirTramitacao(String codigo) {
+        if(!existeLei(codigo)){
+            throw new NullPointerException("Erro ao exibir tramitacao: projeto inexistente");
+        }
+        List<String> tramitacao = this.proposicoesDeLeis.get(codigo).getTramitacao();
+
+        String separador = ", ";
+        String tramitacaoFormatada = String.join(separador, tramitacao);
+        return tramitacaoFormatada;
     }
 
     /**
@@ -222,25 +247,5 @@ public class ProposicaoController {
         if (aux2 != null) {
             this.proposicoesDeLeis = (Map<String, PropostaAbstract>) aux2;
         }
-    }
-
-
-    /**
-     * Método responsável por exibir a tramitação de um determinado projeto de lei,
-     * recuperada pela pesquisa no mapa que as armazena por meio de seu código.
-     *
-     * @param codigo String que identifica o projeto de lei.
-     * @return String com todas as situações e pareceres da lei ao longo de suas votações.
-     */
-
-    public String exibirTramitacao(String codigo) {
-        if(!existeLei(codigo)){
-            throw new NullPointerException("Erro ao exibir tramitacao: projeto inexistente");
-        }
-        List<String> tramitacao = this.proposicoesDeLeis.get(codigo).getTramitacao();
-
-        String separador = ", ";
-        String tramitacaoFormatada = String.join(separador, tramitacao);
-        return tramitacaoFormatada;
     }
 }

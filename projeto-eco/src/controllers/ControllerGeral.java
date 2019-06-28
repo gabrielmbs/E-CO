@@ -256,6 +256,16 @@ public class ControllerGeral {
         return this.proposicaoController.votarComissao(codigo, proximoLocal, chao, votosFavoraveis, deputado);
     }
 
+    /**
+     * Esse método é responsável por realizar a votação de uma proposta no plenário, ele recebe como parâmetro o código
+     * da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE) e uma String com o DNI de todos os
+     * deputados presentes separados por vírgula.
+     *
+     * @param codigo código da proposição a ser votada.
+     * @param statusGovernista status da proposição a ser votada.
+     * @param presentes String com todos os presentes.
+     * @return um boolean que indica o resultado da votação.
+     */
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
         PropostaAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
         Pessoa deputado = this.pessoaController.buscaPessoa(proposicao.getDniAutor());
@@ -263,8 +273,7 @@ public class ControllerGeral {
         String[] deputados = presentes.split(",");
         proposicao.verificaQuorum(deputados, totalDeDeputados);
         int votosFavoraveis = calculaVotosPlenario(codigo, statusGovernista, deputados);
-        return this.proposicaoController.votarPlenario(codigo, deputados, deputado, votosFavoraveis,
-                totalDeDeputados);
+        return this.proposicaoController.votarPlenario(codigo, deputado, votosFavoraveis, totalDeDeputados);
     }
 
     public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {
