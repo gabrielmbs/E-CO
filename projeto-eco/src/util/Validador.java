@@ -142,5 +142,13 @@ public class Validador implements Serializable {
         }
     }
 
+    public void validaProjeto(String dni, int ano, String ementa, String interesses, String url) {
+        this.validaString(ementa, "Erro ao cadastrar projeto: ementa nao pode ser vazia ou nula");
+        this.validaString(dni, "Erro ao cadastrar projeto: autor nao pode ser vazio ou nulo");
+        this.validaString(interesses, "Erro ao cadastrar projeto: interesse nao pode ser vazio ou nulo");
+        this.validaString(url, "Erro ao cadastrar projeto: url nao pode ser vazio ou nulo");
+        this.validaDNI(dni, "Erro ao cadastrar projeto: ");
+        this.validaAnoLei(ano, "Erro ao cadastrar projeto: ");
+    }
 }
 

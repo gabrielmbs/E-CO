@@ -4,5 +4,5 @@ import java.io.Serializable;
 import java.util.List;
 
 public interface EstrategiaDesempate extends Serializable {
-    public String pegarPropostaRelacionada(List<ProposicaoAbstract> maioresPropostas);
+    public String pegarPropostaRelacionada(List<PropostaAbstract> maioresPropostas);
 }

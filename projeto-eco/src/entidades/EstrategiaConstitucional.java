@@ -10,12 +10,12 @@ import java.util.List;
 public class EstrategiaConstitucional implements EstrategiaDesempate, Serializable {
 
     @Override
-    public String pegarPropostaRelacionada(List<ProposicaoAbstract> maioresPropostas) {
+    public String pegarPropostaRelacionada(List<PropostaAbstract> maioresPropostas) {
 
-        List<ProposicaoAbstract> listaPECs = new ArrayList<>();
-        List<ProposicaoAbstract> listaPLPs = new ArrayList<>();
-        List<ProposicaoAbstract> listaPLs = new ArrayList<>();
-        for (ProposicaoAbstract proposta : maioresPropostas) {
+        List<PropostaAbstract> listaPECs = new ArrayList<>();
+        List<PropostaAbstract> listaPLPs = new ArrayList<>();
+        List<PropostaAbstract> listaPLs = new ArrayList<>();
+        for (PropostaAbstract proposta : maioresPropostas) {
             if ("PEC".equals(proposta.getTipoDeProposicao())) {
                 listaPECs.add(proposta);
             } else if ("PLP".equals(proposta.getTipoDeProposicao())) {
@@ -36,7 +36,7 @@ public class EstrategiaConstitucional implements EstrategiaDesempate, Serializab
         return result;
     }
 
-    private String verificaProposicaoRelevante(List<ProposicaoAbstract> proposicoes) {
+    private String verificaProposicaoRelevante(List<PropostaAbstract> proposicoes) {
         String result = "";
         if (proposicoes.size() == 1) {
             result = proposicoes.get(0).getCodigoLei();

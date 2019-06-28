@@ -8,11 +8,11 @@ import java.util.List;
 
 public class EstrategiaAprovacao implements EstrategiaDesempate {
     @Override
-    public String pegarPropostaRelacionada(List<ProposicaoAbstract> maioresPropostas) {
+    public String pegarPropostaRelacionada(List<PropostaAbstract> maioresPropostas) {
 
-        List<ProposicaoAbstract> listaMaisAprovadas = new ArrayList<>();
+        List<PropostaAbstract> listaMaisAprovadas = new ArrayList<>();
         int aux = 0;
-        for (ProposicaoAbstract proposicao : maioresPropostas) {
+        for (PropostaAbstract proposicao : maioresPropostas) {
             if (proposicao.getQuantidadeDeAprovacoes() > aux) {
                 aux = proposicao.getQuantidadeDeAprovacoes();
                 listaMaisAprovadas.clear();

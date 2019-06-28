@@ -7,7 +7,7 @@ import util.Validador;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DeputadoController {
+public class PessoaController {
 
     private Validador validador;
 
@@ -18,7 +18,7 @@ public class DeputadoController {
 
     private Persistencia persistencia;
 
-    public DeputadoController() {
+    public PessoaController() {
         this.persistencia = new Persistencia();
         this.validador = new Validador();
         this.pessoas = new HashMap<>();

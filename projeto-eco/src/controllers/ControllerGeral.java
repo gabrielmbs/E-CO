@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.Map;
 
 public class ControllerGeral {
-    private DeputadoController deputadoController;
+    private PessoaController pessoaController;
 
     /**
      * Conjunto de partido.
@@ -43,7 +43,7 @@ public class ControllerGeral {
         this.base = new HashSet<>();
         this.validador = new Validador();
         this.comissoes = new HashMap<>();
-        this.deputadoController = new DeputadoController();
+        this.pessoaController = new PessoaController();
         this.proposicaoController = new ProposicaoController();
         this.persistencia = new Persistencia();
     }
@@ -60,7 +60,7 @@ public class ControllerGeral {
      * @return true, se a pessoa foi cadastrada com êxito.
      */
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses) {
-        return this.deputadoController.cadastrarPessoa(nome, dni, estado, interesses);
+        return this.pessoaController.cadastrarPessoa(nome, dni, estado, interesses);
     }
 
     /**
@@ -76,7 +76,7 @@ public class ControllerGeral {
      * @return true, se a pessoa foi cadastrada com êxito.
      */
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
-        return this.deputadoController.cadastrarPessoa(nome, dni, estado, interesses, partido);
+        return this.pessoaController.cadastrarPessoa(nome, dni, estado, interesses, partido);
     }
 
     /**
@@ -87,7 +87,7 @@ public class ControllerGeral {
      * @param dataDeInicio data de ínicio do mandato do deputado.
      */
     public void cadastrarDeputado(String dni, String dataDeInicio) {
-        this.deputadoController.cadastrarDeputado(dni, dataDeInicio);
+        this.pessoaController.cadastrarDeputado(dni, dataDeInicio);
     }
 
     /**
@@ -98,7 +98,7 @@ public class ControllerGeral {
      * @return a representação em String da pessoa, caso ela já tenha sido cadastrado.
      */
     public String exibirPessoa(String dni) {
-        return this.deputadoController.exibirPessoa(dni);
+        return this.pessoaController.exibirPessoa(dni);
     }
 
     /**
@@ -148,8 +148,8 @@ public class ControllerGeral {
      */
     public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
         validaCadastrarLei(dni, ementa, interesses, url, ano);
-        if (this.deputadoController.existePessoa(dni)) {
-            if (this.deputadoController.pessoaEhDeputado(dni)) {
+        if (this.pessoaController.existePessoa(dni)) {
+            if (this.pessoaController.pessoaEhDeputado(dni)) {
                 return this.proposicaoController.cadastrarPL(dni, ano, ementa, interesses, url, conclusivo);
             } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
         } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
@@ -170,8 +170,8 @@ public class ControllerGeral {
      */
     public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
         validaCadastrarLeiComArtigo(dni, ementa, interesses, url, ano, artigos);
-        if (this.deputadoController.existePessoa(dni)) {
-            if (this.deputadoController.pessoaEhDeputado(dni)) {
+        if (this.pessoaController.existePessoa(dni)) {
+            if (this.pessoaController.pessoaEhDeputado(dni)) {
                 return this.proposicaoController.cadastrarPLP(dni, ano, ementa, interesses, url, artigos);
             } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
         } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
@@ -192,8 +192,8 @@ public class ControllerGeral {
      */
     public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
         validaCadastrarLeiComArtigo(dni, ementa, interesses, url, ano, artigos);
-        if (this.deputadoController.existePessoa(dni)) {
-            if (this.deputadoController.pessoaEhDeputado(dni)) {
+        if (this.pessoaController.existePessoa(dni)) {
+            if (this.pessoaController.pessoaEhDeputado(dni)) {
                 return this.proposicaoController.cadastrarPEC(dni, ano, ementa, interesses, url, artigos);
             } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa nao eh deputado");
         } else throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
@@ -250,21 +250,91 @@ public class ControllerGeral {
         int participantes = this.comissoes.get(localDeVotacao).getDNIs().length;
         int chao = (participantes/2 + 1);
 
-        ProposicaoAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
-        Pessoa deputado = this.deputadoController.buscaPessoa(proposicao.getDniAutor());
+        PropostaAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
+        Pessoa deputado = this.pessoaController.buscaPessoa(proposicao.getDniAutor());
 
         return this.proposicaoController.votarComissao(codigo, proximoLocal, chao, votosFavoraveis, deputado);
     }
 
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
-        ProposicaoAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
-        Pessoa deputado = this.deputadoController.buscaPessoa(proposicao.getDniAutor());
-        int totalDeDeputados = this.deputadoController.totalDeputados();
+        PropostaAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
+        Pessoa deputado = this.pessoaController.buscaPessoa(proposicao.getDniAutor());
+        int totalDeDeputados = this.pessoaController.totalDeputados();
         String[] deputados = presentes.split(",");
         proposicao.verificaQuorum(deputados, totalDeDeputados);
         int votosFavoraveis = calculaVotosPlenario(codigo, statusGovernista, deputados);
         return this.proposicaoController.votarPlenario(codigo, deputados, deputado, votosFavoraveis,
                 totalDeDeputados);
+    }
+
+    public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {
+        this.validador.validaString(dni, "Erro ao configurar estrategia: pessoa nao pode ser vazia ou nula");
+        this.validador.validaDNI(dni, "Erro ao configurar estrategia: ");
+        this.validador.validaString(estrategia, "Erro ao configurar estrategia: estrategia vazia");
+        this.pessoaController.configurarEstrategiaPropostaRelacionada(dni, estrategia);
+    }
+
+    public String pegarPropostaRelacionada(String dni) {
+        this.validador.validaString(dni, "Erro ao pegar proposta relacionada: pessoa nao pode ser vazia ou nula");
+        this.validador.validaDNI(dni, "Erro ao pegar proposta relacionada: ");
+
+        Pessoa pessoa = this.pessoaController.buscaPessoa(dni);
+        Set<String> interessesPessoa = new HashSet<>(Arrays.asList(pessoa.getInteresses().split(",")));
+        Set<PropostaAbstract> interessesPropostas = new HashSet<>(this.proposicaoController.getProposicoesDeLeis().values());
+        List<PropostaAbstract> propostasRelevantes = new ArrayList<>();
+        int soma = 0;
+        for (PropostaAbstract proposta : interessesPropostas) {
+            int aux = 0;
+            for (String interesse : interessesPessoa) {
+                if (proposta.getInteresses().contains(interesse)) {
+                    aux++;
+                }
+            }
+            if (aux > soma && proposta.getProposicaoAtiva()) {
+                soma = aux;
+                propostasRelevantes.clear();
+                propostasRelevantes.add(proposta);
+            } else if (aux == soma && aux != 0 && proposta.getProposicaoAtiva()) {
+                propostasRelevantes.add(proposta);
+            }
+        }
+
+        String result = pessoa.getEstrategiaBuscaProposta().pegarPropostaRelacionada(propostasRelevantes);
+        return result;
+    }
+
+    public void limparSistema() {
+        this.persistencia.limpar("mapaComissoes");
+        this.persistencia.limpar("base");
+        this.pessoaController.limparSistema();
+        this.proposicaoController.limparSistema();
+    }
+
+    public void salvarSistema() {
+        this.persistencia.salvar(this.comissoes, "mapaComissoes");
+        this.persistencia.salvar(this.base, "base");
+        this.proposicaoController.salvarSistema();
+        this.pessoaController.salvarSistema();
+    }
+
+    public void carregarSistema() {
+        Object aux = this.persistencia.carregar("mapaComissoes");
+        this.comissoes = new HashMap<>();
+        if (aux != null) {
+            this.comissoes = (Map<String, Comissao>) aux;
+        }
+
+        Object aux2 = this.persistencia.carregar("base");
+        this.base = new HashSet<>();
+        if (aux2 != null) {
+            this.base = (Set<String>) aux2;
+        }
+        this.proposicaoController.carregarSistema();
+        this.pessoaController.carregarSistema();
+    }
+
+    public String exibirTramitacao(String codigo) {
+        return this.proposicaoController.exibirTramitacao(codigo);
     }
 
     /**
@@ -277,10 +347,10 @@ public class ControllerGeral {
         String[] arrayDeDNIs = politicos.split(",");
         for (String dni : arrayDeDNIs) {
             this.validador.validaDNI(dni, "Erro ao cadastrar comissao: ");
-            if (!this.deputadoController.existePessoa(dni)) {
+            if (!this.pessoaController.existePessoa(dni)) {
                 throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa inexistente");
             }
-            if (!this.deputadoController.pessoaEhDeputado(dni)) {
+            if (!this.pessoaController.pessoaEhDeputado(dni)) {
                 throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa nao eh deputado");
             }
         }
@@ -319,7 +389,7 @@ public class ControllerGeral {
     private int calculaVotosComissao(String codigo, String comissao, String statusGovernista) {
         int votosFavoraveis = 0;
         for (String dni : this.comissoes.get(comissao).getDNIs()) {
-            Pessoa deputado = this.deputadoController.buscaPessoa(dni);
+            Pessoa deputado = this.pessoaController.buscaPessoa(dni);
             boolean ehDaBase = this.base.contains(deputado.getPartido());
             boolean temInteressesEmComum = intEmComum(deputado, codigo);
             if (deputado.getFuncao().votoPolitico(statusGovernista, ehDaBase, temInteressesEmComum)) {
@@ -341,7 +411,7 @@ public class ControllerGeral {
     private int calculaVotosPlenario(String codigo, String statusGovernista, String[] presentes) {
         int votosFavoraveis = 0;
         for (String dni : presentes) {
-            Pessoa deputado = this.deputadoController.buscaPessoa(dni);
+            Pessoa deputado = this.pessoaController.buscaPessoa(dni);
             boolean ehDaBase = this.base.contains(deputado.getPartido());
             boolean temInteressesEmComum = intEmComum(deputado, codigo);
             if (deputado.getFuncao().votoPolitico(statusGovernista, ehDaBase, temInteressesEmComum)) {
@@ -350,34 +420,6 @@ public class ControllerGeral {
         }
         return votosFavoraveis;
     }
-
-    /**
-     * Esse método auxiliar verifica se há no plenário o quórum mínimo necessário
-     * (quantiade mínima de deputados presentes) para que a votação da proposição
-     * seja realizada. Caso o quórum mínimo não seja atendido, uma exceção do tipo
-     * IllegalArgumentException é lançada.
-     *
-     * @param codigo
-     * @param deputados
-     */
-//    private void verificaQuorum(String codigo, String[] deputados) {
-//        ProposicaoAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
-//        boolean ePL = "PL".equals(proposicao.getTipoDeProposicao());
-//        boolean ePLP = "PLP".equals(proposicao.getTipoDeProposicao());
-//        boolean ePEC = "PEC".equals(proposicao.getTipoDeProposicao());
-//        int totalDeputados = this.deputadoController.totalDeputados();
-//        if (ePL || ePLP) {
-//            int quorum = (totalDeputados / 2) + 1;
-//            if (deputados.length < quorum) {
-//                throw new IllegalArgumentException("Erro ao votar proposta: quorum invalido");
-//            }
-//        } else if (ePEC) {
-//            int quorum = ((3 / 5) * totalDeputados) + 1;
-//            if (deputados.length < quorum) {
-//                throw new IllegalArgumentException("Erro ao votar proposta: quorum invalido");
-//            }
-//        }
-//    }
 
     /**
      * Método responsável por validar o cadastro de um projeto de lei.
@@ -425,7 +467,7 @@ public class ControllerGeral {
      */
     private void validaVotarComissao(String codigo, String statusGovernista, String proximoLocal) {
         validador.validaString(proximoLocal, "Erro ao votar proposta: proximo local vazio");
-        ProposicaoAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
+        PropostaAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
         if (!"GOVERNISTA".equals(statusGovernista) && !"OPOSICAO".equals(statusGovernista) &&
                 !"LIVRE".equals(statusGovernista)) {
             throw new IllegalArgumentException("Erro ao votar proposta: status invalido");
@@ -442,76 +484,5 @@ public class ControllerGeral {
         if (!proposicao.getProposicaoAtiva()) {
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
         }
-    }
-
-
-    public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {
-        this.validador.validaString(dni, "Erro ao configurar estrategia: pessoa nao pode ser vazia ou nula");
-        this.validador.validaDNI(dni, "Erro ao configurar estrategia: ");
-        this.validador.validaString(estrategia, "Erro ao configurar estrategia: estrategia vazia");
-        this.deputadoController.configurarEstrategiaPropostaRelacionada(dni, estrategia);
-    }
-
-    public String pegarPropostaRelacionada(String dni) {
-        this.validador.validaString(dni, "Erro ao pegar proposta relacionada: pessoa nao pode ser vazia ou nula");
-        this.validador.validaDNI(dni, "Erro ao pegar proposta relacionada: ");
-
-        Pessoa pessoa = this.deputadoController.buscaPessoa(dni);
-        Set<String> interessesPessoa = new HashSet<>(Arrays.asList(pessoa.getInteresses().split(",")));
-        Set<ProposicaoAbstract> interessesPropostas = new HashSet<>(this.proposicaoController.getProposicoesDeLeis().values());
-        List<ProposicaoAbstract> propostasRelevantes = new ArrayList<>();
-        int soma = 0;
-        for (ProposicaoAbstract proposta : interessesPropostas) {
-            int aux = 0;
-            for (String interesse : interessesPessoa) {
-                if (proposta.getInteresses().contains(interesse)) {
-                    aux++;
-                }
-            }
-            if (aux > soma && proposta.getProposicaoAtiva()) {
-                soma = aux;
-                propostasRelevantes.clear();
-                propostasRelevantes.add(proposta);
-            } else if (aux == soma && aux != 0 && proposta.getProposicaoAtiva()) {
-                propostasRelevantes.add(proposta);
-            }
-        }
-
-        String result = pessoa.getEstrategiaBuscaProposta().pegarPropostaRelacionada(propostasRelevantes);
-        return result;
-    }
-
-    public void limparSistema() {
-        this.persistencia.limpar("mapaComissoes");
-        this.persistencia.limpar("base");
-        this.deputadoController.limparSistema();
-        this.proposicaoController.limparSistema();
-    }
-
-    public void salvarSistema() {
-        this.persistencia.salvar(this.comissoes, "mapaComissoes");
-        this.persistencia.salvar(this.base, "base");
-        this.proposicaoController.salvarSistema();
-        this.deputadoController.salvarSistema();
-    }
-
-    public void carregarSistema() {
-        Object aux = this.persistencia.carregar("mapaComissoes");
-        this.comissoes = new HashMap<>();
-        if (aux != null) {
-            this.comissoes = (Map<String, Comissao>) aux;
-        }
-
-        Object aux2 = this.persistencia.carregar("base");
-        this.base = new HashSet<>();
-        if (aux2 != null) {
-            this.base = (Set<String>) aux2;
-        }
-        this.proposicaoController.carregarSistema();
-        this.deputadoController.carregarSistema();
-    }
-
-    public String exibirTramitacao(String codigo) {
-        return this.proposicaoController.exibirTramitacao(codigo);
     }
 }

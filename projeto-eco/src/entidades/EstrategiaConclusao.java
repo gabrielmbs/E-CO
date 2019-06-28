@@ -9,12 +9,12 @@ import java.util.List;
 public class EstrategiaConclusao implements EstrategiaDesempate {
     
     @Override
-    public String pegarPropostaRelacionada(List<ProposicaoAbstract> maioresPropostas) {
-        List<ProposicaoAbstract> listaTurno2 = new ArrayList<>();
-        List<ProposicaoAbstract> listaTurno1 = new ArrayList<>();
-        List<ProposicaoAbstract> listaPassouEmMaisComissoes = new ArrayList<>();
+    public String pegarPropostaRelacionada(List<PropostaAbstract> maioresPropostas) {
+        List<PropostaAbstract> listaTurno2 = new ArrayList<>();
+        List<PropostaAbstract> listaTurno1 = new ArrayList<>();
+        List<PropostaAbstract> listaPassouEmMaisComissoes = new ArrayList<>();
         int aux = 0;
-        for (ProposicaoAbstract proposta : maioresPropostas) {
+        for (PropostaAbstract proposta : maioresPropostas) {
             if (proposta.getSituacao().contains("2o turno")) {
                 listaTurno2.add(proposta);
             } else if (proposta.getSituacao().contains("1o turno")) {
@@ -41,7 +41,7 @@ public class EstrategiaConclusao implements EstrategiaDesempate {
         return result;
     }
 
-    private String verificaProposicaoRelevante(List<ProposicaoAbstract> proposicoes) {
+    private String verificaProposicaoRelevante(List<PropostaAbstract> proposicoes) {
         String result = "";
         if (proposicoes.size() == 1) {
                 result = proposicoes.get(0).getCodigoLei();

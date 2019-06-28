@@ -1,14 +1,14 @@
 package comparators;
 
-import entidades.ProposicaoAbstract;
+import entidades.PropostaAbstract;
 
 import java.util.Comparator;
 
-public class ComparadorPropostaCodigo implements Comparator<ProposicaoAbstract> {
+public class ComparadorPropostaCodigo implements Comparator<PropostaAbstract> {
 
     @Override
-    public int compare(ProposicaoAbstract proposicaoAbstract, ProposicaoAbstract t1) {
-        String[] nCadastroAno1 = proposicaoAbstract.getCodigoLei().split("/");
+    public int compare(PropostaAbstract propostaAbstract, PropostaAbstract t1) {
+        String[] nCadastroAno1 = propostaAbstract.getCodigoLei().split("/");
         String[] nCadastro1 = nCadastroAno1[0].split(" ");
         String ano1 = nCadastroAno1[1];
         String[] nCadastroAno2 = t1.getCodigoLei().split("/");
