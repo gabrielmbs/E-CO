@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ProjetoDeLeiTest {
 
-    private PL PL;
+    private PL projetoDeLei;
 
     @Test
     void criaPLConclusivaCodigoVazio() {
@@ -191,29 +191,29 @@ class ProjetoDeLeiTest {
 
     @Test
     void criaPLConclusivaDadosValidos() {
-        this.PL = new PL("PL 1/2016", "112345678-6", 2016, "Ementa PL conc",
+        this.projetoDeLei = new PL("PL 1/2016", "112345678-6", 2016, "Ementa PL conc",
                 "saude", "http://example.com/semana_saude", true);
     }
 
     @Test
     void criaPLNaoConclusivaDadosValidos() {
-        this.PL = new PL("PL 1/2016", "112345678-6", 2016, "Ementa PLnconc",
+        this.projetoDeLei = new PL("PL 1/2016", "112345678-6", 2016, "Ementa PLnconc",
                 "saude", "http://example.com/semana_saude", false);
     }
 
     @Test
     void toStringPLConclusiva() {
-        this.PL = new PL("PL 1/2016", "112345678-6", 2016, "Ementa PL conc",
+        this.projetoDeLei = new PL("PL 1/2016", "112345678-6", 2016, "Ementa PL conc",
                 "saude", "http://example.com/semana_saude", true);
         assertEquals("Projeto de Lei - PL 1/2016 - 112345678-6 - Ementa PL conc - Conclusiva - EM VOTACAO (CCJC)",
-                this.PL.toString());
+                this.projetoDeLei.toString());
     }
 
     @Test
     void toStringPLNaoConclusiva() {
-        this.PL = new PL("PL 1/2016", "112345678-6", 2016, "Ementa PLnconc",
+        this.projetoDeLei = new PL("PL 1/2016", "112345678-6", 2016, "Ementa PLnconc",
                 "saude", "http://example.com/semana_saude", false);
         assertEquals("Projeto de Lei - PL 1/2016 - 112345678-6 - Ementa PLnconc - EM VOTACAO (CCJC)",
-                this.PL.toString());
+                this.projetoDeLei.toString());
     }
 }

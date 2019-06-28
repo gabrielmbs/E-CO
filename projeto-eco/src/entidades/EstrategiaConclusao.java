@@ -1,13 +1,12 @@
 package entidades;
 
 import comparators.ComparadorPropostaCodigo;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class EstrategiaConclusao implements EstrategiaDesempate {
-    
+
     @Override
     public String pegarPropostaRelacionada(List<PropostaAbstract> maioresPropostas) {
         List<PropostaAbstract> listaTurno2 = new ArrayList<>();
@@ -21,7 +20,7 @@ public class EstrategiaConclusao implements EstrategiaDesempate {
                 listaTurno1.add(proposta);
             } else {
                 if (proposta.getQuantidadeDeComissoes() > aux) {
-                    aux =proposta.getQuantidadeDeComissoes();
+                    aux = proposta.getQuantidadeDeComissoes();
                     listaPassouEmMaisComissoes.clear();
                     listaPassouEmMaisComissoes.add(proposta);
                 } else if (proposta.getQuantidadeDeComissoes() == aux) {
@@ -44,10 +43,10 @@ public class EstrategiaConclusao implements EstrategiaDesempate {
     private String verificaProposicaoRelevante(List<PropostaAbstract> proposicoes) {
         String result = "";
         if (proposicoes.size() == 1) {
-                result = proposicoes.get(0).getCodigoLei();
+            result = proposicoes.get(0).getCodigoLei();
         } else {
-                Collections.sort(proposicoes, new ComparadorPropostaCodigo());
-                result = proposicoes.get(0).getCodigoLei();
+            Collections.sort(proposicoes, new ComparadorPropostaCodigo());
+            result = proposicoes.get(0).getCodigoLei();
         }
         return result;
     }

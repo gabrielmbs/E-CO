@@ -2,7 +2,6 @@ package controllers;
 
 import entidades.*;
 import util.Validador;
-
 import java.util.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -248,7 +247,7 @@ public class ControllerGeral {
         String localDeVotacao = this.proposicaoController.buscaProposicao(codigo).getLocalDeVotacao();
         int votosFavoraveis = calculaVotosComissao(codigo, localDeVotacao, statusGovernista);
         int participantes = this.comissoes.get(localDeVotacao).getDNIs().length;
-        int chao = (participantes/2 + 1);
+        int chao = (participantes / 2 + 1);
 
         PropostaAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
         Pessoa deputado = this.pessoaController.buscaPessoa(proposicao.getDniAutor());
@@ -273,7 +272,7 @@ public class ControllerGeral {
         String[] deputados = presentes.split(",");
         proposicao.verificaQuorum(deputados, totalDeDeputados);
         int votosFavoraveis = calculaVotosPlenario(codigo, statusGovernista, deputados);
-        return this.proposicaoController.votarPlenario(codigo, deputado, votosFavoraveis, totalDeDeputados);
+        return this.proposicaoController.votarPlenario(codigo, deputados, deputado, votosFavoraveis, totalDeDeputados);
     }
 
     public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {
@@ -312,6 +311,10 @@ public class ControllerGeral {
         return result;
     }
 
+    /**
+     * Esse método é responsável por limpar as informações das coleções presentes no ControllerGeral
+     * e nos demais controllers do sistema. Criando arquivos da extensão .dat vazios no diretório files/ .
+     */
     public void limparSistema() {
         this.persistencia.limpar("mapaComissoes");
         this.persistencia.limpar("base");
@@ -319,6 +322,11 @@ public class ControllerGeral {
         this.proposicaoController.limparSistema();
     }
 
+    /**
+     * Esse método é responsável por fazer a persistência dos dados, ou seja, ele grava todas as informações
+     * das coleções presentes no ControllerGeral e nos demais controller do sistema. Criando um arquivo da
+     * extensão .dat com as informações no diretório files/ .
+     */
     public void salvarSistema() {
         this.persistencia.salvar(this.comissoes, "mapaComissoes");
         this.persistencia.salvar(this.base, "base");
@@ -326,6 +334,10 @@ public class ControllerGeral {
         this.pessoaController.salvarSistema();
     }
 
+    /**
+     * Esse método é responsável por carregar os dados do ControllerGeral e dos demais controllers do sistema
+     * armazenados diretório files/ .
+     */
     public void carregarSistema() {
         Object aux = this.persistencia.carregar("mapaComissoes");
         this.comissoes = new HashMap<>();

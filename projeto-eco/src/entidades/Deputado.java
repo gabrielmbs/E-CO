@@ -41,20 +41,18 @@ public class Deputado implements Funcao, Serializable {
      * é adicionado a data de inicio e a quantidade de leis aceitas do deputado.
      *
      * @param representacao dados da pessoa, no caso, nome, dni, partido e/ou interresses.
-     *
      * @return a representação em String de um deputado.
      */
     @Override
     public String exibir(String representacao) {
-        String dia = this.dataInicio.substring(0,2);
-        String mes = this.dataInicio.substring(2,4);
+        String dia = this.dataInicio.substring(0, 2);
+        String mes = this.dataInicio.substring(2, 4);
         String ano = this.dataInicio.substring(4);
         return "POL: " + representacao + " - " + dia + "/" + mes + "/" + ano + " - " + this.numeroDeLeis + " Leis";
     }
 
     /**
      * Incrementa em um o atributo numeroDeLeis sempre que é chamado.
-     *
      */
     public void incrementaNumeroDeLeis() {
         this.numeroDeLeis++;
@@ -68,11 +66,11 @@ public class Deputado implements Funcao, Serializable {
      */
     public boolean votoPolitico(String statusGovernista, boolean ehDaBase, boolean temInteressesEmComum) {
         boolean result = false;
-        if("GOVERNISTA".equals(statusGovernista) && ehDaBase) {
+        if ("GOVERNISTA".equals(statusGovernista) && ehDaBase) {
             result = true;
-        }else if("LIVRE".equals(statusGovernista) && temInteressesEmComum){
+        } else if ("LIVRE".equals(statusGovernista) && temInteressesEmComum) {
             result = true;
-        }else if("OPOSICAO".equals(statusGovernista) && !ehDaBase){
+        } else if ("OPOSICAO".equals(statusGovernista) && !ehDaBase) {
             result = true;
         }
         return result;

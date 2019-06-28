@@ -2,11 +2,12 @@ package ECameraOrganizadaTest;
 
 import entidades.PEC;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProjetoEmendaConstitucionalTest {
 
-    private PEC PEC;
+    private PEC projetoEmendaConstitucional;
 
     @Test
     void criaPECCodigoVazio() {
@@ -123,15 +124,15 @@ class ProjetoEmendaConstitucionalTest {
 
     @Test
     void criaPECDadosValidos() {
-        this.PEC = new PEC("PEC 1/2016", "112345678-6",
+        this.projetoEmendaConstitucional = new PEC("PEC 1/2016", "112345678-6",
                 2016, "Ementa PEC", "saude", "http://example.com/semana_saude", "153");
     }
 
     @Test
     void toStringPEC() {
-        this.PEC = new PEC("PEC 1/2016", "112345678-6",
+        this.projetoEmendaConstitucional = new PEC("PEC 1/2016", "112345678-6",
                 2016, "Ementa PEC", "saude", "http://example.com/semana_saude", "153");
         assertEquals("Projeto de Emenda Constitucional - PEC 1/2016 - 112345678-6 - Ementa PEC - 153 - EM VOTACAO (CCJC)",
-                this.PEC.toString());
+                this.projetoEmendaConstitucional.toString());
     }
 }

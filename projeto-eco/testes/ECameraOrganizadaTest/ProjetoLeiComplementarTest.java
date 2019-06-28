@@ -2,10 +2,12 @@ package ECameraOrganizadaTest;
 
 import entidades.PLP;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProjetoLeiComplementarTest {
-    private PLP PLP;
+
+    private PLP projetoLeiComplementar;
 
     @Test
     void criaPLPCodigoVazio() {
@@ -122,16 +124,16 @@ class ProjetoLeiComplementarTest {
 
     @Test
     void criaPLPDadosValidos() {
-        this.PLP = new PLP("PLP 1/2016", "112345678-6",
+        this.projetoLeiComplementar = new PLP("PLP 1/2016", "112345678-6",
                 2016, "Ementa PLP", "saude", "http://example.com/semana_saude", "153");
     }
 
     @Test
     void toStringPEC() {
-        this.PLP = new PLP("PLP 1/2016", "112345678-6",
+        this.projetoLeiComplementar = new PLP("PLP 1/2016", "112345678-6",
                 2016, "Ementa PLP", "saude", "http://example.com/semana_saude", "153");
         assertEquals("Projeto de Lei Complementar - PLP 1/2016 - 112345678-6 - Ementa PLP - 153 - EM VOTACAO (CCJC)",
-                this.PLP.toString());
+                this.projetoLeiComplementar.toString());
     }
 
 }

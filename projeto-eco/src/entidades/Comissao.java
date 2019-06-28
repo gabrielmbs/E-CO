@@ -29,6 +29,7 @@ public class Comissao implements Serializable {
 
     /**
      * Pega a lista de dnis da comissão, no caso, os deputados que fazem parte da comissão.
+     *
      * @return um array de Strings, representa os dnis dos deputados.
      */
     public String[] getDNIs() {
