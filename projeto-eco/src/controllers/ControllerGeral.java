@@ -305,7 +305,7 @@ public class ControllerGeral {
 
     /**
      *  Esse método é responsável por limpar as informações das coleções presentes no ControllerGeral
-     *  e nos demais controllers do sistema. Criando um arquivo da extensão .dat vazio no diretório files/ .
+     *  e nos demais controllers do sistema. Criando arquivos da extensão .dat vazios no diretório files/ .
      *
      */
     public void limparSistema() {

@@ -136,7 +136,7 @@ public class PessoaController {
      * @param dni dni a ser buscado.
      * @return Pessoa.
      */
-    public Pessoa buscaPessoa(String dni){
+    public Pessoa buscaPessoa(String dni) {
         return this.pessoas.get(dni);
     }
 
@@ -178,18 +178,30 @@ public class PessoaController {
         this.pessoas.get(dni).configurarEstrategiaPropostaRelacionada(estrategia);
     }
 
+    /**
+     * Esse método é responsável por limpar as informações das coleções presentes no PessoaController.
+     * Criando um arquivo da extensão .dat vazio no diretório files/ .
+     */
     public void limparSistema() {
         this.persistencia.limpar("mapaPessoas");
     }
 
+    /**
+     * Esse método é responsável por armazenar as informações das coleções presentes no PessoaController.
+     * Criando um arquivo da extensão .dat, com as informações das coleções, no diretório files/ .
+     */
     public void salvarSistema() {
         this.persistencia.salvar(this.pessoas, "mapaPessoas");
     }
 
+    /**
+     * Esse método é responsável por ler as informações das coleções do PessoaController, armazenadas
+     * no diretório files/ .
+     */
     public void carregarSistema() {
         Object obj = this.persistencia.carregar("mapaPessoas");
         this.pessoas = new HashMap<>();
-        if(obj != null){
+        if (obj != null) {
             this.pessoas = (Map<String, Pessoa>) obj;
         }
     }
