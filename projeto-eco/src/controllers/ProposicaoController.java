@@ -200,16 +200,28 @@ public class ProposicaoController {
         return artigos;
     }
 
+    /**
+     * Esse método é responsável por limpar as informações das coleções presentes no ProposicaoController.
+     * Criando um arquivo da extensão .dat vazio no diretório files/ .
+     */
     public void limparSistema() {
         this.persistencia.limpar("mapaProposicoesDeLeis");
         this.persistencia.limpar("mapaContadores");
     }
 
+    /**
+     * Esse método é responsável por armazenar as informações das coleções presentes no ProposicaoController.
+     * Criando um arquivo da extensão .dat, com as informações das coleções, no diretório files/ .
+     */
     public void salvarSistema() {
         this.persistencia.salvar(this.proposicoesDeLeis, "mapaProposicoesDeLeis");
         this.persistencia.salvar(this.contadores, "mapaContadores");
     }
 
+    /**
+     * Esse método é responsável por ler as informações das coleções do ProposicaoController, armazenadas
+     * no diretório files/ .
+     */
     public void carregarSistema() {
         Object aux = this.persistencia.carregar("mapaContadores");
         this.contadores = new HashMap<>();
