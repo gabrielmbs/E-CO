@@ -39,16 +39,14 @@ class ControllerGeralTest {
 
         this.controllerGeral3.cadastrarPessoa("P1", "071111111-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
         this.controllerGeral3.cadastrarPessoa("P2", "071222222-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
-        this.controllerGeral3.cadastrarPessoa("P3", "071333333-0","PB","saude,seguranca publica,trabalho", "PartidoGov");
-        this.controllerGeral3.cadastrarPessoa("P4","071444444-0", "PI","saude,seguranca publica,trabalho", "PartidoGov" );
-        this.controllerGeral3.cadastrarPessoa("P5","071555555-0", "PI","nutricao","PartidoGov" );
-        this.controllerGeral3.cadastrarPessoa("P6","071666666-0", "RO","educacao,seguranca publica,saude","PartidoOpo" );
-        this.controllerGeral3.cadastrarPessoa("P7","071777777-0", "RO","educacao,seguranca publica,saude","PartidoOpo" );
-        this.controllerGeral3.cadastrarPessoa("P8","071888888-0", "RO","saude,seguranca publica,trabalho","PartidoOpo" );
-        this.controllerGeral3.cadastrarPessoa("P9","071999999-0", "RO","saude,seguranca publica,trabalho","PartidoOpo" );
-        this.controllerGeral3.cadastrarPessoa("P10","071000000-0", "RO","nutricao","PartidoOpo" );
-
-
+        this.controllerGeral3.cadastrarPessoa("P3", "071333333-0", "PB", "saude,seguranca publica,trabalho", "PartidoGov");
+        this.controllerGeral3.cadastrarPessoa("P4", "071444444-0", "PI", "saude,seguranca publica,trabalho", "PartidoGov");
+        this.controllerGeral3.cadastrarPessoa("P5", "071555555-0", "PI", "nutricao", "PartidoGov");
+        this.controllerGeral3.cadastrarPessoa("P6", "071666666-0", "RO", "educacao,seguranca publica,saude", "PartidoOpo");
+        this.controllerGeral3.cadastrarPessoa("P7", "071777777-0", "RO", "educacao,seguranca publica,saude", "PartidoOpo");
+        this.controllerGeral3.cadastrarPessoa("P8", "071888888-0", "RO", "saude,seguranca publica,trabalho", "PartidoOpo");
+        this.controllerGeral3.cadastrarPessoa("P9", "071999999-0", "RO", "saude,seguranca publica,trabalho", "PartidoOpo");
+        this.controllerGeral3.cadastrarPessoa("P10", "071000000-0", "RO", "nutricao", "PartidoOpo");
 
 
         this.controllerGeral3.cadastrarDeputado("071111111-0", "29022016");
@@ -62,21 +60,21 @@ class ControllerGeralTest {
         this.controllerGeral3.cadastrarDeputado("071999999-0", "29022016");
         this.controllerGeral3.cadastrarDeputado("071000000-0", "29022016");
 
-        this.controllerGeral3.cadastrarPL("071222222-0", 2016, "Ementa PL conc","saude,educacao basica", "http://example.com/semana_saude",true);
-        this.controllerGeral3.cadastrarPL("071222222-0", 2016, "Ementa PL conc","saude,educacao basica", "http://example.com/semana_saude",true);
-        this.controllerGeral3.cadastrarPL("071222222-0", 2016, "Ementa PL conc","saude,educacao basica", "http://example.com/semana_saude",true);
-        this.controllerGeral3.cadastrarPL("071222222-0", 2016, "Ementa PL conc","saude", "http://example.com/semana_saude",true);
-        this.controllerGeral3.cadastrarPL("071222222-0", 2016, "Ementa PL conc","nutricao", "http://example.com/semana_saude",true);
-        this.controllerGeral3.cadastrarPL("071333333-0", 2016, "Ementa PLnconc","cidadania,educacao basica", "http://example.com/semana_cidadania",false);
-        this.controllerGeral3.cadastrarPL("071333333-0", 2016, "Ementa PLnconc","cidadania,educacao basica", "http://example.com/semana_cidadania",false);
+        this.controllerGeral3.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "saude,educacao basica", "http://example.com/semana_saude", true);
+        this.controllerGeral3.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "saude,educacao basica", "http://example.com/semana_saude", true);
+        this.controllerGeral3.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "saude,educacao basica", "http://example.com/semana_saude", true);
+        this.controllerGeral3.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "saude", "http://example.com/semana_saude", true);
+        this.controllerGeral3.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "nutricao", "http://example.com/semana_saude", true);
+        this.controllerGeral3.cadastrarPL("071333333-0", 2016, "Ementa PLnconc", "cidadania,educacao basica", "http://example.com/semana_cidadania", false);
+        this.controllerGeral3.cadastrarPL("071333333-0", 2016, "Ementa PLnconc", "cidadania,educacao basica", "http://example.com/semana_cidadania", false);
 
 
-        this.controllerGeral3.cadastrarPLP("071222222-0", 2016, "Ementa PLP","fiscal,jogos", "https://example.net/jogos%40aposta", "153");
+        this.controllerGeral3.cadastrarPLP("071222222-0", 2016, "Ementa PLP", "fiscal,jogos", "https://example.net/jogos%40aposta", "153");
         this.controllerGeral3.cadastrarPLP("071222222-0", 2013, "Ementa PLP", "saude", "https://example.net/jogos%40aposta", "153");
 
 
-        this.controllerGeral3.cadastrarPEC("071222222-0", 2016, "Ementa PEC","saude", "https://example.com/sindicato/algo.html", "7,8");
-        this.controllerGeral3.cadastrarPEC("071222222-0", 2016, "Ementa PEC", "saude","https://example.com/sindicato/algo.html", "7,8" );
+        this.controllerGeral3.cadastrarPEC("071222222-0", 2016, "Ementa PEC", "saude", "https://example.com/sindicato/algo.html", "7,8");
+        this.controllerGeral3.cadastrarPEC("071222222-0", 2016, "Ementa PEC", "saude", "https://example.com/sindicato/algo.html", "7,8");
 
 
         this.controllerGeral3.cadastrarPartido("PartidoGov");
@@ -86,9 +84,9 @@ class ControllerGeralTest {
         //5 da base, 5 oposicao
         this.controllerGeral3.cadastrarComissao("CTF", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0,071000000-0");
         //5 da base
-        this.controllerGeral3.cadastrarComissao("CGOV","071111111-0,071222222-0,071333333-0,071444444-0,071555555-0");
+        this.controllerGeral3.cadastrarComissao("CGOV", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0");
         //5 da oposicao
-        this.controllerGeral3.cadastrarComissao("COPO","071666666-0,071777777-0,071888888-0,071999999-0,071000000-0");
+        this.controllerGeral3.cadastrarComissao("COPO", "071666666-0,071777777-0,071888888-0,071999999-0,071000000-0");
 
     }
 
@@ -1065,7 +1063,7 @@ class ControllerGeralTest {
         ControllerGeral camaraController1 = new ControllerGeral();
         camaraController1.cadastrarPessoa("P1", "071111111-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
         camaraController1.cadastrarDeputado("071111111-0", "29022016");
-        camaraController1.cadastrarPL("071111111-0", 2016, "Ementa PL conc","saude,educacao basica", "http://example.com/semana_saude",true);
+        camaraController1.cadastrarPL("071111111-0", 2016, "Ementa PL conc", "saude,educacao basica", "http://example.com/semana_saude", true);
         assertThrows(IllegalArgumentException.class, () -> camaraController1.votarComissao("PL 1/2016", "GOVERNISTA", "CTF"));
     }
 
@@ -1095,121 +1093,121 @@ class ControllerGeralTest {
 
     @Test
     void testVotarComissaoNaoConclusiva() {
-        this.controllerGeral3.cadastrarPL("071333333-0", 2017, "Ementa PLnconc","cidadania,educacao basica", "http://example.com/semana_cidadania",false);
+        this.controllerGeral3.cadastrarPL("071333333-0", 2017, "Ementa PLnconc", "cidadania,educacao basica", "http://example.com/semana_cidadania", false);
         assertTrue(this.controllerGeral3.votarComissao("PL 1/2017", "GOVERNISTA", "CTF"));
     }
 
     @Test
     void testVotarComissaoNoPlenarioNaoConclusiva() {
-        this.controllerGeral3.cadastrarPL("071333333-0", 2017, "Ementa PLnconc","cidadania,educacao basica", "http://example.com/semana_cidadania",false);
+        this.controllerGeral3.cadastrarPL("071333333-0", 2017, "Ementa PLnconc", "cidadania,educacao basica", "http://example.com/semana_cidadania", false);
         assertTrue(this.controllerGeral3.votarComissao("PL 1/2017", "GOVERNISTA", "plenario"));
     }
 
-    void testExceptionVotarPlenarioPL(){
-        assertThrows(IllegalArgumentException.class, () -> this.controllerGeral3.votarPlenario("PL 1/2016", "GOVERNISTA","071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0,071000000-0"));
-        assertThrows(IllegalArgumentException.class, () -> this.controllerGeral3.votarPlenario("PL 1/2016", "GOVERNISTA","071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0,071000000-0"));
-        assertThrows(IllegalArgumentException.class, () -> this.controllerGeral3.votarPlenario("PL 4/2016", "GOVERNISTA","071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0,071000000-0"));
-        assertThrows(IllegalArgumentException.class, () -> this.controllerGeral3.votarPlenario("PL 6/2016", "GOVERNISTA","071111111-0"));
+    void testExceptionVotarPlenarioPL() {
+        assertThrows(IllegalArgumentException.class, () -> this.controllerGeral3.votarPlenario("PL 1/2016", "GOVERNISTA", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0,071000000-0"));
+        assertThrows(IllegalArgumentException.class, () -> this.controllerGeral3.votarPlenario("PL 1/2016", "GOVERNISTA", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0,071000000-0"));
+        assertThrows(IllegalArgumentException.class, () -> this.controllerGeral3.votarPlenario("PL 4/2016", "GOVERNISTA", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0,071000000-0"));
+        assertThrows(IllegalArgumentException.class, () -> this.controllerGeral3.votarPlenario("PL 6/2016", "GOVERNISTA", "071111111-0"));
 
     }
 
     @Test
-    void testExceptionVotarPlenarioPL2(){
+    void testExceptionVotarPlenarioPL2() {
         this.controllerGeral3.votarComissao("PL 7/2016", "GOVERNISTA", "CGOV");
         this.controllerGeral3.votarComissao("PL 7/2016", "GOVERNISTA", "plenario");
-        assertThrows(IllegalArgumentException.class, () -> this.controllerGeral3.votarPlenario("PL 7/2016", "GOVERNISTA","071111111-0"));
+        assertThrows(IllegalArgumentException.class, () -> this.controllerGeral3.votarPlenario("PL 7/2016", "GOVERNISTA", "071111111-0"));
         this.controllerGeral3.votarPlenario("PL 7/2016", "OPOSICAO", "071111111-0,071222222-0,071333333-0,071777777-0,071888888-0,071999999-0");
-        assertThrows(IllegalArgumentException.class, () -> this.controllerGeral3.votarPlenario("PL 7/2016", "GOVERNISTA","071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0,071000000-0"));
+        assertThrows(IllegalArgumentException.class, () -> this.controllerGeral3.votarPlenario("PL 7/2016", "GOVERNISTA", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0,071000000-0"));
 
     }
 
 
-   @Test
-    void testBooleanVotarPlenarioPL(){
+    @Test
+    void testBooleanVotarPlenarioPL() {
         this.controllerGeral3.votarComissao("PL 6/2016", "GOVERNISTA", "CGOV");
         this.controllerGeral3.votarComissao("PL 7/2016", "GOVERNISTA", "CGOV");
-        assertTrue(this.controllerGeral3.votarPlenario("PL 6/2016", "GOVERNISTA","071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0"));
+        assertTrue(this.controllerGeral3.votarPlenario("PL 6/2016", "GOVERNISTA", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0,071999999-0"));
         assertTrue(this.controllerGeral3.votarComissao("PL 7/2016", "GOVERNISTA", "plenario"));
         assertFalse(this.controllerGeral3.votarPlenario("PL 7/2016", "OPOSICAO", "071111111-0,071222222-0,071333333-0,071777777-0,071888888-0,071999999-0"));
 
-   }
-
-   @Test
-    void testBooleanPlenarioPLP(){
-       this.controllerGeral3.votarComissao("PLP 1/2016", "GOVERNISTA", "CGOV");
-       this.controllerGeral3.votarComissao("PLP 1/2016", "GOVERNISTA", "plenario");
-       assertFalse(this.controllerGeral3.votarPlenario("PLP 1/2016", "OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0"));
-
-   }
-
-   @Test
-    void testExceptionPlenarioPLP(){
-       this.controllerGeral3.votarComissao("PLP 1/2016", "GOVERNISTA", "CGOV");
-       this.controllerGeral3.votarComissao("PLP 1/2016", "GOVERNISTA", "plenario");
-       this.controllerGeral3.votarPlenario("PLP 1/2016", "OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0");
-       assertThrows(IllegalArgumentException.class, () ->  this.controllerGeral3.votarPlenario("PLP 1/2016", "OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0"));
-
-   }
-
-   @Test
-    void testExceptionPlenarioPEC(){
-       this.controllerGeral3.votarComissao("PEC 1/2016", "GOVERNISTA", "CGOV");
-       this.controllerGeral3.votarComissao("PEC 1/2016", "GOVERNISTA", "plenario");
-       this.controllerGeral3.votarPlenario("PEC 1/2016","OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0,071000000-0");
-
-       assertThrows(IllegalArgumentException.class, () -> this.controllerGeral3.votarComissao("PEC 1/2016", "GOVERNISTA", "plenario"));
-       assertThrows(IllegalArgumentException.class, () ->        this.controllerGeral3.votarPlenario("PEC 1/2016","OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0,071000000-0"));
-   }
+    }
 
     @Test
-    void testBooleanPlenarioPEC(){
+    void testBooleanPlenarioPLP() {
+        this.controllerGeral3.votarComissao("PLP 1/2016", "GOVERNISTA", "CGOV");
+        this.controllerGeral3.votarComissao("PLP 1/2016", "GOVERNISTA", "plenario");
+        assertFalse(this.controllerGeral3.votarPlenario("PLP 1/2016", "OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0"));
+
+    }
+
+    @Test
+    void testExceptionPlenarioPLP() {
+        this.controllerGeral3.votarComissao("PLP 1/2016", "GOVERNISTA", "CGOV");
+        this.controllerGeral3.votarComissao("PLP 1/2016", "GOVERNISTA", "plenario");
+        this.controllerGeral3.votarPlenario("PLP 1/2016", "OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0");
+        assertThrows(IllegalArgumentException.class, () -> this.controllerGeral3.votarPlenario("PLP 1/2016", "OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0"));
+
+    }
+
+    @Test
+    void testExceptionPlenarioPEC() {
+        this.controllerGeral3.votarComissao("PEC 1/2016", "GOVERNISTA", "CGOV");
+        this.controllerGeral3.votarComissao("PEC 1/2016", "GOVERNISTA", "plenario");
+        this.controllerGeral3.votarPlenario("PEC 1/2016", "OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0,071000000-0");
+
+        assertThrows(IllegalArgumentException.class, () -> this.controllerGeral3.votarComissao("PEC 1/2016", "GOVERNISTA", "plenario"));
+        assertThrows(IllegalArgumentException.class, () -> this.controllerGeral3.votarPlenario("PEC 1/2016", "OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0,071000000-0"));
+    }
+
+    @Test
+    void testBooleanPlenarioPEC() {
         this.controllerGeral3.votarComissao("PEC 1/2016", "GOVERNISTA", "CGOV");
         this.controllerGeral3.votarComissao("PEC 1/2016", "GOVERNISTA", "plenario");
         this.controllerGeral3.votarComissao("PEC 2/2016", "GOVERNISTA", "CGOV");
         this.controllerGeral3.votarComissao("PEC 2/2016", "GOVERNISTA", "plenario");
-        assertFalse(this.controllerGeral3.votarPlenario("PEC 1/2016","OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0,071000000-0"));
-        assertTrue(this.controllerGeral3.votarPlenario("PEC 2/2016","LIVRE", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0"));
-        assertTrue(this.controllerGeral3.votarPlenario("PEC 2/2016","LIVRE", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0"));
+        assertFalse(this.controllerGeral3.votarPlenario("PEC 1/2016", "OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0,071000000-0"));
+        assertTrue(this.controllerGeral3.votarPlenario("PEC 2/2016", "LIVRE", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0"));
+        assertTrue(this.controllerGeral3.votarPlenario("PEC 2/2016", "LIVRE", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0"));
     }
 
     @Test
-    void configurarEstrategiaPropostaRelacionadaDniVazio(){
+    void configurarEstrategiaPropostaRelacionadaDniVazio() {
         assertThrows(IllegalArgumentException.class, () ->
                 this.controllerGeral.configurarEstrategiaPropostaRelacionada("", "CONCLUSAO"));
     }
 
     @Test
-    void configurarEstrategiaPropostaRelacionadaDniNulo(){
+    void configurarEstrategiaPropostaRelacionadaDniNulo() {
         assertThrows(NullPointerException.class, () ->
                 this.controllerGeral.configurarEstrategiaPropostaRelacionada(null, "CONCLUSAO"));
     }
 
     @Test
-    void configurarEstrategiaPropostaRelacionadaDniInvalido(){
+    void configurarEstrategiaPropostaRelacionadaDniInvalido() {
         assertThrows(IllegalArgumentException.class, () ->
                 this.controllerGeral.configurarEstrategiaPropostaRelacionada("22223", "CONCLUSAO"));
     }
 
     @Test
-    void configurarEstrategiaPropostaRelacionadaEstrategiaVazia(){
+    void configurarEstrategiaPropostaRelacionadaEstrategiaVazia() {
         assertThrows(IllegalArgumentException.class, () ->
                 this.controllerGeral.configurarEstrategiaPropostaRelacionada("12345678-6", ""));
     }
 
     @Test
-    void configurarEstrategiaPropostaRelacionadaEstrategiaNull(){
+    void configurarEstrategiaPropostaRelacionadaEstrategiaNull() {
         assertThrows(NullPointerException.class, () ->
                 this.controllerGeral.configurarEstrategiaPropostaRelacionada("12345678-6", null));
     }
 
     @Test
-    void configurarEstrategiaPropostaRelacionadaPessoaInexistente(){
+    void configurarEstrategiaPropostaRelacionadaPessoaInexistente() {
         assertThrows(IllegalArgumentException.class, () ->
                 this.controllerGeral.configurarEstrategiaPropostaRelacionada("12345622-2", "CONCLUSAO"));
     }
 
     @Test
-    void configurarEstrategiaPropostaRelacionadaEstrategiaInvalida(){
+    void configurarEstrategiaPropostaRelacionadaEstrategiaInvalida() {
         assertThrows(IllegalArgumentException.class, () ->
                 this.controllerGeral.configurarEstrategiaPropostaRelacionada("12345678-6", "CONCLUSAO2"));
     }

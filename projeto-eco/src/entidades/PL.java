@@ -1,6 +1,7 @@
 package entidades;
 
 import util.Validador;
+
 import java.io.Serializable;
 
 /**
@@ -19,19 +20,19 @@ public class PL extends PropostaAbstract implements Serializable {
      * ementa, interesses e url, todos do tipo String, ano do tipo int e
      * conclusivo do tipo boolean, são passados como parâmetro.
      *
-     * @param codigoLei código da lei.
-     * @param dni dni do autor do projeto.
-     * @param ementa ementa do projeto.
+     * @param codigoLei  código da lei.
+     * @param dni        dni do autor do projeto.
+     * @param ementa     ementa do projeto.
      * @param interesses interesses do projeto.
-     * @param url endereço url do projeto.
-     * @param ano ano de criacção do projeto
+     * @param url        endereço url do projeto.
+     * @param ano        ano de criacção do projeto
      * @param conclusivo situção conclusiva do projeto
      */
     public PL(String codigoLei, String dni, int ano, String ementa, String interesses, String url,
               boolean conclusivo) {
         super(dni, ano, codigoLei, ementa, interesses, url);
         this.validador = new Validador();
-        this.validador.validaString(codigoLei,"Erro ao cadastrar projeto: codigo de lei nao pode ser vazio ou nulo");
+        this.validador.validaString(codigoLei, "Erro ao cadastrar projeto: codigo de lei nao pode ser vazio ou nulo");
         this.validador.validaProjeto(dni, ano, ementa, interesses, url);
         this.conclusivo = conclusivo;
         this.tipoDeProposicao = "PL";
@@ -44,10 +45,9 @@ public class PL extends PropostaAbstract implements Serializable {
      * @return retorna a representação em String do projeto
      */
     public String toString() {
-        if(this.conclusivo){
-            return "Projeto de Lei" + super.toString() + "Conclusiva"  + " - " + this.situacao;
-        }
-        else return "Projeto de Lei" + super.toString() + this.situacao;
+        if (this.conclusivo) {
+            return "Projeto de Lei" + super.toString() + "Conclusiva" + " - " + this.situacao;
+        } else return "Projeto de Lei" + super.toString() + this.situacao;
     }
 
     /**
@@ -78,15 +78,15 @@ public class PL extends PropostaAbstract implements Serializable {
     /**
      * Método para votar a proposta na comissao.
      *
-     * @param proximoLocal próximo local de votação.
-     * @param chao quantidade mínima de deputados.
+     * @param proximoLocal    próximo local de votação.
+     * @param chao            quantidade mínima de deputados.
      * @param votosFavoraveis total de votos favoraveis.
-     * @param autor autor da proposta.
+     * @param autor           autor da proposta.
      * @return boolean informando se foi aprovado ou não a proposta.
      */
     @Override
     public boolean votarComissao(String proximoLocal, int chao, int votosFavoraveis, Pessoa autor) {
-        if(this.conclusivo){
+        if (this.conclusivo) {
             return votarComissaoConc(proximoLocal, chao, votosFavoraveis, autor);
         }
         return votarComissaoNConc(proximoLocal, chao, votosFavoraveis, autor);
@@ -94,10 +94,10 @@ public class PL extends PropostaAbstract implements Serializable {
 
     @Override
     public boolean votarPlenario(String[] deputados, Pessoa deputado, int votosFavoraveis, int totalDeputados) {
-        if(!this.passouNaCCJC){
+        if (!this.passouNaCCJC) {
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao em comissao");
         }
-        if(!this.proposicaoAtiva){
+        if (!this.proposicaoAtiva) {
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
         }
         int chao = calculaChao(deputados.length);
@@ -109,7 +109,7 @@ public class PL extends PropostaAbstract implements Serializable {
                 atualizaTramitacaoLei("APROVADO (Plenario)");
                 deputado.getFuncao().incrementaNumeroDeLeis();
                 result = true;
-            } else{
+            } else {
                 atualizaTramitacaoLei("REJEITADO (Plenario)");
             }
         }
@@ -118,7 +118,7 @@ public class PL extends PropostaAbstract implements Serializable {
 
     private boolean votarComissaoNConc(String proximoLocal, int chao, int votosFavoraveis, Pessoa autor) {
         boolean result = false;
-        if(votosFavoraveis >= chao) {
+        if (votosFavoraveis >= chao) {
             this.quantidadeDeAprovacoes++;
             result = true;
             atualizaTramitacaoLei("APROVADO (" + this.localDeVotacao + ")");
@@ -126,8 +126,7 @@ public class PL extends PropostaAbstract implements Serializable {
                 this.situacao = "EM VOTACAO (Plenario - 1o turno)";
                 atualizaTramitacaoLei("EM VOTACAO (Plenario)");
             } else atualizaTramitacaoLei("EM VOTACAO (" + proximoLocal + ")");
-        }
-        else{
+        } else {
             atualizaTramitacaoLei("REJEITADO (" + this.localDeVotacao + ")");
         }
         this.localDeVotacao = proximoLocal;
@@ -142,8 +141,8 @@ public class PL extends PropostaAbstract implements Serializable {
             this.proposicaoAtiva = false;
             this.passouNaCCJC = true;
             this.quantidadeDeComissoes++;
-            atualizaTramitacaoLei("REJEITADO (" + this.localDeVotacao +")");
-        }else if(votosFavoraveis >= chao && !this.passouNaCCJC){
+            atualizaTramitacaoLei("REJEITADO (" + this.localDeVotacao + ")");
+        } else if (votosFavoraveis >= chao && !this.passouNaCCJC) {
             this.passouNaCCJC = true;
             this.situacao = "EM VOTACAO (" + proximoLocal + ")";
             atualizaTramitacaoLei("APROVADO (" + this.localDeVotacao + ")");
@@ -152,10 +151,10 @@ public class PL extends PropostaAbstract implements Serializable {
             this.quantidadeDeAprovacoes++;
             atualizaTramitacaoLei("EM VOTACAO (" + this.localDeVotacao + ")");
             result = true;
-        }else if(votosFavoraveis >= chao){
-            if(proximoLocal.equals("-")){
+        } else if (votosFavoraveis >= chao) {
+            if (proximoLocal.equals("-")) {
                 this.situacao = "APROVADO";
-                atualizaTramitacaoLei("APROVADO (" + this.localDeVotacao +")");
+                atualizaTramitacaoLei("APROVADO (" + this.localDeVotacao + ")");
                 autor.getFuncao().incrementaNumeroDeLeis();
                 this.proposicaoAtiva = false;
                 this.quantidadeDeComissoes++;
@@ -163,10 +162,10 @@ public class PL extends PropostaAbstract implements Serializable {
             this.quantidadeDeAprovacoes++;
             result = true;
 
-        }else if(votosFavoraveis < chao){
+        } else if (votosFavoraveis < chao) {
             this.proposicaoAtiva = false;
             this.quantidadeDeComissoes++;
-            if(proximoLocal.equals("-")){
+            if (proximoLocal.equals("-")) {
                 this.situacao = "ARQUIVADO";
                 atualizaTramitacaoLei("REJEITADO (" + this.localDeVotacao + ")");
             }

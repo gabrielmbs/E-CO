@@ -24,9 +24,8 @@ public class Contador implements Serializable {
     /**
      * Método responsável por incrementar em 1 a contagem do
      * contador
-     *
      */
-    public void incrementaContagem(){
+    public void incrementaContagem() {
         this.contagem++;
     }
 

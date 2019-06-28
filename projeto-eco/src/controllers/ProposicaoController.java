@@ -3,6 +3,7 @@ package controllers;
 import entidades.*;
 import util.Contador;
 import util.Validador;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,7 @@ public class ProposicaoController {
     /**
      * Representa mapa onde se armazena as contagens específicas de cada tipo de lei em consonância
      * com seu ano de cadastro, com a chave no formato: "tipoDeLei AnoCadastro".
-     *
+     * <p>
      * Permite o acompanhamento mais preciso da quantidade de um tipo específico de leis
      * cadastradas em um ano.
      */
@@ -43,13 +44,12 @@ public class ProposicaoController {
      * ementa, interesses e url, todos do tipo String, ano do tipo int e
      * conclusivo do tipo boolean, são passados como parâmetro.
      *
-     * @param dni dni do autor do projeto.
-     * @param ementa ementa do projeto.
+     * @param dni        dni do autor do projeto.
+     * @param ementa     ementa do projeto.
      * @param interesses interesses do projeto.
-     * @param url endereço url do projeto.
-     * @param ano ano de criação do projeto.
+     * @param url        endereço url do projeto.
+     * @param ano        ano de criação do projeto.
      * @param conclusivo situção conclusiva do projeto
-     *
      * @return retorna o código da lei cadastrada.
      */
     public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
@@ -75,13 +75,12 @@ public class ProposicaoController {
      * ementa, interesses, url e artigos, todos do tipo String e ano do tipo int
      * são passados como parâmetro.
      *
-     * @param dni dni da pessoa deputada autor da lei.
-     * @param ementa ementa da lei.
+     * @param dni        dni da pessoa deputada autor da lei.
+     * @param ementa     ementa da lei.
      * @param interesses interesses da lei.
-     * @param url endereço url da lei.
-     * @param artigos artigos da constituição sobre os quais a lei vai atuar.
-     * @param ano ano de criação do projeto
-     *
+     * @param url        endereço url da lei.
+     * @param artigos    artigos da constituição sobre os quais a lei vai atuar.
+     * @param ano        ano de criação do projeto
      * @return retorna o código da lei cadastrada.
      */
     public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
@@ -105,13 +104,12 @@ public class ProposicaoController {
      * ementa, interesses, url e artigos, todos do tipo String e ano do tipo int
      * são passados como parâmetro.
      *
-     * @param dni dni da pessoa deputada autor da lei.
-     * @param ementa ementa da lei.
+     * @param dni        dni da pessoa deputada autor da lei.
+     * @param ementa     ementa da lei.
      * @param interesses interesses da lei.
-     * @param url endereço url da lei.
-     * @param artigos artigos da constituição sobre os quais a lei vai atuar.
-     * @param ano ano de criação do projeto
-     *
+     * @param url        endereço url da lei.
+     * @param artigos    artigos da constituição sobre os quais a lei vai atuar.
+     * @param ano        ano de criação do projeto
      * @return retorna o código da lei cadastrada.
      */
     public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
@@ -123,7 +121,7 @@ public class ProposicaoController {
         Contador contador = this.contadores.get(chaveContador);
         String codigoLei = "PEC " + contador.getContagem() + "/" + ano;
         this.proposicoesDeLeis.put(codigoLei, new PEC(codigoLei, dni, ano, ementa, interesses,
-                                    url, artigosConcatenados));
+                url, artigosConcatenados));
         contador.incrementaContagem();
         return codigoLei;
     }
@@ -133,7 +131,7 @@ public class ProposicaoController {
      * parâmetro o código da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE), e o próximo
      * local no qual a porposta será votada.
      *
-     * @param codigo código da proposta.
+     * @param codigo       código da proposta.
      * @param proximoLocal próximo locla no qual a proposta será votada.
      * @return um boolean que indica o resultado da votação.
      */
@@ -147,7 +145,7 @@ public class ProposicaoController {
      * o código da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE), e os presentes
      * no plenário (DNIs separados por vírgula), todos do tipo String. O método retorna um boolena que indica
      * o resultado da votação.
-     *
+     * <p>
      * Ao longo das condições referentes à situação atual de um determinado projeto de lei,
      * tal situação é registrada, de modo a compor a tramitação do projeto, que pode ser
      * posteriormente resgatada.
@@ -177,7 +175,7 @@ public class ProposicaoController {
      * @param codigo codigo da lei a ser procurado.
      * @return Object a lei pesquisada.
      */
-    public PropostaAbstract buscaProposicao(String codigo){
+    public PropostaAbstract buscaProposicao(String codigo) {
         return this.proposicoesDeLeis.get(codigo);
     }
 
@@ -188,10 +186,10 @@ public class ProposicaoController {
      * @param artigos String base para geração da nova string dos artigos concatenados.
      * @return String dos artigos separados por ", "
      */
-    private String contatenaArtigos(String artigos){
-        if(artigos.contains(",")){
+    private String contatenaArtigos(String artigos) {
+        if (artigos.contains(",")) {
             String artigosConcatenados = "";
-            for(String caractere : artigos.split(",")){
+            for (String caractere : artigos.split(",")) {
                 artigosConcatenados += caractere + ", ";
 
             }
@@ -246,7 +244,7 @@ public class ProposicaoController {
      */
 
     public String exibirTramitacao(String codigo) {
-        if(!existeLei(codigo)){
+        if (!existeLei(codigo)) {
             throw new NullPointerException("Erro ao exibir tramitacao: projeto inexistente");
         }
         List<String> tramitacao = this.proposicoesDeLeis.get(codigo).getTramitacao();

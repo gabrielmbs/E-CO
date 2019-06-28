@@ -136,19 +136,19 @@ public abstract class PropostaAbstract implements Serializable {
     /**
      * Método para votar a proposta na comissao.
      *
-     * @param proximoLocal próximo local de votação.
-     * @param chao quantidade mínima de deputados.
+     * @param proximoLocal    próximo local de votação.
+     * @param chao            quantidade mínima de deputados.
      * @param votosFavoraveis total de votos favoraveis.
-     * @param autor autor da proposta.
+     * @param autor           autor da proposta.
      * @return boolean informando se foi aprovado ou não a proposta.
      */
     public abstract boolean votarComissao(String proximoLocal, int chao, int votosFavoraveis, Pessoa autor);
 
     public boolean votarPlenario(String[] deputados, Pessoa deputado, int votosFavoraveis, int totalDeputados) {
-        if(!this.passouNaCCJC){
+        if (!this.passouNaCCJC) {
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao em comissao");
         }
-        if(!this.proposicaoAtiva){
+        if (!this.proposicaoAtiva) {
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
         }
         int chao = calculaChao(totalDeputados);
@@ -170,8 +170,7 @@ public abstract class PropostaAbstract implements Serializable {
         } else {
             if (!this.passouNoPlenario) {
                 atualizaTramitacaoLei("REJEITADO (Plenario - 1o turno)");
-            }
-            else atualizaTramitacaoLei("REJEITADO (Plenario - 2o turno)");
+            } else atualizaTramitacaoLei("REJEITADO (Plenario - 2o turno)");
             this.situacao = "ARQUIVADO";
             this.proposicaoAtiva = false;
         }
@@ -184,18 +183,17 @@ public abstract class PropostaAbstract implements Serializable {
      *
      * @param situacao parecer atual do projeto de lei em questão.
      */
-    public void atualizaTramitacaoLei(String situacao){
-        if((situacao.contains("REJEITADO") || situacao.contains("APROVADO"))){
+    public void atualizaTramitacaoLei(String situacao) {
+        if ((situacao.contains("REJEITADO") || situacao.contains("APROVADO"))) {
             List<String> novaTramitacao = new ArrayList<String>();
-            for(String statusLei : this.tramitacao){
-                if(!statusLei.contains("EM VOTACAO")){
+            for (String statusLei : this.tramitacao) {
+                if (!statusLei.contains("EM VOTACAO")) {
                     novaTramitacao.add(statusLei);
                 }
             }
             novaTramitacao.add(situacao);
             this.tramitacao = novaTramitacao;
-        }
-        else this.tramitacao.add(situacao);
+        } else this.tramitacao.add(situacao);
     }
 
     /**
@@ -331,7 +329,7 @@ public abstract class PropostaAbstract implements Serializable {
     /**
      * Método auxiliar para inicializar o estado da tramitação.
      */
-    private void inicializarTramitacao(){
+    private void inicializarTramitacao() {
         this.tramitacao = new ArrayList<>();
         this.tramitacao.add("EM VOTACAO (CCJC)");
     }

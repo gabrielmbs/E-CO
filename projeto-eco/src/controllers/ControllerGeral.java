@@ -248,7 +248,7 @@ public class ControllerGeral {
         String localDeVotacao = this.proposicaoController.buscaProposicao(codigo).getLocalDeVotacao();
         int votosFavoraveis = calculaVotosComissao(codigo, localDeVotacao, statusGovernista);
         int participantes = this.comissoes.get(localDeVotacao).getDNIs().length;
-        int chao = (participantes/2 + 1);
+        int chao = (participantes / 2 + 1);
 
         PropostaAbstract proposicao = this.proposicaoController.buscaProposicao(codigo);
         Pessoa deputado = this.pessoaController.buscaPessoa(proposicao.getDniAutor());
@@ -304,9 +304,8 @@ public class ControllerGeral {
     }
 
     /**
-     *  Esse método é responsável por limpar as informações das coleções presentes no ControllerGeral
-     *  e nos demais controllers do sistema. Criando arquivos da extensão .dat vazios no diretório files/ .
-     *
+     * Esse método é responsável por limpar as informações das coleções presentes no ControllerGeral
+     * e nos demais controllers do sistema. Criando arquivos da extensão .dat vazios no diretório files/ .
      */
     public void limparSistema() {
         this.persistencia.limpar("mapaComissoes");
@@ -330,7 +329,6 @@ public class ControllerGeral {
     /**
      * Esse método é responsável por carregar os dados do ControllerGeral e dos demais controllers do sistema
      * armazenados diretório files/ .
-     *
      */
     public void carregarSistema() {
         Object aux = this.persistencia.carregar("mapaComissoes");

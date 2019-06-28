@@ -16,9 +16,9 @@ public class ComparadorPropostaCodigo implements Comparator<PropostaAbstract> {
         String ano2 = nCadastroAno2[1];
 
         int result;
-        if(ano1.compareTo(ano2) == 0){
+        if (ano1.compareTo(ano2) == 0) {
             result = nCadastro1[1].compareTo(nCadastro2[1]);
-        }else{
+        } else {
             result = ano1.compareTo(ano2);
         }
 
