@@ -8,6 +8,9 @@ import java.util.Map;
 
 public class PessoaController {
 
+    /**
+     * Atributo que será utilizado para validações.
+     */
     private Validador validador;
 
     /**
@@ -17,6 +20,9 @@ public class PessoaController {
 
     private Persistencia persistencia;
 
+    /**
+     * Constrói o controller de pessoas.
+     */
     public PessoaController() {
         this.persistencia = new Persistencia();
         this.validador = new Validador();
@@ -28,7 +34,7 @@ public class PessoaController {
      * a podermos cadastrar no sistema uma pessoa que possua filiação a algum partido
      * ou não.
      *
-     * @param nome       nome da pessoa a ser cadastrada.
+     * @param nome nome da pessoa a ser cadastrada.
      * @param dni        dni da pessa a ser cadastrada.
      * @param estado     estado da pessoa a ser cadastrada.
      * @param interesses interesses da pessoa a ser cadastrada.

@@ -12,7 +12,7 @@ public class ProposicaoController {
     /**
      * Representa mapa onde se armazena as contagens específicas de cada tipo de lei em consonância
      * com seu ano de cadastro, com a chave no formato: "tipoDeLei AnoCadastro".
-     * <p>
+     *
      * Permite o acompanhamento mais preciso da quantidade de um tipo específico de leis
      * cadastradas em um ano.
      */
@@ -31,6 +31,9 @@ public class ProposicaoController {
 
     private Persistencia persistencia;
 
+    /**
+     * Constrói o controller de proposições.
+     */
     public ProposicaoController() {
         this.proposicoesDeLeis = new HashMap<>();
         this.validador = new Validador();
@@ -173,7 +176,6 @@ public class ProposicaoController {
      * @param codigo String que identifica o projeto de lei.
      * @return String com todas as situações e pareceres da lei ao longo de suas votações.
      */
-
     public String exibirTramitacao(String codigo) {
         if(!existeLei(codigo)){
             throw new NullPointerException("Erro ao exibir tramitacao: projeto inexistente");

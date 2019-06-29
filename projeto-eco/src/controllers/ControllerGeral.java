@@ -14,17 +14,17 @@ public class ControllerGeral {
     private PessoaController pessoaController;
 
     /**
-     * Conjunto de partido.
+     * Conjunto de partidos.
      */
     private Set<String> base;
 
     /**
-     * Representa mapa de comissoes, com a chave representando o tema e o valor a comissao.
+     * Representa um mapa de comissões, com a chave representando o tema e o valor a comissão.
      */
     private Map<String, Comissao> comissoes;
 
     /**
-     * Atributo que será utilizado para validacoes.
+     * Atributo que será utilizado para validações.
      */
     private Validador validador;
 
@@ -102,7 +102,7 @@ public class ControllerGeral {
 
     /**
      * Método responsável por cadastrar um partido no sistema, recebendo como parâmetro o nome do partido.
-     * <p>
+     *
      * Checa-se se esse parâmetro é nulo ou vazio, e se for, exceções do tipo NullPointerException
      * e IllegalArgumentExeception serão lançadas, respectivamente.
      *
@@ -215,11 +215,11 @@ public class ControllerGeral {
     }
 
     /**
-     * O método cadastraComissao serve para cadastrar no sistema uma comissão que possui um tema e uma lista de politicos
+     * O método cadastraComissao serve para cadastrar no sistema uma comissão que possui um tema e uma lista de políticos
      * que o compõe.
      *
      * @param tema      representa o tema da comissão
-     * @param politicos lista de politicos separados por ",".
+     * @param politicos lista de políticos separados por ",".
      */
     public void cadastrarComissao(String tema, String politicos) {
         this.validador.validaString(tema, "Erro ao cadastrar comissao: tema nao pode ser vazio ou nulo");
@@ -370,6 +370,12 @@ public class ControllerGeral {
         this.pessoaController.carregarSistema();
     }
 
+    /**
+     * Método responsável por exibir a tramitação de um determinado projeto de lei.
+     *
+     * @param codigo String que identifica o projeto de lei.
+     * @return String com todas as situações e pareceres da lei ao longo de suas votações.
+     */
     public String exibirTramitacao(String codigo) {
         return this.proposicaoController.exibirTramitacao(codigo);
     }

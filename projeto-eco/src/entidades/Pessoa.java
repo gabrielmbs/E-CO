@@ -84,7 +84,6 @@ public class Pessoa implements Serializable {
         this.validador.validaDNI(dni, "Erro ao cadastrar pessoa: ");
         this.validador.validaString(nome, "Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
         this.validador.validaString(estado, "Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
-
         this.nome = nome;
         this.dni = dni;
         this.estado = estado;
