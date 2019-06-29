@@ -11,6 +11,10 @@ import java.util.Set;
 import java.util.Map;
 
 public class ControllerGeral {
+
+    /**
+     * Controller de pessoas.
+     */
     private PessoaController pessoaController;
 
     /**
