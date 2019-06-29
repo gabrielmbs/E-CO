@@ -3,10 +3,15 @@ package controllers;
 import entidades.*;
 import util.Contador;
 import util.Validador;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Classe controladora de Proposições, ela é responsavel por guardar e manipular os dados da classe PropostaAbstrat
+ * e suas filhas.
+ */
 public class ProposicaoController {
 
     /**
@@ -29,6 +34,9 @@ public class ProposicaoController {
      */
     private Validador validador;
 
+    /**
+     * Atributo que será utilizado para o gerenciamento de arquivos.
+     */
     private Persistencia persistencia;
 
     /**
@@ -139,11 +147,11 @@ public class ProposicaoController {
      * quantos votos são necessários para aprovar a proposição, os votos favoráveis à aprovação da proposição e o autor
      * da lei. O método retorna um boolean que indica se a proposição foi ou não aprovada.
      *
-     * @param codigo       código da proposta.
-     * @param proximoLocal próximo locla no qual a proposta será votada.
-     * @param chao mínimo de votos necessários para aprovação da proposição.
+     * @param codigo          código da proposta.
+     * @param proximoLocal    próximo locla no qual a proposta será votada.
+     * @param chao            mínimo de votos necessários para aprovação da proposição.
      * @param votosFavoraveis votos favoráveis à aprovação da proposição.
-     * @param autor o autor da proposição a ser votada.
+     * @param autor           o autor da proposição a ser votada.
      * @return um boolean que indica o resultado da votação.
      */
     public boolean votarComissao(String codigo, String proximoLocal, int chao, int votosFavoraveis, Pessoa autor) {
@@ -161,7 +169,7 @@ public class ProposicaoController {
      * @param deputados Array com os deputados presentes.
      * @param deputado o autor da lei.
      * @param votosFavoraveis quantidade de votos favoráveis à aprovação.
-     * @param totalDeputados total de deputados cadastrados no sistema.
+     * @param totalDeputados  total de deputados cadastrados no sistema.
      * @return um boolean que indica o resultado da votação.
      */
     public boolean votarPlenario(String codigo, String[] deputados, Pessoa deputado, int votosFavoraveis, int totalDeputados) {
@@ -177,7 +185,7 @@ public class ProposicaoController {
      * @return String com todas as situações e pareceres da lei ao longo de suas votações.
      */
     public String exibirTramitacao(String codigo) {
-        if(!existeLei(codigo)){
+        if (!existeLei(codigo)) {
             throw new NullPointerException("Erro ao exibir tramitacao: projeto inexistente");
         }
         List<String> tramitacao = this.proposicoesDeLeis.get(codigo).getTramitacao();

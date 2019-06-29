@@ -1,13 +1,15 @@
 package entidades;
 
 import comparators.ComparadorPropostaCodigo;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * Representa uma estratégia de busca que pode ser utilizada na pesquisa de uma determinada proposição.
+ * Representa a estratégia de busca por constitucional, ou seja, dará preferencia a primeiro PECs, depois PLPs
+ * depois PLs.
  */
 public class EstrategiaConstitucional implements EstrategiaDesempate, Serializable {
 

@@ -1,6 +1,7 @@
 package entidades;
 
 import util.Validador;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -51,7 +52,8 @@ public class Pessoa implements Serializable {
     private Validador validador;
 
     /**
-     * Estrátegia de busca de proposições de uma determinada pessoa, por padrão a estratégia CONSTITUCIONAL.
+     * Representa a estrategia de busca da Pessoa, por padrão é Constitucional,
+     * o atributo consiste em uma interface implementada pelas estratégias.
      */
     private EstrategiaDesempate estrategiaBuscaProposta;
 
@@ -212,19 +214,34 @@ public class Pessoa implements Serializable {
     }
 
     /**
+<<<<<<< HEAD
+     * Pega os interesses da pessoa.
+     *
+     * @return retorna uma String, representando os interreses da pessoa separada por ','.
+=======
      * Retorna uma String com os interesses da pessoa separados por vírgula.
      *
      * @return os interesses da pessoa.
+>>>>>>> 254f18bd241c0d4fa6ac23a9991d7e72b6550cd2
      */
     public String getInteresses() {
         return interesses;
     }
 
     /**
+<<<<<<< HEAD
+     * Método responsável por configurar a estrategia de busca, para o proposta relacionada com o seus interesses.
+     * A estratégia pode ser: CONSTITUCIONAL, CONCLUSAO, APROVACAO. Se por acaso não forem passadas por paramentro
+     * é lançado um IllegalArgumentException.
+     * A estrategia de busca padrão é: CONSTITUCIONAL.
+     *
+     * @param estrategia String, que representa a estratégia de busca desejada.
+=======
      * Método responsável por configurar uam estratégia de busca para uam determinada pessoa. Este método recebe como
      * parâmetro a estratégia a ser utilizada pela pessoa.
      *
      * @param estrategia estratégia a ser utilizada.
+>>>>>>> 254f18bd241c0d4fa6ac23a9991d7e72b6550cd2
      */
     public void configurarEstrategiaPropostaRelacionada(String estrategia) {
         if ("CONSTITUCIONAL".equals(estrategia)) {
@@ -239,9 +256,15 @@ public class Pessoa implements Serializable {
     }
 
     /**
+<<<<<<< HEAD
+     * Pega estratégia de busca da proposta.
+     *
+     * @return EstrategiaDesempate, que representa a estratégia de busca da Pessoa.
+=======
      * Retorna a estratégia de busca utilizada pela pessoa.
      *
      * @return a estratégia utilizada pela pessoa.
+>>>>>>> 254f18bd241c0d4fa6ac23a9991d7e72b6550cd2
      */
     public EstrategiaDesempate getEstrategiaBuscaProposta() {
         return estrategiaBuscaProposta;

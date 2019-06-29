@@ -1,6 +1,7 @@
 package entidades;
 
 import util.Validador;
+
 import java.io.Serializable;
 
 /**
@@ -59,7 +60,7 @@ public class PEC extends PropostaAbstract implements Serializable {
      * Método que verifica se o quórum mínimo necessário para votação de uma determinada proposição foi alcançado, caso
      * não seja, uma exceção do tipo IllegalArgumentException é lançada.
      *
-     * @param deputados quantidade de deputados presentes para votação.
+     * @param deputados        quantidade de deputados presentes para votação.
      * @param totalDeDeputados total de deputados cadastrados no sistema.
      */
     @Override

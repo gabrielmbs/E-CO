@@ -2,6 +2,7 @@ package controllers;
 
 import entidades.*;
 import util.Validador;
+
 import java.util.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,6 +11,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.Map;
 
+/**
+ * Classe controladora geral, ela é responsavel por guardar e manipular os demais controllers relacionados, e por gaurdar e
+ * manipular dados geral do sistema.
+ *
+ * @author ERIC DIEGO MATOZO GONCALVES - 118210349
+ * @author GABRIEL MARECO BATISTA DE SOUTO - 118210258
+ * @author VICTOR BRANDAO DE ANDRADE - 118210406
+ * @author WELLISSON GOMES PEREIRA BEZERRA CACHO - 118210873
+ */
 public class ControllerGeral {
 
     /**
@@ -37,6 +47,9 @@ public class ControllerGeral {
      */
     private ProposicaoController proposicaoController;
 
+    /**
+     * Atributo que será utilizado para o gerenciamento de arquivos.
+     */
     private Persistencia persistencia;
 
     /**
@@ -264,9 +277,9 @@ public class ControllerGeral {
      * da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE) e uma String com o DNI de todos os
      * deputados presentes separados por vírgula. O método retorna um boolean que indica o resultado da votação.
      *
-     * @param codigo código da proposição a ser votada.
+     * @param codigo           código da proposição a ser votada.
      * @param statusGovernista status da proposição a ser votada.
-     * @param presentes String com todos os presentes.
+     * @param presentes        String com todos os presentes.
      * @return um boolean que indica o resultado da votação.
      */
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
@@ -295,12 +308,13 @@ public class ControllerGeral {
     }
 
     /**
-     * Método responsável pela busca de uma proposição (ainda em tramitação) para uma detemrinada pessoa com base nos
-     * interesses em comum entre a pessoa e a proposição, em caso de empate nos interesses, a busca é realizada usando
-     * como critério a estrátegia de busca definida pela pessoa, que por padrão é a estratégia CONSTITUCIONAL.
+     * Método responsavel por buscar a proposta mais relacionada com uma pessoa, caso exista mais de uma, o
+     * desempate será através da estrategia de busca da pessoa, entre todas as propostas ainda em tramitação
+     * no sistema. Caso empata novamente, será retornada a proposta mais antiga.
      *
-     * @param dni dni da pessoa que deseja buscar uma determinada proposição.
-     * @return uma String que representa a proposição encontrada.
+     * @param dni representa o dni da pessoa que se deseja saber qual a proposta mais relacionada a ela.
+     * @return String, caso exista uma proposta em tramitação relacionada a pessoa, representa o código da tramitação
+     * caso contrario é retornado uma string vazia.
      */
     public String pegarPropostaRelacionada(String dni) {
         this.validador.validaString(dni, "Erro ao pegar proposta relacionada: pessoa nao pode ser vazia ou nula");

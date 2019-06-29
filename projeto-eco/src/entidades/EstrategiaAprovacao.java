@@ -1,12 +1,14 @@
 package entidades;
 
 import comparators.ComparadorPropostaCodigo;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * Representa uma estratégia de busca que pode ser utilizada na pesquisa de uma determinada proposição.
+ * Representa a estratégia de busca por conclusão, ou seja, dará preferencia as propostas com maior aprovação
+ * na sua tramitação.
  */
 public class EstrategiaAprovacao implements EstrategiaDesempate {
 
