@@ -24,6 +24,9 @@ public class PessoaController {
      */
     private Persistencia persistencia;
 
+    /**
+     * Constrói o pessoa controller.
+     */
     public PessoaController() {
         this.persistencia = new Persistencia();
         this.validador = new Validador();
@@ -177,6 +180,14 @@ public class PessoaController {
         this.validador.validaData(dataDeInicio, "Erro ao cadastrar deputado: ");
     }
 
+    /**
+     * Método responsável por alterar a estrategia de busca de uma pessoa,ou seja, ele verifica se a pessoa
+     * existe através do seu dni, caso não exista é lançado um IllegalArgumentException, caso contrário
+     * é passado para pessoa a estratégia.
+     *
+     * @param dni        String, que representa o dni da pessoa
+     * @param estrategia String,que representa a estrategia de busca da pessoa.
+     */
     public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {
         if (!existePessoa(dni)) {
             throw new IllegalArgumentException("Erro: pessoa nao encontrada");

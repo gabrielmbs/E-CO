@@ -2,6 +2,7 @@ package controllers;
 
 import entidades.*;
 import util.Validador;
+
 import java.util.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -263,9 +264,9 @@ public class ControllerGeral {
      * da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE) e uma String com o DNI de todos os
      * deputados presentes separados por vírgula.
      *
-     * @param codigo código da proposição a ser votada.
+     * @param codigo           código da proposição a ser votada.
      * @param statusGovernista status da proposição a ser votada.
-     * @param presentes String com todos os presentes.
+     * @param presentes        String com todos os presentes.
      * @return um boolean que indica o resultado da votação.
      */
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {

@@ -209,10 +209,23 @@ public class Pessoa implements Serializable {
         return funcao;
     }
 
+    /**
+     * Pega os interesses da pessoa.
+     *
+     * @return retorna uma String, representando os interreses da pessoa separada por ','.
+     */
     public String getInteresses() {
         return interesses;
     }
 
+    /**
+     * Método responsável por configurar a estrategia de busca, para o proposta relacionada com o seus interesses.
+     * A estratégia pode ser: CONSTITUCIONAL, CONCLUSAO, APROVACAO. Se por acaso não forem passadas por paramentro
+     * é lançado um IllegalArgumentException.
+     * A estrategia de busca padrão é: CONSTITUCIONAL.
+     *
+     * @param estrategia String, que representa a estratégia de busca desejada.
+     */
     public void configurarEstrategiaPropostaRelacionada(String estrategia) {
         if ("CONSTITUCIONAL".equals(estrategia)) {
             this.estrategiaBuscaProposta = new EstrategiaConstitucional();
@@ -224,7 +237,7 @@ public class Pessoa implements Serializable {
             throw new IllegalArgumentException("Erro ao configurar estrategia: estrategia invalida");
         }
     }
-
+    
     public EstrategiaDesempate getEstrategiaBuscaProposta() {
         return estrategiaBuscaProposta;
     }
