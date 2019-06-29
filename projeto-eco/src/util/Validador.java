@@ -142,6 +142,16 @@ public class Validador implements Serializable {
         }
     }
 
+    /**
+     * Método responsaável por verificar os dados passados como parâmetro na criação de um projeto, verificando se cada
+     * um dos parâmetors é vazio ou nulo, além de verificar se o DNI é inválido e lançar as exceções adequadas.
+     *
+     * @param dni dni do deputado.
+     * @param ano ano de cadastro.
+     * @param ementa ementa do projeto.
+     * @param interesses interesses do projeto.
+     * @param url url do projeto.
+     */
     public void validaProjeto(String dni, int ano, String ementa, String interesses, String url) {
         this.validaString(ementa, "Erro ao cadastrar projeto: ementa nao pode ser vazia ou nula");
         this.validaString(dni, "Erro ao cadastrar projeto: autor nao pode ser vazio ou nulo");

@@ -1,7 +1,6 @@
 package entidades;
 
 import util.Validador;
-
 import java.io.Serializable;
 
 /**
@@ -21,7 +20,7 @@ public class Deputado implements Funcao, Serializable {
     private String dataInicio;
 
     /**
-     * Atributo que será utilizado para validacoes.
+     * Atributo que será utilizado para validações.
      */
     private Validador validador;
 

@@ -17,7 +17,7 @@ public class ProposicaoController {
     /**
      * Representa mapa onde se armazena as contagens específicas de cada tipo de lei em consonância
      * com seu ano de cadastro, com a chave no formato: "tipoDeLei AnoCadastro".
-     * <p>
+     *
      * Permite o acompanhamento mais preciso da quantidade de um tipo específico de leis
      * cadastradas em um ano.
      */
@@ -40,7 +40,7 @@ public class ProposicaoController {
     private Persistencia persistencia;
 
     /**
-     * Constrói o proposição controller.
+     * Constrói o controller de proposições.
      */
     public ProposicaoController() {
         this.proposicoesDeLeis = new HashMap<>();
@@ -144,8 +144,8 @@ public class ProposicaoController {
     /**
      * Esse método é responsável por realizar a votação de uma proposta em uma determinada comissão, ele recebe como
      * parâmetro o código da proposta a ser votada, o próximo local no qual a porposta será votada, o chão que define
-     * quantos votos são necessários para aprovar a proposição, os votos favoráveis à aprovação da porposição e o autor
-     * da lei. O método retorna um boolean que indica se a porposição foi ou não aprovada.
+     * quantos votos são necessários para aprovar a proposição, os votos favoráveis à aprovação da proposição e o autor
+     * da lei. O método retorna um boolean que indica se a proposição foi ou não aprovada.
      *
      * @param codigo          código da proposta.
      * @param proximoLocal    próximo locla no qual a proposta será votada.
@@ -161,12 +161,13 @@ public class ProposicaoController {
 
     /**
      * Esse método é responsável por realizar a votação de uma proposta no plenário, ele recebe como parâmetro
-     * o código da proposta a ser votada, o autor da proposição ser votada, o número de votos favoráveis à aprovação da
-     * proposição e o total de deputados cadastrados no sistema. O método retorna um boolean que indica se a proposição
-     * foi o não aprovada.
+     * o código da proposta a ser votada, um Array com os deputados presentes para votação, o deputado autor da proposição
+     * a ser votada, o número de votos favoráveis à aprovação da proposição e o total de deputados cadastrados no sistema.
+     * O método retorna um boolean que indica se a proposição foi o não aprovada.
      *
-     * @param codigo          código da proposta.
-     * @param deputado        o autor da lei.
+     * @param codigo código da proposta.
+     * @param deputados Array com os deputados presentes.
+     * @param deputado o autor da lei.
      * @param votosFavoraveis quantidade de votos favoráveis à aprovação.
      * @param totalDeputados  total de deputados cadastrados no sistema.
      * @return um boolean que indica o resultado da votação.

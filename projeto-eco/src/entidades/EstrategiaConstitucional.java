@@ -13,6 +13,17 @@ import java.util.List;
  */
 public class EstrategiaConstitucional implements EstrategiaDesempate, Serializable {
 
+    /**
+     * Método responsável por pegar uma determinada proposição (ainda em tramitação) utilizando como critério de busca o
+     * tipo da proposição, seguindo a seguinte precedência (PEC > PLP > PL). Em caso de haver mais de uma proposição do
+     * mesmo tipo, é retornada a proposição mais antiga primeiro considerando o ano e em caso de empate nos anos de
+     * cadastro, considera-se o número de cadastro. O método recebe como parâmetro uma lista com todas as proposições
+     * empatadas em número de interesses em comum com uma determinada pessoa e retorna a proposição mais relevante para
+     * pessoa.
+     *
+     * @param maioresPropostas lista com as proposições empatadas em número de interesses.
+     * @return a proposição mais relevante para uam determinada pessoa.
+     */
     @Override
     public String pegarPropostaRelacionada(List<PropostaAbstract> maioresPropostas) {
 
@@ -40,6 +51,14 @@ public class EstrategiaConstitucional implements EstrategiaDesempate, Serializab
         return result;
     }
 
+    /**
+     * Método auxiliar utilizado para retornar a proposição mais relevante após a filtragem pelo critério de busca
+     * definido pela pessoa. Retorna a proposição mais relevante para pessoa. Este método recebe como parâmetro uma lista
+     * com as porposições já filtradas pelo critério de busca definido pela pessoa.
+     *
+     * @param proposicoes lista de proposições filtradas pelo critério.
+     * @return proposição mais relevante para pessoa.
+     */
     private String verificaProposicaoRelevante(List<PropostaAbstract> proposicoes) {
         String result = "";
         if (proposicoes.size() == 1) {

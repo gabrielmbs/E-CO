@@ -93,6 +93,18 @@ public class PL extends PropostaAbstract implements Serializable {
         return votarComissaoNConc(proximoLocal, chao, votosFavoraveis);
     }
 
+    /**
+     * Método responsável por realizar a votação de um determinada proposição no plenário, ele recebe como parâmetros um
+     * Array com os deputados presentes para votação, o deputado que criou a lei, a quantidade de votos favoráveis à
+     * aprovação da lei e o total de deputados cadastrados no sistema. O método retorna um boolean que indica se a lei
+     * foi aprovada ou não.
+     *
+     * @param deputados deputados presentes para votação.
+     * @param deputado o deputado que criou a lei.
+     * @param votosFavoraveis votos favoráveis à aprovação da lei.
+     * @param totalDeputados total de deputados cadastrados no sistema.
+     * @return um boolean que indica se a lei foi ou não aprovada.
+     */
     @Override
     public boolean votarPlenario(String[] deputados, Pessoa deputado, int votosFavoraveis, int totalDeputados) {
         if (!this.passouNaCCJC) {

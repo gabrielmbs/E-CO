@@ -24,17 +24,17 @@ public class ControllerGeral {
     private PessoaController pessoaController;
 
     /**
-     * Conjunto de partido.
+     * Conjunto de partidos.
      */
     private Set<String> base;
 
     /**
-     * Representa mapa de comissoes, com a chave representando o tema e o valor a comissao.
+     * Representa um mapa de comissões, com a chave representando o tema e o valor a comissão.
      */
     private Map<String, Comissao> comissoes;
 
     /**
-     * Atributo que será utilizado para validacoes.
+     * Atributo que será utilizado para validações.
      */
     private Validador validador;
 
@@ -115,7 +115,7 @@ public class ControllerGeral {
 
     /**
      * Método responsável por cadastrar um partido no sistema, recebendo como parâmetro o nome do partido.
-     * <p>
+     *
      * Checa-se se esse parâmetro é nulo ou vazio, e se for, exceções do tipo NullPointerException
      * e IllegalArgumentExeception serão lançadas, respectivamente.
      *
@@ -228,11 +228,11 @@ public class ControllerGeral {
     }
 
     /**
-     * O método cadastraComissao serve para cadastrar no sistema uma comissão que possui um tema e uma lista de politicos
+     * O método cadastraComissao serve para cadastrar no sistema uma comissão que possui um tema e uma lista de políticos
      * que o compõe.
      *
      * @param tema      representa o tema da comissão
-     * @param politicos lista de politicos separados por ",".
+     * @param politicos lista de políticos separados por ",".
      */
     public void cadastrarComissao(String tema, String politicos) {
         this.validador.validaString(tema, "Erro ao cadastrar comissao: tema nao pode ser vazio ou nulo");
@@ -247,7 +247,7 @@ public class ControllerGeral {
     /**
      * Esse método é responsável por realizar a votação de uma proposta em uma determinada comissão, ele recebe como
      * parâmetro o código da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE), e o próximo
-     * local no qual a porposta será votada.
+     * local no qual a porposta será votada. O método retorna um boolean que indica o resultado da votação.
      *
      * @param codigo           código da proposta.
      * @param statusGovernista status da proposta.
@@ -271,7 +271,7 @@ public class ControllerGeral {
     /**
      * Esse método é responsável por realizar a votação de uma proposta no plenário, ele recebe como parâmetro o código
      * da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE) e uma String com o DNI de todos os
-     * deputados presentes separados por vírgula.
+     * deputados presentes separados por vírgula. O método retorna um boolean que indica o resultado da votação.
      *
      * @param codigo           código da proposição a ser votada.
      * @param statusGovernista status da proposição a ser votada.
@@ -289,10 +289,12 @@ public class ControllerGeral {
     }
 
     /**
-     * Método responsavavel por configurar a estrategia de busca de uma Pessoa. Que por padrão é Constitucional.
+     * Método responsável pela configuração de uma estratégia de busca de proposições para uma determinada pessoa, este
+     * método recebe como parâmetro o DNI da pessoa que vai utilizar a estratégia para buscar uma proposição e uma
+     * estratégia de busca, que pode ser (CONSTITUCIONAL, APROVACAO ou CONCLUSAO).
      *
-     * @param dni        String, representa o dni da pessoa que se deseja configurar.
-     * @param estrategia String, representa a estrategia de busca.
+     * @param dni dni da pessoa que procura uma determinada proposição.
+     * @param estrategia estrátegia de busca que será utilizada.
      */
     public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {
         this.validador.validaString(dni, "Erro ao configurar estrategia: pessoa nao pode ser vazia ou nula");
@@ -382,6 +384,12 @@ public class ControllerGeral {
         this.pessoaController.carregarSistema();
     }
 
+    /**
+     * Método responsável por exibir a tramitação de um determinado projeto de lei.
+     *
+     * @param codigo String que identifica o projeto de lei.
+     * @return String com todas as situações e pareceres da lei ao longo de suas votações.
+     */
     public String exibirTramitacao(String codigo) {
         return this.proposicaoController.exibirTramitacao(codigo);
     }

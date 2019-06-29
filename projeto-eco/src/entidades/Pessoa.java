@@ -70,7 +70,7 @@ public class Pessoa implements Serializable {
      * nulos ou estão na forma de String vazia e se estiverem, exceções
      * do tipo NullPointerException e IllegalArgumentExeception serão
      * lançadas, respectivamente.
-     * <p>
+     *
      * Ademais, checa-se se o dni passado é válido (composto apenas de números
      * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
      * uma exceção com uma mensagem indicando que o dni é inválido.
@@ -86,7 +86,6 @@ public class Pessoa implements Serializable {
         this.validador.validaDNI(dni, "Erro ao cadastrar pessoa: ");
         this.validador.validaString(nome, "Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
         this.validador.validaString(estado, "Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
-
         this.nome = nome;
         this.dni = dni;
         this.estado = estado;
@@ -101,7 +100,7 @@ public class Pessoa implements Serializable {
      * nulos ou estão na forma de String vazia e se estiverem, exceções
      * do tipo NullPointerException e IllegalArgumentExeception serão
      * lançadas, respectivamente.
-     * <p>
+     *
      * Ademais, checa-se se o dni passado é válido (composto apenas de números
      * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
      * uma exceção com uma mensagem indicando que o dni é inválido.
@@ -123,7 +122,7 @@ public class Pessoa implements Serializable {
      * Método responsável por tornar uma Pessoa também Deputado, por meio
      * da atribuição de uma instanciação de um Deputado ao atributo funcao,
      * que é uma interface implementada por Deputado.
-     * <p>
+     *
      * Recebe a data de início (do tipo String) do mandato do Deputado. Checa-se
      * se a data passada como parâmetro é nula ou vazia, se é uma data válida
      * ou se é uma data futura à data de hoje.
@@ -141,7 +140,7 @@ public class Pessoa implements Serializable {
      * Retorna a String que representa uma pessoa e a respectiva funcao
      * do mesmo. As informações sobre partido ou interesses são optativos
      * para pessoas.
-     * <p>
+     *
      * A represetacao segue o formato "Nome - DNI (Estado) [ - PARTIDO ]
      * [ - Interesses ]"
      *
@@ -215,21 +214,34 @@ public class Pessoa implements Serializable {
     }
 
     /**
+<<<<<<< HEAD
      * Pega os interesses da pessoa.
      *
      * @return retorna uma String, representando os interreses da pessoa separada por ','.
+=======
+     * Retorna uma String com os interesses da pessoa separados por vírgula.
+     *
+     * @return os interesses da pessoa.
+>>>>>>> 254f18bd241c0d4fa6ac23a9991d7e72b6550cd2
      */
     public String getInteresses() {
         return interesses;
     }
 
     /**
+<<<<<<< HEAD
      * Método responsável por configurar a estrategia de busca, para o proposta relacionada com o seus interesses.
      * A estratégia pode ser: CONSTITUCIONAL, CONCLUSAO, APROVACAO. Se por acaso não forem passadas por paramentro
      * é lançado um IllegalArgumentException.
      * A estrategia de busca padrão é: CONSTITUCIONAL.
      *
      * @param estrategia String, que representa a estratégia de busca desejada.
+=======
+     * Método responsável por configurar uam estratégia de busca para uam determinada pessoa. Este método recebe como
+     * parâmetro a estratégia a ser utilizada pela pessoa.
+     *
+     * @param estrategia estratégia a ser utilizada.
+>>>>>>> 254f18bd241c0d4fa6ac23a9991d7e72b6550cd2
      */
     public void configurarEstrategiaPropostaRelacionada(String estrategia) {
         if ("CONSTITUCIONAL".equals(estrategia)) {
@@ -244,9 +256,15 @@ public class Pessoa implements Serializable {
     }
 
     /**
+<<<<<<< HEAD
      * Pega estratégia de busca da proposta.
      *
      * @return EstrategiaDesempate, que representa a estratégia de busca da Pessoa.
+=======
+     * Retorna a estratégia de busca utilizada pela pessoa.
+     *
+     * @return a estratégia utilizada pela pessoa.
+>>>>>>> 254f18bd241c0d4fa6ac23a9991d7e72b6550cd2
      */
     public EstrategiaDesempate getEstrategiaBuscaProposta() {
         return estrategiaBuscaProposta;
