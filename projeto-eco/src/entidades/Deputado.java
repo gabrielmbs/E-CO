@@ -20,6 +20,9 @@ public class Deputado implements Funcao, Serializable {
      */
     private String dataInicio;
 
+    /**
+     * Atributo que será utilizado para validacoes.
+     */
     private Validador validador;
 
     /**

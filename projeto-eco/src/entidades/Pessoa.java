@@ -1,6 +1,7 @@
 package entidades;
 
 import util.Validador;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -8,7 +9,7 @@ import java.util.Objects;
  * Representação de uma pessoa, caracterizada pelo seu nome, dni, estado,
  * intereses, partido (todos do tipo String) e funcao que sinaliza para o sistema
  * que a pessoa é "pessoa normal" ou deputado.
- * <p>
+ *
  * É o dni que identifica uma pessoa.
  */
 public class Pessoa implements Serializable {
@@ -50,6 +51,10 @@ public class Pessoa implements Serializable {
      */
     private Validador validador;
 
+    /**
+     * Representa a estrategia de busca da Pessoa, por padrão é Constitucional,
+     * o atributo consiste em uma interface implementada pelas estratégias.
+     */
     private EstrategiaDesempate estrategiaBuscaProposta;
 
     /**
@@ -237,7 +242,12 @@ public class Pessoa implements Serializable {
             throw new IllegalArgumentException("Erro ao configurar estrategia: estrategia invalida");
         }
     }
-    
+
+    /**
+     * Pega estratégia de busca da proposta.
+     *
+     * @return EstrategiaDesempate, que representa a estratégia de busca da Pessoa.
+     */
     public EstrategiaDesempate getEstrategiaBuscaProposta() {
         return estrategiaBuscaProposta;
     }

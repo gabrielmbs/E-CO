@@ -1,6 +1,7 @@
 package entidades;
 
 import util.Validador;
+
 import java.io.Serializable;
 
 /**
@@ -53,7 +54,7 @@ public class PL extends PropostaAbstract implements Serializable {
      * Método que verifica se o quórum mínimo necessário para votação de uma determinada proposição foi alcançado, caso
      * não seja, uma exceção do tipo IllegalArgumentException é lançada.
      *
-     * @param deputados quantidade de deputados presentes para votação.
+     * @param deputados        quantidade de deputados presentes para votação.
      * @param totalDeDeputados total de deputados cadastrados no sistema.
      */
     @Override
@@ -122,8 +123,8 @@ public class PL extends PropostaAbstract implements Serializable {
      * votos necessária para aprovação da proposição e os votos favoráveis à aprovação da proposição. O método retorna
      * um boolean que indica se a proposição foi ou não aprovada.
      *
-     * @param proximoLocal próximo locla onde a proposição será votada.
-     * @param chao quantidade mínima de votos para aprovar a proposição.
+     * @param proximoLocal    próximo locla onde a proposição será votada.
+     * @param chao            quantidade mínima de votos para aprovar a proposição.
      * @param votosFavoraveis votos favoráveis à aprovação da proposição.
      * @return um boolean que indica o resultado da votação.
      */
@@ -152,10 +153,10 @@ public class PL extends PropostaAbstract implements Serializable {
      * necessária para aprovação da proposição, a quantiade dade votos favoráveis à aprovação da proposição e o autor da
      * lei. O método retorna um boolean que indica se a proposição foi ou não aprovada.
      *
-     * @param proximoLocal próximo local onde a proposição será votada.
-     * @param chao quantidade mínima de votos para aprovação da proposição.
+     * @param proximoLocal    próximo local onde a proposição será votada.
+     * @param chao            quantidade mínima de votos para aprovação da proposição.
      * @param votosFavoraveis quantidade de votos favoráveis à aprovação da proposição.
-     * @param autor autor da lei.
+     * @param autor           autor da lei.
      * @return um boolean que indica se a proposição foi ou não aprovada.
      */
     private boolean votarComissaoConc(String proximoLocal, int chao, int votosFavoraveis, Pessoa autor) {

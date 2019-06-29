@@ -126,7 +126,7 @@ public abstract class PropostaAbstract implements Serializable {
      * Método que verifica se o quórum mínimo necessário para votação de uma determinada proposição foi alcançado, caso
      * não seja, uma exceção do tipo IllegalArgumentException é lançada.
      *
-     * @param deputados quantidade de deputados presentes para votação.
+     * @param deputados        quantidade de deputados presentes para votação.
      * @param totalDeDeputados total de deputados cadastrados no sistema.
      */
     public abstract void verificaQuorum(String[] deputados, int totalDeDeputados);
@@ -155,13 +155,13 @@ public abstract class PropostaAbstract implements Serializable {
      * o deputado que criou a lei, a quantidade de votos favoráveis à aprovação da lei e o total de deputados cadastrados
      * no sistema. O método retorna um boolean que indica se a lei foi aprovada ou não.
      *
-     * @param deputado o deputado que criou a lei.
+     * @param deputado        o deputado que criou a lei.
      * @param votosFavoraveis votos favoráveis à aprovação da lei.
-     * @param totalDeputados total de deputados cadastrados no sistema.
+     * @param totalDeputados  total de deputados cadastrados no sistema.
      * @return um boolean que indica se a lei foi ou não aprovada.
      */
     public boolean votarPlenario(String[] deputados, Pessoa deputado, int votosFavoraveis, int totalDeputados) {
-        if(!this.passouNaCCJC){
+        if (!this.passouNaCCJC) {
             throw new IllegalArgumentException("Erro ao votar proposta: tramitacao em comissao");
         }
         if (!this.proposicaoAtiva) {

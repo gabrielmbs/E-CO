@@ -8,6 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Classe controladora de Proposições, ela é responsavel por guardar e manipular os dados da classe PropostaAbstrat
+ * e suas filhas.
+ */
 public class ProposicaoController {
 
     /**

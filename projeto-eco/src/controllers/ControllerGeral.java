@@ -11,6 +11,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.Map;
 
+/**
+ * Classe controladora geral, ela é responsavel por guardar e manipular os demais controllers relacionados, e por gaurdar e
+ * manipular dados geral do sistema.
+ *
+ * @author ERIC DIEGO MATOZO GONCALVES - 118210349
+ * @author GABRIEL MARECO BATISTA DE SOUTO - 118210258
+ * @author VICTOR BRANDAO DE ANDRADE - 118210406
+ * @author WELLISSON GOMES PEREIRA BEZERRA CACHO - 118210873
+ */
 public class ControllerGeral {
     private PessoaController pessoaController;
 
@@ -279,6 +288,12 @@ public class ControllerGeral {
         return this.proposicaoController.votarPlenario(codigo, deputados, deputado, votosFavoraveis, totalDeDeputados);
     }
 
+    /**
+     * Método responsavavel por configurar a estrategia de busca de uma Pessoa. Que por padrão é Constitucional.
+     *
+     * @param dni        String, representa o dni da pessoa que se deseja configurar.
+     * @param estrategia String, representa a estrategia de busca.
+     */
     public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {
         this.validador.validaString(dni, "Erro ao configurar estrategia: pessoa nao pode ser vazia ou nula");
         this.validador.validaDNI(dni, "Erro ao configurar estrategia: ");
@@ -286,6 +301,15 @@ public class ControllerGeral {
         this.pessoaController.configurarEstrategiaPropostaRelacionada(dni, estrategia);
     }
 
+    /**
+     * Método responsavel por buscar a proposta mais relacionada com uma pessoa, caso exista mais de uma, o
+     * desempate será através da estrategia de busca da pessoa, entre todas as propostas ainda em tramitação
+     * no sistema. Caso empata novamente, será retornada a proposta mais antiga.
+     *
+     * @param dni representa o dni da pessoa que se deseja saber qual a proposta mais relacionada a ela.
+     * @return String, caso exista uma proposta em tramitação relacionada a pessoa, representa o código da tramitação
+     * caso contrario é retornado uma string vazia.
+     */
     public String pegarPropostaRelacionada(String dni) {
         this.validador.validaString(dni, "Erro ao pegar proposta relacionada: pessoa nao pode ser vazia ou nula");
         this.validador.validaDNI(dni, "Erro ao pegar proposta relacionada: ");

@@ -7,6 +7,10 @@ import util.Validador;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Classe controladora de Pessoa, ela é responsavel por guardar e manipular os dados da classe Pessoa e suas
+ * derivadas.
+ */
 public class PessoaController {
 
     /**

@@ -1,10 +1,15 @@
 package entidades;
 
 import comparators.ComparadorPropostaCodigo;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Representa a estratégia de busca por conclusão, ou seja, dará preferencia as propostas com maior aprovação
+ * na sua tramitação.
+ */
 public class EstrategiaAprovacao implements EstrategiaDesempate {
     @Override
     public String pegarPropostaRelacionada(List<PropostaAbstract> maioresPropostas) {
