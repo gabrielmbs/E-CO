@@ -39,8 +39,8 @@ public class Deputado implements Funcao, Serializable {
     }
 
     /**
-     * Adiciona as informacoes especificas da funcao do deputado na represetacao de pessoa, no caso,
-     * é adicionado a data de inicio e a quantidade de leis aceitas do deputado.
+     * Adiciona as informações específicas da função do deputado na represetação de pessoa, no caso,
+     * é adicionado a data de início e a quantidade de leis aceitas do deputado.
      *
      * @param representacao dados da pessoa, no caso, nome, dni, partido e/ou interresses.
      * @return a representação em String de um deputado.
@@ -61,10 +61,11 @@ public class Deputado implements Funcao, Serializable {
     }
 
     /**
-     * Esse método retorna um boolean que informa se foi aprovado ou não o voto.
+     * Esse método retorna um boolean que informa se o deputado votou a favor ou não da aprovação de
+     * determinada proposição.
      *
      * @param statusGovernista status.
-     * @return boolean informando se o voto foi ou não aprovado.
+     * @return boolean que indica o voto do deputado.
      */
     public boolean votoPolitico(String statusGovernista, boolean ehDaBase, boolean temInteressesEmComum) {
         boolean result = false;

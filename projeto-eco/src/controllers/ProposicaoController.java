@@ -216,34 +216,6 @@ public class ProposicaoController {
     }
 
     /**
-     * Método responsável por separar artigos com vírgula e espaço, como no
-     * formato a seguir: "artigo1, artigo2, ..., artigoN".
-     *
-     * @param artigos String base para geração da nova string dos artigos concatenados.
-     * @return String dos artigos separados por ", "
-     */
-    private String contatenaArtigos(String artigos) {
-        if (artigos.contains(",")) {
-            String artigosConcatenados = "";
-            for (String caractere : artigos.split(",")) {
-                artigosConcatenados += caractere + ", ";
-
-            }
-            return artigosConcatenados.substring(0, artigosConcatenados.length() - 2);
-        }
-        return artigos;
-    }
-
-    /**
-     * Esse método é responsável por limpar as informações das coleções presentes no ProposicaoController.
-     * Criando um arquivo da extensão .dat vazio no diretório files/ .
-     */
-    public void limparSistema() {
-        this.persistencia.limpar("mapaProposicoesDeLeis");
-        this.persistencia.limpar("mapaContadores");
-    }
-
-    /**
      * Esse método é responsável por armazenar as informações das coleções presentes no ProposicaoController.
      * Criando um arquivo da extensão .dat, com as informações das coleções, no diretório files/ .
      */
@@ -268,5 +240,33 @@ public class ProposicaoController {
         if (aux2 != null) {
             this.proposicoesDeLeis = (Map<String, PropostaAbstract>) aux2;
         }
+    }
+
+    /**
+     * Esse método é responsável por limpar as informações das coleções presentes no ProposicaoController.
+     * Criando um arquivo da extensão .dat vazio no diretório files/ .
+     */
+    public void limparSistema() {
+        this.persistencia.limpar("mapaProposicoesDeLeis");
+        this.persistencia.limpar("mapaContadores");
+    }
+
+    /**
+     * Método responsável por separar artigos com vírgula e espaço, como no
+     * formato a seguir: "artigo1, artigo2, ..., artigoN".
+     *
+     * @param artigos String base para geração da nova string dos artigos concatenados.
+     * @return String dos artigos separados por ", "
+     */
+    private String contatenaArtigos(String artigos) {
+        if (artigos.contains(",")) {
+            String artigosConcatenados = "";
+            for (String caractere : artigos.split(",")) {
+                artigosConcatenados += caractere + ", ";
+
+            }
+            return artigosConcatenados.substring(0, artigosConcatenados.length() - 2);
+        }
+        return artigos;
     }
 }

@@ -2,7 +2,6 @@ package controllers;
 
 import entidades.*;
 import util.Validador;
-
 import java.util.*;
 import java.util.ArrayList;
 import java.util.HashSet;

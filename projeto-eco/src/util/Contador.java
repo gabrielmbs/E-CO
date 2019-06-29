@@ -38,6 +38,4 @@ public class Contador implements Serializable {
     public Integer getContagem() {
         return contagem;
     }
-
-
 }
