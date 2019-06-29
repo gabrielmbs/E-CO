@@ -9,6 +9,9 @@ import java.util.Map;
 
 public class PessoaController {
 
+    /**
+     * Atributo que será utilizado para validações.
+     */
     private Validador validador;
 
     /**
@@ -16,6 +19,9 @@ public class PessoaController {
      */
     private Map<String, Pessoa> pessoas;
 
+    /**
+     * Atributo que será utilizado para o gerenciamento de arquivos.
+     */
     private Persistencia persistencia;
 
     public PessoaController() {

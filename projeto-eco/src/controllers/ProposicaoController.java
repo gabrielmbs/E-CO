@@ -29,6 +29,9 @@ public class ProposicaoController {
      */
     private Validador validador;
 
+    /**
+     * Atributo que será utilizado para o gerenciamento de arquivos.
+     */
     private Persistencia persistencia;
 
     public ProposicaoController() {

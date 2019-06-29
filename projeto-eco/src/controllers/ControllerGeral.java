@@ -33,6 +33,9 @@ public class ControllerGeral {
      */
     private ProposicaoController proposicaoController;
 
+    /**
+     * Atributo que será utilizado para o gerenciamento de arquivos.
+     */
     private Persistencia persistencia;
 
     /**
