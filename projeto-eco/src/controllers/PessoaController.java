@@ -3,7 +3,6 @@ package controllers;
 import entidades.Persistencia;
 import entidades.Pessoa;
 import util.Validador;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -104,6 +103,21 @@ public class PessoaController {
     }
 
     /**
+     * Método responsável pela configuração de uma estratégia de busca de proposições para uma determinada pessoa, este
+     * método recebe como parâmetro o DNI da pessoa que vai utilizar a estratégia para buscar uma proposição e uma
+     * estratégia de busca, que pode ser (CONSTITUCIONAL, APROVACAO ou CONCLUSAO).
+     *
+     * @param dni dni da pessoa que procura uma determinada proposição.
+     * @param estrategia estrátegia de busca que será utilizada.
+     */
+    public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {
+        if (!existePessoa(dni)) {
+            throw new IllegalArgumentException("Erro: pessoa nao encontrada");
+        }
+        this.pessoas.get(dni).configurarEstrategiaPropostaRelacionada(estrategia);
+    }
+
+    /**
      * Método que verifica se uma pessoa existente no sistema
      * eh o atributo diferente de null, o que significa que eh deputado.
      *
@@ -169,13 +183,6 @@ public class PessoaController {
             throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa sem partido");
         }
         this.validador.validaData(dataDeInicio, "Erro ao cadastrar deputado: ");
-    }
-
-    public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {
-        if (!existePessoa(dni)) {
-            throw new IllegalArgumentException("Erro: pessoa nao encontrada");
-        }
-        this.pessoas.get(dni).configurarEstrategiaPropostaRelacionada(estrategia);
     }
 
     /**

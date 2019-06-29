@@ -234,7 +234,7 @@ public class ControllerGeral {
     /**
      * Esse método é responsável por realizar a votação de uma proposta em uma determinada comissão, ele recebe como
      * parâmetro o código da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE), e o próximo
-     * local no qual a porposta será votada.
+     * local no qual a porposta será votada. O método retorna um boolean que indica o resultado da votação.
      *
      * @param codigo           código da proposta.
      * @param statusGovernista status da proposta.
@@ -258,7 +258,7 @@ public class ControllerGeral {
     /**
      * Esse método é responsável por realizar a votação de uma proposta no plenário, ele recebe como parâmetro o código
      * da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE) e uma String com o DNI de todos os
-     * deputados presentes separados por vírgula.
+     * deputados presentes separados por vírgula. O método retorna um boolean que indica o resultado da votação.
      *
      * @param codigo código da proposição a ser votada.
      * @param statusGovernista status da proposição a ser votada.
@@ -275,6 +275,14 @@ public class ControllerGeral {
         return this.proposicaoController.votarPlenario(codigo, deputados, deputado, votosFavoraveis, totalDeDeputados);
     }
 
+    /**
+     * Método responsável pela configuração de uma estratégia de busca de proposições para uma determinada pessoa, este
+     * método recebe como parâmetro o DNI da pessoa que vai utilizar a estratégia para buscar uma proposição e uma
+     * estratégia de busca, que pode ser (CONSTITUCIONAL, APROVACAO ou CONCLUSAO).
+     *
+     * @param dni dni da pessoa que procura uma determinada proposição.
+     * @param estrategia estrátegia de busca que será utilizada.
+     */
     public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {
         this.validador.validaString(dni, "Erro ao configurar estrategia: pessoa nao pode ser vazia ou nula");
         this.validador.validaDNI(dni, "Erro ao configurar estrategia: ");
@@ -282,6 +290,14 @@ public class ControllerGeral {
         this.pessoaController.configurarEstrategiaPropostaRelacionada(dni, estrategia);
     }
 
+    /**
+     * Método responsável pela busca de uma proposição (ainda em tramitação) para uma detemrinada pessoa com base nos
+     * interesses em comum entre a pessoa e a proposição, em caso de empate nos interesses, a busca é realizada usando
+     * como critério a estrátegia de busca definida pela pessoa, que por padrão é a estratégia CONSTITUCIONAL.
+     *
+     * @param dni dni da pessoa que deseja buscar uma determinada proposição.
+     * @return uma String que representa a proposição encontrada.
+     */
     public String pegarPropostaRelacionada(String dni) {
         this.validador.validaString(dni, "Erro ao pegar proposta relacionada: pessoa nao pode ser vazia ou nula");
         this.validador.validaDNI(dni, "Erro ao pegar proposta relacionada: ");
