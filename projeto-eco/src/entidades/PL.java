@@ -180,19 +180,20 @@ public class PL extends PropostaAbstract implements Serializable {
             atualizaTramitacaoLei("REJEITADO (" + this.localDeVotacao + ")");
         } else if (votosFavoraveis >= chao && !this.passouNaCCJC) {
             this.passouNaCCJC = true;
+            this.situacao = "EM VOTACAO (" + proximoLocal + ")";
+            atualizaTramitacaoLei("APROVADO (" + this.localDeVotacao + ")");
             this.localDeVotacao = proximoLocal;
             this.quantidadeDeComissoes++;
             this.quantidadeDeAprovacoes++;
-            this.situacao = "EM VOTACAO (" + proximoLocal + ")";
-            atualizaTramitacaoLei("APROVADO (" + this.localDeVotacao + ")");
+            atualizaTramitacaoLei("EM VOTACAO (" + this.localDeVotacao + ")");
             result = true;
         } else if (votosFavoraveis >= chao) {
             if (proximoLocal.equals("-")) {
+                this.situacao = "APROVADO";
+                atualizaTramitacaoLei("APROVADO (" + this.localDeVotacao + ")");
                 autor.getFuncao().incrementaNumeroDeLeis();
                 this.proposicaoAtiva = false;
                 this.quantidadeDeComissoes++;
-                this.situacao = "APROVADO";
-                atualizaTramitacaoLei("APROVADO (" + this.localDeVotacao + ")");
             }
             this.quantidadeDeAprovacoes++;
             result = true;
