@@ -1297,8 +1297,94 @@ class ControllerGeralTest {
         this.controllerGeral3.votarComissao("PEC 4/2016", "GOVERNISTA","COPO");
         this.controllerGeral3.votarPlenario("PEC 4/2016","LIVRE", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0");
         assertEquals("PEC 1/2016",this.controllerGeral3.pegarPropostaRelacionada("091999999-0"));
-
     }
 
+    @Test
+    void exibirTramitacaoPLConclusivaNaCCJC() {
+        assertEquals("EM VOTACAO (CCJC)", this.controllerGeral3.exibirTramitacao("PL 1/2016"));
+    }
+
+    @Test
+    void exibirTramitacaoPLPNaCCJC() {
+        assertEquals("EM VOTACAO (CCJC)", this.controllerGeral3.exibirTramitacao("PLP 1/2016"));
+    }
+
+    @Test
+    void exibirTramitacaoPLConclusivaAprovadaNaCCJC() {
+        this.controllerGeral3.votarComissao("PL 1/2016", "GOVERNISTA", "CTF");
+        assertEquals("APROVADO (CCJC), EM VOTACAO (CTF)", this.controllerGeral3.exibirTramitacao("PL 1/2016"));
+    }
+
+    @Test
+    void exibirTramitacaoPLConclusivaReprovadaNaCCJC() {
+        this.controllerGeral3.votarComissao("PL 1/2016", "OPOSICAO", "CTF");
+        assertEquals("REJEITADO (CCJC)", this.controllerGeral3.exibirTramitacao("PL 1/2016"));
+    }
+
+    @Test
+    void exibirTramitacaoPLConclusivaVariasComissoesRejeitado() {
+        this.controllerGeral3.votarComissao("PL 1/2016", "GOVERNISTA", "CTF");
+        this.controllerGeral3.votarComissao("PL 1/2016", "OPOSICAO", "-");
+        assertEquals("APROVADO (CCJC), REJEITADO (CTF)", this.controllerGeral3.exibirTramitacao("PL 1/2016"));
+    }
+
+    @Test
+    void exibirTramitacaoPLConclusivaVariasComissoesAprovado() {
+        this.controllerGeral3.votarComissao("PL 1/2016", "GOVERNISTA", "CTF");
+        this.controllerGeral3.votarComissao("PL 1/2016", "LIVRE", "-");
+        assertEquals("APROVADO (CCJC), APROVADO (CTF)", this.controllerGeral3.exibirTramitacao("PL 1/2016"));
+    }
+
+    @Test
+    void exibirTramitacaoPLNConclusiva() {
+        this.controllerGeral3.votarComissao("PL 6/2016", "GOVERNISTA", "CTF");
+        assertEquals("APROVADO (CCJC), EM VOTACAO (CTF)", this.controllerGeral3.exibirTramitacao("PL 6/2016"));
+    }
+
+    @Test
+    void exibirTramitacaoPLNConclusivaVariasComissoes() {
+        this.controllerGeral3.votarComissao("PL 6/2016", "GOVERNISTA", "CTF");
+        this.controllerGeral3.votarComissao("PL 6/2016", "GOVERNISTA", "CGOV");
+        this.controllerGeral3.votarComissao("PL 6/2016", "GOVERNISTA", "COPO");
+        assertEquals("APROVADO (CCJC), REJEITADO (CTF), APROVADO (CGOV), EM VOTACAO (COPO)",
+                this.controllerGeral3.exibirTramitacao("PL 6/2016"));
+    }
+
+    @Test
+    void exibirTramitacaoPLNConclusivaPlenario() {
+        this.controllerGeral3.votarComissao("PL 6/2016", "GOVERNISTA", "CTF");
+        this.controllerGeral3.votarComissao("PL 6/2016", "GOVERNISTA", "CGOV");
+        this.controllerGeral3.votarComissao("PL 6/2016", "GOVERNISTA", "COPO");
+        this.controllerGeral3.votarComissao("PL 6/2016", "OPOSICAO", "plenario");
+        assertEquals("APROVADO (CCJC), REJEITADO (CTF), APROVADO (CGOV), APROVADO (COPO), EM VOTACAO (Plenario)",
+                this.controllerGeral3.exibirTramitacao("PL 6/2016"));
+    }
+
+    @Test
+    void exibirTramitacaoPLNConclusivaPlenarioAprovado() {
+        this.controllerGeral3.votarComissao("PL 6/2016", "GOVERNISTA", "CTF");
+        this.controllerGeral3.votarComissao("PL 6/2016", "GOVERNISTA", "CGOV");
+        this.controllerGeral3.votarComissao("PL 6/2016", "GOVERNISTA", "COPO");
+        this.controllerGeral3.votarComissao("PL 6/2016", "OPOSICAO", "plenario");
+        this.controllerGeral3.votarPlenario("PL 6/2016", "GOVERNISTA",
+                "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0," +
+                        "071999999-0");
+        assertEquals("APROVADO (CCJC), REJEITADO (CTF), APROVADO (CGOV), APROVADO (COPO), APROVADO (Plenario)",
+                this.controllerGeral3.exibirTramitacao("PL 6/2016"));
+    }
+
+    @Test
+    void exibirTramitacaoPLNConclusivaPlenarioRejeitado() {
+        this.controllerGeral3.votarComissao("PL 6/2016", "GOVERNISTA", "CTF");
+        this.controllerGeral3.votarComissao("PL 6/2016", "GOVERNISTA", "CGOV");
+        this.controllerGeral3.votarComissao("PL 6/2016", "GOVERNISTA", "COPO");
+        this.controllerGeral3.votarComissao("PL 6/2016", "OPOSICAO", "plenario");
+        this.controllerGeral3.votarPlenario("PL 6/2016", "OPOSICAO",
+                "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0," +
+                        "071999999-0");
+        assertEquals("APROVADO (CCJC), REJEITADO (CTF), APROVADO (CGOV), APROVADO (COPO), REJEITADO (Plenario)",
+                this.controllerGeral3.exibirTramitacao("PL 6/2016"));
+    }
+    
 }
 
