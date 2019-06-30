@@ -14,11 +14,14 @@ class ControllerGeralTest {
 
     private ControllerGeral controllerGeral3;
 
+    private ControllerGeral controllerGeral4;
+
     @BeforeEach
     void criaPessoaController() {
         this.controllerGeral = new ControllerGeral();
         this.controllerGeral2 = new ControllerGeral();
         this.controllerGeral3 = new ControllerGeral();
+        this.controllerGeral4 = new ControllerGeral();
 
         // sem interesse e sem partido
         this.controllerGeral.cadastrarPessoa("Jonas", "12345678-9", "PB", "");
@@ -48,6 +51,15 @@ class ControllerGeralTest {
         this.controllerGeral3.cadastrarPessoa("P9", "071999999-0", "RO", "saude,seguranca publica,trabalho", "PartidoOpo");
         this.controllerGeral3.cadastrarPessoa("P10", "071000000-0", "RO", "nutricao", "PartidoOpo");
 
+        this.controllerGeral4.cadastrarPessoa("P1", "071222222-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
+        this.controllerGeral4.cadastrarDeputado("071222222-0", "29022016");
+        this.controllerGeral4.cadastrarPessoa("P2", "091111111-0" , "PB", "games", "PartidoGov");
+        this.controllerGeral4.cadastrarPessoa("P3", "091999999-0" , "MT", "saude,seguranca publica,trabalho", "PartidoOpo");
+        this.controllerGeral4.cadastrarPessoa("P4", "091000000-0" , "MT", "nutricao", "PartidoOpo");
+
+
+
+
 
         this.controllerGeral3.cadastrarDeputado("071111111-0", "29022016");
         this.controllerGeral3.cadastrarDeputado("071222222-0", "29022016");
@@ -75,6 +87,9 @@ class ControllerGeralTest {
 
         this.controllerGeral3.cadastrarPEC("071222222-0", 2016, "Ementa PEC", "saude", "https://example.com/sindicato/algo.html", "7,8");
         this.controllerGeral3.cadastrarPEC("071222222-0", 2016, "Ementa PEC", "saude", "https://example.com/sindicato/algo.html", "7,8");
+
+        this.controllerGeral4.cadastrarPEC("071222222-0", 2016, "Ementa PEC", "saude", "https://example.com/sindicato/algo.html", "7,8");
+        this.controllerGeral4.cadastrarPEC("071222222-0", 2016, "Ementa PEC", "nutri", "https://example.com/sindicato/algo.html", "7,8");
 
 
         this.controllerGeral3.cadastrarPartido("PartidoGov");
@@ -1211,5 +1226,18 @@ class ControllerGeralTest {
         assertThrows(IllegalArgumentException.class, () ->
                 this.controllerGeral.configurarEstrategiaPropostaRelacionada("12345678-6", "CONCLUSAO2"));
     }
+
+    @Test
+    void pegaPropostaRelacionadaSemInteressesEmComum() {
+        assertEquals("", this.controllerGeral4.pegarPropostaRelacionada("091111111-0"));
+    }
+
+    @Test
+    void pegaPropostaRelacionadaPECPrimeiro() {
+        assertEquals("PEC 1/2016", this.controllerGeral4.pegarPropostaRelacionada("091999999-0"));
+        assertEquals("PEC 1/2016", this.controllerGeral4.pegarPropostaRelacionada("091000000-0"));
+
+    }
+
 }
 
