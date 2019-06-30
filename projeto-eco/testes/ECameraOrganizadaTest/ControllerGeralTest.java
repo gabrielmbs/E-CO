@@ -14,14 +14,11 @@ class ControllerGeralTest {
 
     private ControllerGeral controllerGeral3;
 
-    private ControllerGeral controllerGeral4;
-
     @BeforeEach
     void criaPessoaController() {
         this.controllerGeral = new ControllerGeral();
         this.controllerGeral2 = new ControllerGeral();
         this.controllerGeral3 = new ControllerGeral();
-        this.controllerGeral4 = new ControllerGeral();
 
         // sem interesse e sem partido
         this.controllerGeral.cadastrarPessoa("Jonas", "12345678-9", "PB", "");
@@ -51,11 +48,9 @@ class ControllerGeralTest {
         this.controllerGeral3.cadastrarPessoa("P9", "071999999-0", "RO", "saude,seguranca publica,trabalho", "PartidoOpo");
         this.controllerGeral3.cadastrarPessoa("P10", "071000000-0", "RO", "nutricao", "PartidoOpo");
 
-        this.controllerGeral4.cadastrarPessoa("P1", "071222222-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
-        this.controllerGeral4.cadastrarDeputado("071222222-0", "29022016");
-        this.controllerGeral4.cadastrarPessoa("P2", "091111111-0" , "PB", "games", "PartidoGov");
-        this.controllerGeral4.cadastrarPessoa("P3", "091999999-0" , "MT", "saude,seguranca publica,trabalho", "PartidoOpo");
-        this.controllerGeral4.cadastrarPessoa("P4", "091000000-0" , "MT", "nutricao", "PartidoOpo");
+        this.controllerGeral3.cadastrarPessoa("P11", "091111111-0" , "PB", "games", "PartidoGov");
+        this.controllerGeral3.cadastrarPessoa("P12", "091999999-0" , "MT", "saude,seguranca publica,trabalho", "PartidoOpo");
+        this.controllerGeral3.cadastrarPessoa("P12", "091000000-0" , "MT", "nutricao", "PartidoOpo");
 
 
 
@@ -79,17 +74,21 @@ class ControllerGeralTest {
         this.controllerGeral3.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "nutricao", "http://example.com/semana_saude", true);
         this.controllerGeral3.cadastrarPL("071333333-0", 2016, "Ementa PLnconc", "cidadania,educacao basica", "http://example.com/semana_cidadania", false);
         this.controllerGeral3.cadastrarPL("071333333-0", 2016, "Ementa PLnconc", "cidadania,educacao basica", "http://example.com/semana_cidadania", false);
+        this.controllerGeral3.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "nutricao", "http://example.com/semana_saude", true);
+        this.controllerGeral3.cadastrarPL("071222222-0", 2013, "Ementa PL conc", "saude", "http://example.com/semana_saude", true);
+
 
 
         this.controllerGeral3.cadastrarPLP("071222222-0", 2016, "Ementa PLP", "fiscal,jogos", "https://example.net/jogos%40aposta", "153");
         this.controllerGeral3.cadastrarPLP("071222222-0", 2013, "Ementa PLP", "saude", "https://example.net/jogos%40aposta", "153");
+        this.controllerGeral3.cadastrarPLP("071222222-0", 2016, "Ementa PLP", "nutricao", "https://example.net/jogos%40aposta", "153");
+
 
 
         this.controllerGeral3.cadastrarPEC("071222222-0", 2016, "Ementa PEC", "saude", "https://example.com/sindicato/algo.html", "7,8");
         this.controllerGeral3.cadastrarPEC("071222222-0", 2016, "Ementa PEC", "saude", "https://example.com/sindicato/algo.html", "7,8");
-
-        this.controllerGeral4.cadastrarPEC("071222222-0", 2016, "Ementa PEC", "saude", "https://example.com/sindicato/algo.html", "7,8");
-        this.controllerGeral4.cadastrarPEC("071222222-0", 2016, "Ementa PEC", "nutri", "https://example.com/sindicato/algo.html", "7,8");
+        this.controllerGeral3.cadastrarPEC("071222222-0", 2016, "Ementa PEC", "saude", "https://example.com/sindicato/algo.html", "7,8");
+        this.controllerGeral3.cadastrarPEC("071222222-0", 2016, "Ementa PEC", "nutri", "https://example.com/sindicato/algo.html", "7,8");
 
 
         this.controllerGeral3.cadastrarPartido("PartidoGov");
@@ -1228,13 +1227,76 @@ class ControllerGeralTest {
 
     @Test
     void pegaPropostaRelacionadaSemInteressesEmComum() {
-        assertEquals("", this.controllerGeral4.pegarPropostaRelacionada("091111111-0"));
+        assertEquals("", this.controllerGeral3.pegarPropostaRelacionada("091111111-0"));
     }
 
     @Test
     void pegaPropostaRelacionadaPECPrimeiro() {
-        assertEquals("PEC 1/2016", this.controllerGeral4.pegarPropostaRelacionada("091999999-0"));
-        assertEquals("PEC 1/2016", this.controllerGeral4.pegarPropostaRelacionada("091000000-0"));
+        assertEquals("PEC 1/2016", this.controllerGeral3.pegarPropostaRelacionada("091999999-0"));
+        assertEquals("PLP 2/2016", this.controllerGeral3.pegarPropostaRelacionada("091000000-0"));
+
+    }
+
+    @Test
+    void pegaPropostaRelacionadaConclusao(){
+        this.controllerGeral3.configurarEstrategiaPropostaRelacionada("091000000-0", "CONCLUSAO");
+        this.controllerGeral3.configurarEstrategiaPropostaRelacionada("091999999-0", "CONCLUSAO");
+        assertEquals("PL 1/2013",this.controllerGeral3.pegarPropostaRelacionada("091999999-0"));
+        assertEquals("PLP 2/2016",this.controllerGeral3.pegarPropostaRelacionada("091000000-0"));
+
+
+    }
+
+    @Test
+    void pegaPropostaRelacionadaConclusaoAvancoPEC(){
+        this.controllerGeral3.configurarEstrategiaPropostaRelacionada("091000000-0", "CONCLUSAO");
+        this.controllerGeral3.votarComissao("PEC 4/2016", "GOVERNISTA","CGOV");
+        assertEquals("PLP 2/2016",this.controllerGeral3.pegarPropostaRelacionada("091000000-0"));
+
+
+    }
+
+    @Test
+    void pegaPropostaRelacionadaConclusaoAvancoPEC2(){
+        this.controllerGeral3.configurarEstrategiaPropostaRelacionada("091000000-0", "CONCLUSAO");
+        this.controllerGeral3.votarComissao("PEC 4/2016", "GOVERNISTA","CGOV");
+        this.controllerGeral3.votarComissao("PEC 4/2016", "GOVERNISTA","COPO");
+        assertEquals("PLP 2/2016",this.controllerGeral3.pegarPropostaRelacionada("091000000-0"));
+
+    }
+
+    @Test
+    void pegaPropostaRelacionadaConclusaoAvancoPLP(){
+        this.controllerGeral3.configurarEstrategiaPropostaRelacionada("091000000-0", "CONCLUSAO");
+        this.controllerGeral3.votarComissao("PLP 2/2016", "GOVERNISTA","CGOV");
+        assertEquals("PLP 2/2016",this.controllerGeral3.pegarPropostaRelacionada("091000000-0"));
+
+    }
+
+    @Test
+    void pegaPropostaRelacionadaConclusaoAvancoPLP2(){
+        this.controllerGeral3.configurarEstrategiaPropostaRelacionada("091000000-0", "CONCLUSAO");
+        this.controllerGeral3.votarComissao("PLP 2/2016", "GOVERNISTA","CGOV");
+        this.controllerGeral3.votarComissao("PLP 2/2016", "GOVERNISTA","plenario");
+        assertEquals("PLP 2/2016",this.controllerGeral3.pegarPropostaRelacionada("091000000-0"));
+
+    }
+
+    @Test
+    void pegaPropostaRelacionadaConclusaoAvancoPL(){
+        this.controllerGeral3.configurarEstrategiaPropostaRelacionada("091000000-0", "CONCLUSAO");
+        this.controllerGeral3.votarComissao("PL 5/2016", "GOVERNISTA","plenario");
+        assertEquals("PL 5/2016",this.controllerGeral3.pegarPropostaRelacionada("091000000-0"));
+
+    }
+
+    @Test
+    void pegaPropostaRelacionadaConclusaoAvancoPEC3(){
+        this.controllerGeral3.configurarEstrategiaPropostaRelacionada("091000000-0", "CONCLUSAO");
+        this.controllerGeral3.votarComissao("PEC 4/2016", "GOVERNISTA","CGOV");
+        this.controllerGeral3.votarComissao("PEC 4/2016", "GOVERNISTA","COPO");
+        this.controllerGeral3.votarPlenario("PEC 4/2016","LIVRE", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0,071888888-0");
+        assertEquals("PEC 1/2016",this.controllerGeral3.pegarPropostaRelacionada("091999999-0"));
 
     }
 
