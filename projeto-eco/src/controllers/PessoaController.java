@@ -3,6 +3,7 @@ package controllers;
 import entidades.Persistencia;
 import entidades.Pessoa;
 import util.Validador;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +42,7 @@ public class PessoaController {
      * a podermos cadastrar no sistema uma pessoa que possua filiação a algum partido
      * ou não.
      *
-     * @param nome nome da pessoa a ser cadastrada.
+     * @param nome       nome da pessoa a ser cadastrada.
      * @param dni        dni da pessa a ser cadastrada.
      * @param estado     estado da pessoa a ser cadastrada.
      * @param interesses interesses da pessoa a ser cadastrada.
@@ -120,7 +121,7 @@ public class PessoaController {
      * método recebe como parâmetro o DNI da pessoa que vai utilizar a estratégia para buscar uma proposição e uma
      * estratégia de busca, que pode ser (CONSTITUCIONAL, APROVACAO ou CONCLUSAO).
      *
-     * @param dni dni da pessoa que procura uma determinada proposição.
+     * @param dni        dni da pessoa que procura uma determinada proposição.
      * @param estrategia estrátegia de busca que será utilizada.
      */
     public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {

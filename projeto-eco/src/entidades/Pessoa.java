@@ -1,6 +1,7 @@
 package entidades;
 
 import util.Validador;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -8,7 +9,7 @@ import java.util.Objects;
  * Representação de uma pessoa, caracterizada pelo seu nome, dni, estado,
  * intereses, partido (todos do tipo String) e funcao que sinaliza para o sistema
  * que a pessoa é "pessoa normal" ou deputado.
- *
+ * <p>
  * É o dni que identifica uma pessoa.
  */
 public class Pessoa implements Serializable {
@@ -37,6 +38,7 @@ public class Pessoa implements Serializable {
      * Partido (caso possua) ao qual a pessoa é filiada.
      */
     private String partido;
+
     /**
      * Atributo que sinaliza para o sistema
      * que a pessoa é "pessoa normal" ou deputado,
@@ -69,7 +71,7 @@ public class Pessoa implements Serializable {
      * nulos ou estão na forma de String vazia e se estiverem, exceções
      * do tipo NullPointerException e IllegalArgumentExeception serão
      * lançadas, respectivamente.
-     *
+     * <p>
      * Ademais, checa-se se o dni passado é válido (composto apenas de números
      * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
      * uma exceção com uma mensagem indicando que o dni é inválido.
@@ -99,7 +101,7 @@ public class Pessoa implements Serializable {
      * nulos ou estão na forma de String vazia e se estiverem, exceções
      * do tipo NullPointerException e IllegalArgumentExeception serão
      * lançadas, respectivamente.
-     *
+     * <p>
      * Ademais, checa-se se o dni passado é válido (composto apenas de números
      * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
      * uma exceção com uma mensagem indicando que o dni é inválido.
@@ -121,7 +123,7 @@ public class Pessoa implements Serializable {
      * Método responsável por tornar uma Pessoa também Deputado, por meio
      * da atribuição de uma instanciação de um Deputado ao atributo funcao,
      * que é uma interface implementada por Deputado.
-     *
+     * <p>
      * Recebe a data de início (do tipo String) do mandato do Deputado. Checa-se
      * se a data passada como parâmetro é nula ou vazia, se é uma data válida
      * ou se é uma data futura à data de hoje.
@@ -139,7 +141,7 @@ public class Pessoa implements Serializable {
      * Retorna a String que representa uma pessoa e a respectiva funcao
      * do mesmo. As informações sobre partido ou interesses são optativos
      * para pessoas.
-     *
+     * <p>
      * A represetacao segue o formato "Nome - DNI (Estado) [ - PARTIDO ]
      * [ - Interesses ]"
      *

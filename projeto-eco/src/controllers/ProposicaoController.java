@@ -17,7 +17,7 @@ public class ProposicaoController {
     /**
      * Representa mapa onde se armazena as contagens específicas de cada tipo de lei em consonância
      * com seu ano de cadastro, com a chave no formato: "tipoDeLei AnoCadastro".
-     *
+     * <p>
      * Permite o acompanhamento mais preciso da quantidade de um tipo específico de leis
      * cadastradas em um ano.
      */
@@ -165,9 +165,9 @@ public class ProposicaoController {
      * a ser votada, o número de votos favoráveis à aprovação da proposição e o total de deputados cadastrados no sistema.
      * O método retorna um boolean que indica se a proposição foi o não aprovada.
      *
-     * @param codigo código da proposta.
-     * @param deputados Array com os deputados presentes.
-     * @param deputado o autor da lei.
+     * @param codigo          código da proposta.
+     * @param deputados       Array com os deputados presentes.
+     * @param deputado        o autor da lei.
      * @param votosFavoraveis quantidade de votos favoráveis à aprovação.
      * @param totalDeputados  total de deputados cadastrados no sistema.
      * @return um boolean que indica o resultado da votação.
