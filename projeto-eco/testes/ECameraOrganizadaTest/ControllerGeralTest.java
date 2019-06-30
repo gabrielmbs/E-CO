@@ -1305,12 +1305,6 @@ class ControllerGeralTest {
     }
 
     @Test
-    void exibirTramitacaoPLConclusivaAprovadaNaCCJC() {
-        this.controllerGeral3.votarComissao("PL 1/2016", "GOVERNISTA", "CTF");
-        assertEquals("APROVADO (CCJC), EM VOTACAO (CTF)", this.controllerGeral3.exibirTramitacao("PL 1/2016"));
-    }
-
-    @Test
     void exibirTramitacaoPLConclusivaReprovadaNaCCJC() {
         this.controllerGeral3.votarComissao("PL 1/2016", "OPOSICAO", "CTF");
         assertEquals("REJEITADO (CCJC)", this.controllerGeral3.exibirTramitacao("PL 1/2016"));

@@ -182,10 +182,10 @@ public class PL extends PropostaAbstract implements Serializable {
             this.passouNaCCJC = true;
             this.situacao = "EM VOTACAO (" + proximoLocal + ")";
             atualizaTramitacaoLei("APROVADO (" + this.localDeVotacao + ")");
+            atualizaTramitacaoLei("EM VOTACAO (" + this.localDeVotacao + ")");
             this.localDeVotacao = proximoLocal;
             this.quantidadeDeComissoes++;
             this.quantidadeDeAprovacoes++;
-            atualizaTramitacaoLei("EM VOTACAO (" + this.localDeVotacao + ")");
             result = true;
         } else if (votosFavoraveis >= chao) {
             if (proximoLocal.equals("-")) {

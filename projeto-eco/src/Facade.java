@@ -1,10 +1,9 @@
-package controllers;
-
+import controllers.ControllerGeral;
 import easyaccept.EasyAccept;
 
 public class Facade {
     public static void main(String[] args) {
-        args = new String[]{"controllers.Facade",
+        args = new String[]{"Facade",
                 "easyaccept_tests/use_case_1.txt", "easyaccept_tests/use_case_2.txt",
                 "easyaccept_tests/use_case_3.txt", "easyaccept_tests/use_case_4.txt",
                 "easyaccept_tests/use_case_5.txt", "easyaccept_tests/use_case_6.txt", "easyaccept_tests/use_case_7.txt",
