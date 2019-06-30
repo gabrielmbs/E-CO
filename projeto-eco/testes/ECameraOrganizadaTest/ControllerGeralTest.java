@@ -1300,5 +1300,15 @@ class ControllerGeralTest {
 
     }
 
+    @Test
+    void aindaSemNome(){
+        this.controllerGeral.cadastrarPessoa("p1", "071222222-0", "sp", "saude", "pt");
+        this.controllerGeral.cadastrarDeputado("071222222-0", "20102018");
+        this.controllerGeral.cadastrarPLP("071222222-0", 2016, "Ementa PLP", "saude", "https://example.net/jogos%40aposta", "153");
+        this.controllerGeral.cadastrarPEC("071222222-0", 2016, "Ementa PEC", "saude", "https://example.com/sindicato/algo.html" , "7,8");
+        this.controllerGeral.configurarEstrategiaPropostaRelacionada("071222222-0", "APROVACAO");
+        assertEquals("PEC 1/2016", this.controllerGeral.pegarPropostaRelacionada("071222222-0"));
+    }
+
 }
 
