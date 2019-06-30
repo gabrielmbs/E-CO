@@ -2,6 +2,7 @@ package controllers;
 
 import entidades.*;
 import util.Validador;
+
 import java.util.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -118,7 +119,7 @@ public class ControllerGeral {
 
     /**
      * Método responsável por cadastrar um partido no sistema, recebendo como parâmetro o nome do partido.
-     *
+     * <p>
      * Checa-se se esse parâmetro é nulo ou vazio, e se for, exceções do tipo NullPointerException
      * e IllegalArgumentExeception serão lançadas, respectivamente.
      *
@@ -296,7 +297,7 @@ public class ControllerGeral {
      * método recebe como parâmetro o DNI da pessoa que vai utilizar a estratégia para buscar uma proposição e uma
      * estratégia de busca, que pode ser (CONSTITUCIONAL, APROVACAO ou CONCLUSAO).
      *
-     * @param dni dni da pessoa que procura uma determinada proposição.
+     * @param dni        dni da pessoa que procura uma determinada proposição.
      * @param estrategia estrátegia de busca que será utilizada.
      */
     public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {

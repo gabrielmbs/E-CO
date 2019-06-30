@@ -155,6 +155,7 @@ public abstract class PropostaAbstract implements Serializable {
      * o deputado que criou a lei, a quantidade de votos favoráveis à aprovação da lei e o total de deputados cadastrados
      * no sistema. O método retorna um boolean que indica se a lei foi aprovada ou não.
      *
+     * @param deputados os deputados presentes para votação.
      * @param deputado        o deputado que criou a lei.
      * @param votosFavoraveis votos favoráveis à aprovação da lei.
      * @param totalDeputados  total de deputados cadastrados no sistema.

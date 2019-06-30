@@ -1,6 +1,7 @@
 package entidades;
 
 import util.Validador;
+
 import java.io.Serializable;
 
 /**

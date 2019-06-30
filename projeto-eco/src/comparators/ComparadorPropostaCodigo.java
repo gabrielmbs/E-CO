@@ -1,6 +1,7 @@
 package comparators;
 
 import entidades.PropostaAbstract;
+
 import java.util.Comparator;
 
 /**
@@ -12,7 +13,7 @@ public class ComparadorPropostaCodigo implements Comparator<PropostaAbstract> {
      * Recebe como parâmetros duas proposições a serem comparadas e retorna um inteiro que indica
      * o resultado dessa comparação.
      *
-     * @param proposicao proposição a ser comparada.
+     * @param proposicao  proposição a ser comparada.
      * @param proposicao2 proposição a ser comparada.
      * @return int que indica o resultado da comparação.
      */

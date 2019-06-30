@@ -14,7 +14,7 @@ public class EstrategiaConclusao implements EstrategiaDesempate {
 
     /**
      * Método responsável por pegar uma determinada proposição (ainda em tramitação) utilizando como critério de busca o
-     * quão próxima do final da tramitação está a proposição, seguindo a seguinte precedência (Plenário (2º turno) >
+     * quão próxima do final da tramitação está a proposição, seguindo a seguinte precedência (Plenário (2º turno) -
      * Plenário (1º turno)), caso a proposição não esteja no plenário é considerada a que tiver passado por mais comisseõs,
      * em caso de empate é retornada a proposição mais antiga primeiro considerando o ano e em caso de empate nos anos de
      * cadastro, considera-se o número de cadastro. O método recebe como parâmetro uma lista com todas as proposições

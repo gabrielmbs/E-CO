@@ -1,6 +1,7 @@
 package entidades;
 
 import util.Validador;
+
 import java.io.Serializable;
 
 /**
@@ -98,10 +99,10 @@ public class PL extends PropostaAbstract implements Serializable {
      * aprovação da lei e o total de deputados cadastrados no sistema. O método retorna um boolean que indica se a lei
      * foi aprovada ou não.
      *
-     * @param deputados deputados presentes para votação.
-     * @param deputado o deputado que criou a lei.
+     * @param deputados       deputados presentes para votação.
+     * @param deputado        o deputado que criou a lei.
      * @param votosFavoraveis votos favoráveis à aprovação da lei.
-     * @param totalDeputados total de deputados cadastrados no sistema.
+     * @param totalDeputados  total de deputados cadastrados no sistema.
      * @return um boolean que indica se a lei foi ou não aprovada.
      */
     @Override

@@ -15,7 +15,7 @@ public class EstrategiaConstitucional implements EstrategiaDesempate, Serializab
 
     /**
      * Método responsável por pegar uma determinada proposição (ainda em tramitação) utilizando como critério de busca o
-     * tipo da proposição, seguindo a seguinte precedência (PEC > PLP > PL). Em caso de haver mais de uma proposição do
+     * tipo da proposição, seguindo a seguinte precedência (PEC - PLP - PL). Em caso de haver mais de uma proposição do
      * mesmo tipo, é retornada a proposição mais antiga primeiro considerando o ano e em caso de empate nos anos de
      * cadastro, considera-se o número de cadastro. O método recebe como parâmetro uma lista com todas as proposições
      * empatadas em número de interesses em comum com uma determinada pessoa e retorna a proposição mais relevante para

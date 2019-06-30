@@ -31,7 +31,7 @@ public class Persistencia {
     /**
      * Cria uma instacia da classe Pesistencia com o nome do diretorio passado por paramentro
      *
-     * @param nomeDiretorio
+     * @param nomeDiretorio nome do diretório.
      */
     public Persistencia(String nomeDiretorio) {
         this.caminhoDiretorio = nomeDiretorio + File.separator;
