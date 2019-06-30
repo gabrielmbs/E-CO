@@ -1181,8 +1181,7 @@ class ControllerGeralTest {
         this.controllerGeral3.votarComissao("PEC 2/2016", "GOVERNISTA", "CGOV");
         this.controllerGeral3.votarComissao("PEC 2/2016", "GOVERNISTA", "plenario");
         assertFalse(this.controllerGeral3.votarPlenario("PEC 1/2016", "OPOSICAO", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071999999-0,071000000-0"));
-        assertTrue(this.controllerGeral3.votarPlenario("PEC 2/2016", "LIVRE", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0"));
-        assertTrue(this.controllerGeral3.votarPlenario("PEC 2/2016", "LIVRE", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0"));
+        assertFalse(this.controllerGeral3.votarPlenario("PEC 2/2016", "LIVRE", "071111111-0,071222222-0,071333333-0,071444444-0,071555555-0,071666666-0,071777777-0"));
     }
 
     @Test
