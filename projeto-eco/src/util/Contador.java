@@ -1,11 +1,13 @@
 package util;
 
+import java.io.Serializable;
+
 /**
  * Representação de um contador, utlizado como
  * mecanismo auxiliar para gerar o código de uma
  * lei a ser cadastrada.
  */
-public class Contador {
+public class Contador implements Serializable {
     /**
      * Atributo que indica em que número a contagem está.
      */
@@ -22,9 +24,8 @@ public class Contador {
     /**
      * Método responsável por incrementar em 1 a contagem do
      * contador
-     *
      */
-    public void incrementaContagem(){
+    public void incrementaContagem() {
         this.contagem++;
     }
 
@@ -37,6 +38,4 @@ public class Contador {
     public Integer getContagem() {
         return contagem;
     }
-
-
 }

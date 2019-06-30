@@ -1,11 +1,12 @@
 package entidades;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Classe representa uma commisão, ela guarda atributos especificos de cada comissão e gerecia as mesmas.
  */
-public class Comissao {
+public class Comissao implements Serializable {
     /**
      * Representa os deputados que fazem parte da comissão
      */
@@ -28,6 +29,7 @@ public class Comissao {
 
     /**
      * Pega a lista de dnis da comissão, no caso, os deputados que fazem parte da comissão.
+     *
      * @return um array de Strings, representa os dnis dos deputados.
      */
     public String[] getDNIs() {

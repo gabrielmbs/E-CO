@@ -3,15 +3,21 @@ package controllers;
 import entidades.*;
 import util.Contador;
 import util.Validador;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+/**
+ * Classe controladora de Proposições, ela é responsavel por guardar e manipular os dados da classe PropostaAbstrat
+ * e suas filhas.
+ */
 public class ProposicaoController {
 
     /**
      * Representa mapa onde se armazena as contagens específicas de cada tipo de lei em consonância
      * com seu ano de cadastro, com a chave no formato: "tipoDeLei AnoCadastro".
-     *
+     * <p>
      * Permite o acompanhamento mais preciso da quantidade de um tipo específico de leis
      * cadastradas em um ano.
      */
@@ -21,17 +27,26 @@ public class ProposicaoController {
      * Representa mapa onde se armazena as proposições de lei armazenadas no sistema,
      * com a chave no formato: "tipoDeLei ordemContagem/AnoDeCadastro".
      */
-    private Map<String, ProposicaoAbstract> proposicoesDeLeis;
+    private Map<String, PropostaAbstract> proposicoesDeLeis;
 
     /**
      * Atributo que será utilizado para validacoes.
      */
     private Validador validador;
 
+    /**
+     * Atributo que será utilizado para o gerenciamento de arquivos.
+     */
+    private Persistencia persistencia;
+
+    /**
+     * Constrói o controller de proposições.
+     */
     public ProposicaoController() {
         this.proposicoesDeLeis = new HashMap<>();
         this.validador = new Validador();
         this.contadores = new HashMap<>();
+        this.persistencia = new Persistencia();
     }
 
     /**
@@ -39,13 +54,12 @@ public class ProposicaoController {
      * ementa, interesses e url, todos do tipo String, ano do tipo int e
      * conclusivo do tipo boolean, são passados como parâmetro.
      *
-     * @param dni dni do autor do projeto.
-     * @param ementa ementa do projeto.
+     * @param dni        dni do autor do projeto.
+     * @param ementa     ementa do projeto.
      * @param interesses interesses do projeto.
-     * @param url endereço url do projeto.
-     * @param ano ano de criação do projeto.
+     * @param url        endereço url do projeto.
+     * @param ano        ano de criação do projeto.
      * @param conclusivo situção conclusiva do projeto
-     *
      * @return retorna o código da lei cadastrada.
      */
     public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
@@ -56,10 +70,19 @@ public class ProposicaoController {
         }
         Contador contador = this.contadores.get(chaveContador);
         String codigoLei = "PL " + contador.getContagem() + "/" + ano;
-        this.proposicoesDeLeis.put(codigoLei, new ProjetoDeLei(codigoLei, dni, ano, ementa, interesses, url,
+        this.proposicoesDeLeis.put(codigoLei, new PL(codigoLei, dni, ano, ementa, interesses, url,
                 conclusivo));
         contador.incrementaContagem();
         return codigoLei;
+    }
+
+    /**
+     * Retorna o mapa com todas as Proposições de Leis.
+     *
+     * @return o mapa de proposições.
+     */
+    public Map<String, PropostaAbstract> getProposicoesDeLeis() {
+        return proposicoesDeLeis;
     }
 
     /**
@@ -67,13 +90,12 @@ public class ProposicaoController {
      * ementa, interesses, url e artigos, todos do tipo String e ano do tipo int
      * são passados como parâmetro.
      *
-     * @param dni dni da pessoa deputada autor da lei.
-     * @param ementa ementa da lei.
+     * @param dni        dni da pessoa deputada autor da lei.
+     * @param ementa     ementa da lei.
      * @param interesses interesses da lei.
-     * @param url endereço url da lei.
-     * @param artigos artigos da constituição sobre os quais a lei vai atuar.
-     * @param ano ano de criação do projeto
-     *
+     * @param url        endereço url da lei.
+     * @param artigos    artigos da constituição sobre os quais a lei vai atuar.
+     * @param ano        ano de criação do projeto
      * @return retorna o código da lei cadastrada.
      */
     public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
@@ -85,7 +107,7 @@ public class ProposicaoController {
         }
         Contador contador = this.contadores.get(chaveContador);
         String codigoLei = "PLP " + contador.getContagem() + "/" + ano;
-        this.proposicoesDeLeis.put(codigoLei, new ProjetoLeiComplementar(codigoLei, dni, ano, ementa,
+        this.proposicoesDeLeis.put(codigoLei, new PLP(codigoLei, dni, ano, ementa,
                 interesses, url,
                 artigosConcatenados));
         contador.incrementaContagem();
@@ -97,13 +119,12 @@ public class ProposicaoController {
      * ementa, interesses, url e artigos, todos do tipo String e ano do tipo int
      * são passados como parâmetro.
      *
-     * @param dni dni da pessoa deputada autor da lei.
-     * @param ementa ementa da lei.
+     * @param dni        dni da pessoa deputada autor da lei.
+     * @param ementa     ementa da lei.
      * @param interesses interesses da lei.
-     * @param url endereço url da lei.
-     * @param artigos artigos da constituição sobre os quais a lei vai atuar.
-     * @param ano ano de criação do projeto
-     *
+     * @param url        endereço url da lei.
+     * @param artigos    artigos da constituição sobre os quais a lei vai atuar.
+     * @param ano        ano de criação do projeto
      * @return retorna o código da lei cadastrada.
      */
     public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
@@ -114,60 +135,64 @@ public class ProposicaoController {
         }
         Contador contador = this.contadores.get(chaveContador);
         String codigoLei = "PEC " + contador.getContagem() + "/" + ano;
-        this.proposicoesDeLeis.put(codigoLei, new ProjetoEmendaConstitucional(codigoLei, dni, ano, ementa, interesses,
-                                    url, artigosConcatenados));
+        this.proposicoesDeLeis.put(codigoLei, new PEC(codigoLei, dni, ano, ementa, interesses,
+                url, artigosConcatenados));
         contador.incrementaContagem();
         return codigoLei;
     }
 
     /**
      * Esse método é responsável por realizar a votação de uma proposta em uma determinada comissão, ele recebe como
-     * parâmetro o código da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE), e o próximo
-     * local no qual a porposta será votada.
+     * parâmetro o código da proposta a ser votada, o próximo local no qual a porposta será votada, o chão que define
+     * quantos votos são necessários para aprovar a proposição, os votos favoráveis à aprovação da proposição e o autor
+     * da lei. O método retorna um boolean que indica se a proposição foi ou não aprovada.
      *
-     * @param codigo código da proposta.
-     * @param proximoLocal próximo locla no qual a proposta será votada.
+     * @param codigo          código da proposta.
+     * @param proximoLocal    próximo locla no qual a proposta será votada.
+     * @param chao            mínimo de votos necessários para aprovação da proposição.
+     * @param votosFavoraveis votos favoráveis à aprovação da proposição.
+     * @param autor           o autor da proposição a ser votada.
      * @return um boolean que indica o resultado da votação.
      */
-    public boolean votarComissao(String codigo, String proximoLocal, int chao,
-                                 int votosFavoraveis, Pessoa autor) {
-        if(this.proposicoesDeLeis.get(codigo).isConclusivo()){
-            return votarComissaoPLConc(codigo, votosFavoraveis, chao, proximoLocal, autor);
-        }
-        return votarComissaoNConc(codigo, votosFavoraveis, chao, proximoLocal);
-
+    public boolean votarComissao(String codigo, String proximoLocal, int chao, int votosFavoraveis, Pessoa autor) {
+        PropostaAbstract proposicao = this.proposicoesDeLeis.get(codigo);
+        return proposicao.votarComissao(proximoLocal, chao, votosFavoraveis, autor);
     }
 
     /**
      * Esse método é responsável por realizar a votação de uma proposta no plenário, ele recebe como parâmetro
-     * o código da proposta a ser votada, o status da proposta (GOVERNISTA, OPOSICAO ou LIVRE), e os presentes
-     * no plenário (DNIs separados por vírgula), todos do tipo String. O método retorna um boolena que indica
-     * o resultado da votação.
+     * o código da proposta a ser votada, um Array com os deputados presentes para votação, o deputado autor da proposição
+     * a ser votada, o número de votos favoráveis à aprovação da proposição e o total de deputados cadastrados no sistema.
+     * O método retorna um boolean que indica se a proposição foi o não aprovada.
      *
-     * @param codigo código da proposta.
+     * @param codigo          código da proposta.
+     * @param deputados       Array com os deputados presentes.
+     * @param deputado        o autor da lei.
+     * @param votosFavoraveis quantidade de votos favoráveis à aprovação.
+     * @param totalDeputados  total de deputados cadastrados no sistema.
      * @return um boolean que indica o resultado da votação.
      */
-    public boolean votarPlenario(String codigo, String[] deputados, Pessoa deputado,
-                                 int votosFavoraveis, int totalDeputados) {
-        if(!this.proposicoesDeLeis.get(codigo).getPassouNaCCJC()){
-            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao em comissao");
+    public boolean votarPlenario(String codigo, String[] deputados, Pessoa deputado, int votosFavoraveis, int totalDeputados) {
+        PropostaAbstract proposicao = this.proposicoesDeLeis.get(codigo);
+        return proposicao.votarPlenario(deputados, deputado, votosFavoraveis, totalDeputados);
+    }
+
+    /**
+     * Método responsável por exibir a tramitação de um determinado projeto de lei,
+     * recuperada pela pesquisa no mapa que as armazena por meio de seu código.
+     *
+     * @param codigo String que identifica o projeto de lei.
+     * @return String com todas as situações e pareceres da lei ao longo de suas votações.
+     */
+    public String exibirTramitacao(String codigo) {
+        if (!existeLei(codigo)) {
+            throw new NullPointerException("Erro ao exibir tramitacao: projeto inexistente");
         }
-        if(!this.proposicoesDeLeis.get(codigo).getProposicaoAtiva()){
-            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
-        }
-        int chao = this.proposicoesDeLeis.get(codigo).caulculaChao(deputados.length);
-        if ("PL".equals(this.proposicoesDeLeis.get(codigo).getTipoDeProposicao()) &&
-                !this.proposicoesDeLeis.get(codigo).isConclusivo()) {
-            this.proposicoesDeLeis.get(codigo).setProposicaoAtiva(false);
-            if (votosFavoraveis >= chao) {
-                deputado.getFuncao().incrementaNumeroDeLeis();
-                return true;
-            }
-            return false;
-        }
-        chao = this.proposicoesDeLeis.get(codigo).caulculaChao(totalDeputados);
-        boolean result = aprovadaOuArquivada(codigo, votosFavoraveis, chao, deputado);
-        return result;
+        List<String> tramitacao = this.proposicoesDeLeis.get(codigo).getTramitacao();
+
+        String separador = ", ";
+        String tramitacaoFormatada = String.join(separador, tramitacao);
+        return tramitacaoFormatada;
     }
 
     /**
@@ -180,115 +205,63 @@ public class ProposicaoController {
         return this.proposicoesDeLeis.containsKey(codigo);
     }
 
-    public ProposicaoAbstract buscaProposicao(String codigo){
+    /**
+     * Método que recupera um projeto de lei no sistema, buscando no mapa que os organiza.
+     *
+     * @param codigo codigo da lei a ser procurado.
+     * @return Object a lei pesquisada.
+     */
+    public PropostaAbstract buscaProposicao(String codigo) {
         return this.proposicoesDeLeis.get(codigo);
     }
 
     /**
-     * Esse método auxiliar é responsável por realizar a votação de uma PL não conclusiva
-     * em uma determinada comissão, ele retorna um boolean que indica o resultado da
-     * votação.
-     *
-     * @param codigo código da proposta a ser votada.
-     * @param votosFavoraveis votos favoráveis à aprovação da proposta.
-     * @param chao votos mínimos necessários para aprovação da proposta.
-     * @param proximoLocal próximo local no qual a proposta será votada.
-     * @return um boolean que indica o resultado da votação.
+     * Esse método é responsável por armazenar as informações das coleções presentes no ProposicaoController.
+     * Criando um arquivo da extensão .dat, com as informações das coleções, no diretório files/ .
      */
-    private boolean votarComissaoNConc(String codigo, int votosFavoraveis, int chao, String proximoLocal){
-        ProposicaoAbstract proposicao = buscaProposicao(codigo);
-        if ("plenario".equals(proximoLocal)) {
-            proposicao.setSituacao("EM VOTACAO (Plenario - 1o turno)");
-        }
-        boolean result = false;
-        if(votosFavoraveis >= chao){
-            result = true;
-        }
-        proposicao.setLocalDeVotacao(proximoLocal);
-        proposicao.setPassouNaCCJC(true);
-        return result;
+    public void salvarSistema() {
+        this.persistencia.salvar(this.proposicoesDeLeis, "mapaProposicoesDeLeis");
+        this.persistencia.salvar(this.contadores, "mapaContadores");
     }
 
     /**
-     * Esse método auxiliar é responsável por realizar a votação de uma PL conclusiva
-     * em uma determinada comissão, ele retorna um boolean que indica o resultado da
-     * votação.
-     *
-     * @param codigo código da proposta a ser votada.
-     * @param votosFavoraveis votos favoráveis à aprovação da proposta.
-     * @param chao votos mínimos necessários para aprovação da proposta.
-     * @param proximoLocal próximo local no qual a proposta será votada.
-     * @return um boolean que indica o resultado da votação.
+     * Esse método é responsável por ler as informações das coleções do ProposicaoController, armazenadas
+     * no diretório files/ .
      */
-    private boolean votarComissaoPLConc(String codigo, int votosFavoraveis, int chao, String proximoLocal, Pessoa autor) {
-        boolean result = false;
-        ProposicaoAbstract proposicao = buscaProposicao(codigo);
-        if (votosFavoraveis < chao && !proposicao.getPassouNaCCJC()) {
-            proposicao.setProposicaoAtiva(false);
-            proposicao.setPassouNaCCJC(true);
-        }else if(votosFavoraveis >= chao && !proposicao.getPassouNaCCJC()){
-            proposicao.setPassouNaCCJC(true);
-            proposicao.setSituacao("EM VOTACAO (" + proximoLocal + ")");
-            proposicao.setLocalDeVotacao(proximoLocal);
-            result = true;
-        }else if(votosFavoraveis >= chao){
-            if(proximoLocal.equals("-")){
-                proposicao.setSituacao("APROVADO");
-                autor.getFuncao().incrementaNumeroDeLeis();
-                proposicao.setProposicaoAtiva(false);
-            }
-            result = true;
-        }else if(votosFavoraveis < chao){
-            proposicao.setProposicaoAtiva(false);
-            if(proximoLocal.equals("-")){
-                proposicao.setSituacao("ARQUIVADO");
-
-            }
+    public void carregarSistema() {
+        Object aux = this.persistencia.carregar("mapaContadores");
+        this.contadores = new HashMap<>();
+        if (aux != null) {
+            this.contadores = (Map<String, Contador>) aux;
         }
-        return result;
+
+        Object aux2 = this.persistencia.carregar("mapaProposicoesDeLeis");
+        this.proposicoesDeLeis = new HashMap<>();
+        if (aux2 != null) {
+            this.proposicoesDeLeis = (Map<String, PropostaAbstract>) aux2;
+        }
     }
 
     /**
-     * Esse método auxiliar retorna um boolean que informa se uma PLP ou uma PEC foi Aprovada
-     * ou Arquivada no Plenário. Além disso ele atualiza o atributo númeroDeLeis do deputado e
-     * atualiza o atributo situação da proposição.
-     *
-     * @param codigo código da proposição a ser votada.
-     * @param votosFavoraveis votos à favor da aprovação.
-     * @param chao mínimo de votos necessário para aprovar a proposição.
-     * @return um boolean que indica o resultado da votação.
+     * Esse método é responsável por limpar as informações das coleções presentes no ProposicaoController.
+     * Criando um arquivo da extensão .dat vazio no diretório files/ .
      */
-    private boolean aprovadaOuArquivada(String codigo, int votosFavoraveis, int chao, Pessoa deputado) {
-        boolean result = false;
-        ProposicaoAbstract proposicao = buscaProposicao(codigo);
-        if (votosFavoraveis >= chao) {
-            result = true;
-            if (proposicao.getPassouNoPlenario()) {
-                buscaProposicao(codigo).setSituacao("APROVADO");
-                deputado.getFuncao().incrementaNumeroDeLeis();
-                proposicao.setProposicaoAtiva(false);
-            } else {
-                proposicao.setSituacao("EM VOTACAO (Plenario - 2o turno)");
-                proposicao.setPassouNoPlenario(true);
-            }
-        } else {
-            proposicao.setSituacao("ARQUIVADO");
-            proposicao.setProposicaoAtiva(false);
-
-        }
-        return result;
+    public void limparSistema() {
+        this.persistencia.limpar("mapaProposicoesDeLeis");
+        this.persistencia.limpar("mapaContadores");
     }
 
     /**
      * Método responsável por separar artigos com vírgula e espaço, como no
      * formato a seguir: "artigo1, artigo2, ..., artigoN".
+     *
      * @param artigos String base para geração da nova string dos artigos concatenados.
-     * @return
+     * @return String dos artigos separados por ", "
      */
-    private String contatenaArtigos(String artigos){
-        if(artigos.contains(",")){
+    private String contatenaArtigos(String artigos) {
+        if (artigos.contains(",")) {
             String artigosConcatenados = "";
-            for(String caractere : artigos.split(",")){
+            for (String caractere : artigos.split(",")) {
                 artigosConcatenados += caractere + ", ";
 
             }
@@ -296,5 +269,4 @@ public class ProposicaoController {
         }
         return artigos;
     }
-
 }

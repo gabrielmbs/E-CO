@@ -2,17 +2,17 @@ package entidades;
 
 import util.Validador;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Representação de uma pessoa, caracterizada pelo seu nome, dni, estado,
  * intereses, partido (todos do tipo String) e funcao que sinaliza para o sistema
  * que a pessoa é "pessoa normal" ou deputado.
- *
+ * <p>
  * É o dni que identifica uma pessoa.
- *
  */
-public class Pessoa {
+public class Pessoa implements Serializable {
 
     /**
      * Nome da pessoa.
@@ -38,6 +38,7 @@ public class Pessoa {
      * Partido (caso possua) ao qual a pessoa é filiada.
      */
     private String partido;
+
     /**
      * Atributo que sinaliza para o sistema
      * que a pessoa é "pessoa normal" ou deputado,
@@ -52,6 +53,12 @@ public class Pessoa {
     private Validador validador;
 
     /**
+     * Representa a estrategia de busca da Pessoa, por padrão é Constitucional,
+     * o atributo consiste em uma interface implementada pelas estratégias.
+     */
+    private EstrategiaDesempate estrategiaBuscaProposta;
+
+    /**
      * Os métodos construtores a seguir são sobrecarregados de modo
      * a podermos instanciar uma pessoa que possua filiação a algum partido
      * ou não.
@@ -64,14 +71,14 @@ public class Pessoa {
      * nulos ou estão na forma de String vazia e se estiverem, exceções
      * do tipo NullPointerException e IllegalArgumentExeception serão
      * lançadas, respectivamente.
-     *
+     * <p>
      * Ademais, checa-se se o dni passado é válido (composto apenas de números
      * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
      * uma exceção com uma mensagem indicando que o dni é inválido.
      *
-     * @param nome nome da pessoa a ser criada.
-     * @param dni dni da pessoa a ser criada.
-     * @param estado estado de origem da pessoa a ser criada.
+     * @param nome       nome da pessoa a ser criada.
+     * @param dni        dni da pessoa a ser criada.
+     * @param estado     estado de origem da pessoa a ser criada.
      * @param interesses lista de interesses da pessoa.
      */
     public Pessoa(String nome, String dni, String estado, String interesses) {
@@ -80,11 +87,11 @@ public class Pessoa {
         this.validador.validaDNI(dni, "Erro ao cadastrar pessoa: ");
         this.validador.validaString(nome, "Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
         this.validador.validaString(estado, "Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
-
         this.nome = nome;
         this.dni = dni;
         this.estado = estado;
         this.interesses = interesses;
+        this.estrategiaBuscaProposta = new EstrategiaConstitucional();
     }
 
     /**
@@ -94,16 +101,16 @@ public class Pessoa {
      * nulos ou estão na forma de String vazia e se estiverem, exceções
      * do tipo NullPointerException e IllegalArgumentExeception serão
      * lançadas, respectivamente.
-     *
+     * <p>
      * Ademais, checa-se se o dni passado é válido (composto apenas de números
      * no formato XXXXXXXXX-X, sendo cada X um valor de 0 a 9). Se não for, lança-se
      * uma exceção com uma mensagem indicando que o dni é inválido.
      *
-     * @param nome nome da pessoa a ser criada.
-     * @param dni dni da pessoa a ser criada.
-     * @param estado estado de origem da pessoa a ser criada.
+     * @param nome       nome da pessoa a ser criada.
+     * @param dni        dni da pessoa a ser criada.
+     * @param estado     estado de origem da pessoa a ser criada.
      * @param interesses lista de interesses da pessoa.
-     * @param partido partido ao qual a pessoa filiada.
+     * @param partido    partido ao qual a pessoa filiada.
      */
     public Pessoa(String nome, String dni, String estado, String interesses, String partido) {
         this(nome, dni, estado, interesses);
@@ -116,7 +123,7 @@ public class Pessoa {
      * Método responsável por tornar uma Pessoa também Deputado, por meio
      * da atribuição de uma instanciação de um Deputado ao atributo funcao,
      * que é uma interface implementada por Deputado.
-     *
+     * <p>
      * Recebe a data de início (do tipo String) do mandato do Deputado. Checa-se
      * se a data passada como parâmetro é nula ou vazia, se é uma data válida
      * ou se é uma data futura à data de hoje.
@@ -134,9 +141,9 @@ public class Pessoa {
      * Retorna a String que representa uma pessoa e a respectiva funcao
      * do mesmo. As informações sobre partido ou interesses são optativos
      * para pessoas.
-     *
+     * <p>
      * A represetacao segue o formato "Nome - DNI (Estado) [ - PARTIDO ]
-     *  [ - Interesses ]"
+     * [ - Interesses ]"
      *
      * @return a representação em String de uma pessoa.
      */
@@ -164,7 +171,6 @@ public class Pessoa {
      * da classe Pessoa. Uma pessoa é igual a outra pessoa se ambas possuírem dni iguais.
      *
      * @param o parâmetro a ser comparado, para verificar se algum outro Object Pessoa é igual ou não a ele.
-     *
      * @return true, se os objetos Pessoa forem iguais, false, se os objetos Pessoa forem diferentes ou se o objeto
      * passado como parâmetro for null.
      */
@@ -208,7 +214,41 @@ public class Pessoa {
         return funcao;
     }
 
+    /**
+     * Pega os interesses da pessoa.
+     *
+     * @return retorna uma String, representando os interreses da pessoa separada por ','.
+     */
     public String getInteresses() {
         return interesses;
+    }
+
+    /**
+     * Método responsável por configurar a estrategia de busca, para o proposta relacionada com o seus interesses.
+     * A estratégia pode ser: CONSTITUCIONAL, CONCLUSAO, APROVACAO. Se por acaso não forem passadas por paramentro
+     * é lançado um IllegalArgumentException.
+     * A estrategia de busca padrão é: CONSTITUCIONAL.
+     *
+     * @param estrategia String, que representa a estratégia de busca desejada.
+     */
+    public void configurarEstrategiaPropostaRelacionada(String estrategia) {
+        if ("CONSTITUCIONAL".equals(estrategia)) {
+            this.estrategiaBuscaProposta = new EstrategiaConstitucional();
+        } else if ("CONCLUSAO".equals(estrategia)) {
+            this.estrategiaBuscaProposta = new EstrategiaConclusao();
+        } else if ("APROVACAO".equals(estrategia)) {
+            this.estrategiaBuscaProposta = new EstrategiaAprovacao();
+        } else {
+            throw new IllegalArgumentException("Erro ao configurar estrategia: estrategia invalida");
+        }
+    }
+
+    /**
+     * Retorna a estratégia de busca utilizada pela pessoa.
+     *
+     * @return a estratégia utilizada pela pessoa.
+     */
+    public EstrategiaDesempate getEstrategiaBuscaProposta() {
+        return estrategiaBuscaProposta;
     }
 }

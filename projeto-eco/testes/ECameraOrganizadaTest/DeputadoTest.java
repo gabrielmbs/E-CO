@@ -22,7 +22,7 @@ class DeputadoTest {
 
     @Test
     void TestConstrutorDeputadoParametroNulo() {
-         assertThrows(NullPointerException.class, () -> new Deputado(null));
+        assertThrows(NullPointerException.class, () -> new Deputado(null));
     }
 
     @Test

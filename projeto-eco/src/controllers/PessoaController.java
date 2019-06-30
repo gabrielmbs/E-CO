@@ -1,13 +1,21 @@
 package controllers;
 
+import entidades.Persistencia;
 import entidades.Pessoa;
 import util.Validador;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class DeputadoController {
+/**
+ * Classe controladora de Pessoa, ela é responsavel por guardar e manipular os dados da classe Pessoa e suas
+ * derivadas.
+ */
+public class PessoaController {
 
+    /**
+     * Atributo que será utilizado para validações.
+     */
     private Validador validador;
 
     /**
@@ -15,7 +23,16 @@ public class DeputadoController {
      */
     private Map<String, Pessoa> pessoas;
 
-    public DeputadoController() {
+    /**
+     * Atributo que será utilizado para o gerenciamento de arquivos.
+     */
+    private Persistencia persistencia;
+
+    /**
+     * Constrói o pessoa controller.
+     */
+    public PessoaController() {
+        this.persistencia = new Persistencia();
         this.validador = new Validador();
         this.pessoas = new HashMap<>();
     }
@@ -100,6 +117,21 @@ public class DeputadoController {
     }
 
     /**
+     * Método responsável pela configuração de uma estratégia de busca de proposições para uma determinada pessoa, este
+     * método recebe como parâmetro o DNI da pessoa que vai utilizar a estratégia para buscar uma proposição e uma
+     * estratégia de busca, que pode ser (CONSTITUCIONAL, APROVACAO ou CONCLUSAO).
+     *
+     * @param dni        dni da pessoa que procura uma determinada proposição.
+     * @param estrategia estrátegia de busca que será utilizada.
+     */
+    public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {
+        if (!existePessoa(dni)) {
+            throw new IllegalArgumentException("Erro: pessoa nao encontrada");
+        }
+        this.pessoas.get(dni).configurarEstrategiaPropostaRelacionada(estrategia);
+    }
+
+    /**
      * Método que verifica se uma pessoa existente no sistema
      * eh o atributo diferente de null, o que significa que eh deputado.
      *
@@ -132,8 +164,36 @@ public class DeputadoController {
      * @param dni dni a ser buscado.
      * @return Pessoa.
      */
-    public Pessoa buscaPessoa(String dni){
+    public Pessoa buscaPessoa(String dni) {
         return this.pessoas.get(dni);
+    }
+
+    /**
+     * Esse método é responsável por limpar as informações das coleções presentes no PessoaController.
+     * Criando um arquivo da extensão .dat vazio no diretório files/ .
+     */
+    public void limparSistema() {
+        this.persistencia.limpar("mapaPessoas");
+    }
+
+    /**
+     * Esse método é responsável por armazenar as informações das coleções presentes no PessoaController.
+     * Criando um arquivo da extensão .dat, com as informações das coleções, no diretório files/ .
+     */
+    public void salvarSistema() {
+        this.persistencia.salvar(this.pessoas, "mapaPessoas");
+    }
+
+    /**
+     * Esse método é responsável por ler as informações das coleções do PessoaController, armazenadas
+     * no diretório files/ .
+     */
+    public void carregarSistema() {
+        Object obj = this.persistencia.carregar("mapaPessoas");
+        this.pessoas = new HashMap<>();
+        if (obj != null) {
+            this.pessoas = (Map<String, Pessoa>) obj;
+        }
     }
 
     /**

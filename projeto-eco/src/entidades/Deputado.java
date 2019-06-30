@@ -2,11 +2,13 @@ package entidades;
 
 import util.Validador;
 
+import java.io.Serializable;
+
 /**
  * Representação de um deputado que tem um número de leis (que, por padrão, se inicia em 0) e uma data de ínicio
  * de mandato.
  */
-public class Deputado implements Funcao{
+public class Deputado implements Funcao, Serializable {
 
     /**
      * Número de leis do deputado.
@@ -18,6 +20,9 @@ public class Deputado implements Funcao{
      */
     private String dataInicio;
 
+    /**
+     * Atributo que será utilizado para validações.
+     */
     private Validador validador;
 
     /**
@@ -35,40 +40,41 @@ public class Deputado implements Funcao{
     }
 
     /**
-     * Adiciona as informacoes especificas da funcao do deputado na represetacao de pessoa, no caso,
-     * é adicionado a data de inicio e a quantidade de leis aceitas do deputado.
+     * Adiciona as informações específicas da função do deputado na represetação de pessoa, no caso,
+     * é adicionado a data de início e a quantidade de leis aceitas do deputado.
      *
      * @param representacao dados da pessoa, no caso, nome, dni, partido e/ou interresses.
-     *
      * @return a representação em String de um deputado.
      */
     @Override
     public String exibir(String representacao) {
-        String dia = this.dataInicio.substring(0,2);
-        String mes = this.dataInicio.substring(2,4);
+        String dia = this.dataInicio.substring(0, 2);
+        String mes = this.dataInicio.substring(2, 4);
         String ano = this.dataInicio.substring(4);
         return "POL: " + representacao + " - " + dia + "/" + mes + "/" + ano + " - " + this.numeroDeLeis + " Leis";
     }
 
     /**
      * Incrementa em um o atributo numeroDeLeis sempre que é chamado.
-     *
      */
     public void incrementaNumeroDeLeis() {
         this.numeroDeLeis++;
     }
 
     /**
-     * Esse método retorna um boolean que informa se foi aprovado ou não o voto.
+     * Esse método retorna um boolean que informa se o deputado votou a favor ou não da aprovação de
+     * determinada proposição.
      *
      * @param statusGovernista status.
-     * @return boolean informando se o voto foi ou não aprovado.
+     * @return boolean que indica o voto do deputado.
      */
     public boolean votoPolitico(String statusGovernista, boolean ehDaBase, boolean temInteressesEmComum) {
         boolean result = false;
-        if("GOVERNISTA".equals(statusGovernista) && ehDaBase) {
+        if ("GOVERNISTA".equals(statusGovernista) && ehDaBase) {
             result = true;
-        }else if("LIVRE".equals(statusGovernista) && temInteressesEmComum){
+        } else if ("LIVRE".equals(statusGovernista) && temInteressesEmComum) {
+            result = true;
+        } else if ("OPOSICAO".equals(statusGovernista) && !ehDaBase) {
             result = true;
         }
         return result;

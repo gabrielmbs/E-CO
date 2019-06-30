@@ -1,5 +1,6 @@
 package util;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
@@ -8,20 +9,21 @@ import java.time.format.DateTimeParseException;
 /**
  * Classe responsável por toda a validação no sistema.
  */
-public class Validador {
+public class Validador implements Serializable {
 
     /**
      * Método responsável por fazer todas as validações de data de uma só vez.
      *
      * @param data data a ser analisada.
-     * @param msg mensagem de erro que será lançada.
+     * @param msg  mensagem de erro que será lançada.
      */
-    public void validaData(String data, String msg){
+    public void validaData(String data, String msg) {
         String erroString = "data nao pode ser vazio ou nulo";
         validaString(data, msg + erroString);
         validaDataInvalida(data, msg);
         validaDataFutura(data, msg);
     }
+
     /**
      * Método responsável por validar um ano de criação
      * de um projeto de lei.
@@ -29,14 +31,13 @@ public class Validador {
      * @param ano ano a ser analisado.
      * @param msg mensagem de erro que será lançada.
      */
-    public void validaAnoLei(int ano, String msg){
+    public void validaAnoLei(int ano, String msg) {
         int anoAtual = Year.now().getValue();
         String msgAnoPosteriorAnoAtual = "ano posterior ao ano atual";
         String msgAnoAnterior1988 = "ano anterior a 1988";
-        if (ano > anoAtual ){
+        if (ano > anoAtual) {
             throw new IllegalArgumentException(msg + msgAnoPosteriorAnoAtual);
-        }
-        else if (ano < 1988){
+        } else if (ano < 1988) {
             throw new IllegalArgumentException(msg + msgAnoAnterior1988);
 
         }
@@ -46,9 +47,9 @@ public class Validador {
      * Método que verifica se a String passada como parâmetro é nula ou vazia de uma vez só.
      *
      * @param string String a ser checada se é nula ou vazia.
-     * @param msg mensagem de erro que será lançada.
+     * @param msg    mensagem de erro que será lançada.
      */
-    public void validaString(String string, String msg){
+    public void validaString(String string, String msg) {
         validaStringNula(string, msg);
         validaStringVazia(string, msg);
     }
@@ -56,16 +57,35 @@ public class Validador {
     /**
      * Método responsável por validar um dni inválido.
      *
-     * @param dni dni a ser verificado.
+     * @param dni      dni a ser verificado.
      * @param mensagem mensagem de erro que será lançada caso o dni seja inválido.
      */
     public void validaDNI(String dni, String mensagem) {
         String erroString = "dni nao pode ser vazio ou nulo";
         String erroInvalido = "dni invalido";
         validaString(dni, mensagem + erroString);
-        if (!dni.matches("[0-9-]+")){
+        if (!dni.matches("[0-9-]+")) {
             throw new IllegalArgumentException(mensagem + erroInvalido);
         }
+    }
+
+    /**
+     * Método responsaável por verificar os dados passados como parâmetro na criação de um projeto, verificando se cada
+     * um dos parâmetors é vazio ou nulo, além de verificar se o DNI é inválido e lançar as exceções adequadas.
+     *
+     * @param dni dni do deputado.
+     * @param ano ano de cadastro.
+     * @param ementa ementa do projeto.
+     * @param interesses interesses do projeto.
+     * @param url url do projeto.
+     */
+    public void validaProjeto(String dni, int ano, String ementa, String interesses, String url) {
+        this.validaString(ementa, "Erro ao cadastrar projeto: ementa nao pode ser vazia ou nula");
+        this.validaString(dni, "Erro ao cadastrar projeto: autor nao pode ser vazio ou nulo");
+        this.validaString(interesses, "Erro ao cadastrar projeto: interesse nao pode ser vazio ou nulo");
+        this.validaString(url, "Erro ao cadastrar projeto: url nao pode ser vazio ou nulo");
+        this.validaDNI(dni, "Erro ao cadastrar projeto: ");
+        this.validaAnoLei(ano, "Erro ao cadastrar projeto: ");
     }
 
     /**
@@ -74,7 +94,7 @@ public class Validador {
      * @param ano ano a ser verificado.
      * @return boolean informando se o ano é (ou não) bissexto.
      */
-    private static boolean ehBissexto(int ano){
+    private static boolean ehBissexto(int ano) {
         return ano % 4 == 0 && (ano % 400 == 0 || ano % 100 != 0);
     }
 
@@ -82,9 +102,9 @@ public class Validador {
      * Método responsável por validar uma data inválida.
      *
      * @param data data a ser analisada.
-     * @param msg mensagem de erro que será lançada.
+     * @param msg  mensagem de erro que será lançada.
      */
-    private void validaDataInvalida(String data, String msg){
+    private void validaDataInvalida(String data, String msg) {
         String erro = "data invalida";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
         try {
@@ -93,10 +113,10 @@ public class Validador {
             throw new IllegalArgumentException(msg + erro);
         }
 
-        int dia = Integer.parseInt(data.substring(0,2));
-        int mes = Integer.parseInt(data.substring(2,4));
+        int dia = Integer.parseInt(data.substring(0, 2));
+        int mes = Integer.parseInt(data.substring(2, 4));
         int ano = Integer.parseInt(data.substring(4));
-        if(dia == 29 && mes == 2 && !ehBissexto(ano)){
+        if (dia == 29 && mes == 2 && !ehBissexto(ano)) {
             throw new IllegalArgumentException(msg + erro);
         }
     }
@@ -105,14 +125,14 @@ public class Validador {
      * Método responsável por validar uma data futura.
      *
      * @param data data a ser analisada.
-     * @param msg mensagem de erro que será lançada.
+     * @param msg  mensagem de erro que será lançada.
      */
-    private void validaDataFutura(String data, String msg){
+    private void validaDataFutura(String data, String msg) {
         String erro = "data futura";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
         LocalDate dataDoSistema = LocalDate.now();
         LocalDate dataAtual = LocalDate.parse(data, formatter);
-        if(dataDoSistema.isBefore(dataAtual)){
+        if (dataDoSistema.isBefore(dataAtual)) {
             throw new IllegalArgumentException(msg + erro);
         }
     }
@@ -121,7 +141,7 @@ public class Validador {
      * Método que verifica se uma String é nula e lança uma exceção caso seja.
      *
      * @param parametro parametro a ser checado se é nulo.
-     * @param mensagem mensagem de erro que será lançada.
+     * @param mensagem  mensagem de erro que será lançada.
      */
     private void validaStringNula(String parametro, String mensagem) {
         if (parametro == null) {
@@ -133,13 +153,12 @@ public class Validador {
      * Método que verifica se uma String é vazia e lança uma exceção caso seja.
      *
      * @param parametro parametro a ser checado se é vazia.
-     * @param mensagem mensagem de erro que será lançada.
+     * @param mensagem  mensagem de erro que será lançada.
      */
-    private  void validaStringVazia(String parametro, String mensagem) {
+    private void validaStringVazia(String parametro, String mensagem) {
         if ("".equals(parametro.trim())) {
             throw new IllegalArgumentException(mensagem);
         }
     }
-
 }
 

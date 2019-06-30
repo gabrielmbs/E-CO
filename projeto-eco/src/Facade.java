@@ -1,23 +1,19 @@
-package controllers;
-
+import controllers.ControllerGeral;
 import easyaccept.EasyAccept;
 
 public class Facade {
     public static void main(String[] args) {
-        args = new String[]{"controllers.Facade",
-                "easyaccept_tests/use_case_7.txt"};
-
-//        "easyaccept_tests/use_case_1.txt",
-//                "easyaccept_tests/use_case_2.txt",
-//                "easyaccept_tests/use_case_3.txt",
-//                "easyaccept_tests/use_case_4.txt",
-//                "easyaccept_tests/use_case_5.txt",
+        args = new String[]{"Facade",
+                "easyaccept_tests/use_case_1.txt", "easyaccept_tests/use_case_2.txt",
+                "easyaccept_tests/use_case_3.txt", "easyaccept_tests/use_case_4.txt",
+                "easyaccept_tests/use_case_5.txt", "easyaccept_tests/use_case_6.txt", "easyaccept_tests/use_case_7.txt",
+                "easyaccept_tests/use_case_8.txt", "easyaccept_tests/use_case_9.txt"};
         EasyAccept.main(args);
     }
 
     private ControllerGeral controllerGeral;
 
-    public Facade(){
+    public Facade() {
         this.controllerGeral = new ControllerGeral();
     }
 
@@ -30,39 +26,39 @@ public class Facade {
 
     }
 
-    public void cadastrarDeputado(String DNI, String dataDeInicio){
+    public void cadastrarDeputado(String DNI, String dataDeInicio) {
         this.controllerGeral.cadastrarDeputado(DNI, dataDeInicio);
     }
 
-    public String exibirPessoa(String DNI){
+    public String exibirPessoa(String DNI) {
         return this.controllerGeral.exibirPessoa(DNI);
     }
 
-    public void cadastrarPartido(String partido){
+    public void cadastrarPartido(String partido) {
         this.controllerGeral.cadastrarPartido(partido);
     }
 
-    public String exibirBase(){
+    public String exibirBase() {
         return this.controllerGeral.exibirBase();
     }
 
-    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo){
+    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
         return this.controllerGeral.cadastrarPL(dni, ano, ementa, interesses, url, conclusivo);
     }
 
-    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos){
+    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
         return this.controllerGeral.cadastrarPLP(dni, ano, ementa, interesses, url, artigos);
     }
 
-    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos){
+    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
         return this.controllerGeral.cadastrarPEC(dni, ano, ementa, interesses, url, artigos);
     }
 
-    public String exibirProjeto(String codigo){
+    public String exibirProjeto(String codigo) {
         return this.controllerGeral.exibirProjeto(codigo);
     }
 
-    public void cadastrarComissao(String tema, String politicos){
+    public void cadastrarComissao(String tema, String politicos) {
         this.controllerGeral.cadastrarComissao(tema, politicos);
     }
 
@@ -75,19 +71,27 @@ public class Facade {
     }
 
     public String exibirTramitacao(String codigo) {
-        return "";
+        return this.controllerGeral.exibirTramitacao(codigo);
     }
 
-    public void limparSistema(){
-
+    public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia) {
+        this.controllerGeral.configurarEstrategiaPropostaRelacionada(dni, estrategia);
     }
 
-    public void salvarSistema(){
-
+    public String pegarPropostaRelacionada(String dni) {
+        return this.controllerGeral.pegarPropostaRelacionada(dni);
     }
 
-    public void carregarSistema(){
+    public void limparSistema() {
+        this.controllerGeral.limparSistema();
+    }
 
+    public void salvarSistema() {
+        this.controllerGeral.salvarSistema();
+    }
+
+    public void carregarSistema() {
+        this.controllerGeral.carregarSistema();
     }
 }
 
