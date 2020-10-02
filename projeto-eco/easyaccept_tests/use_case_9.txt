@@ -102,7 +102,7 @@ expectError "Erro ao configurar estrategia: dni invalido" configurarEstrategiaPr
 expectError "Erro ao configurar estrategia: dni invalido" configurarEstrategiaPropostaRelacionada dni="091000000-A" estrategia="POLIMORFISMO"
 
 expectError "Erro ao pegar proposta relacionada: pessoa nao pode ser vazia ou nula" pegarPropostaRelacionada dni=""
-expectError "Erro ao pegar proposta relacionada: dni invalido" pegarPropostaRelacionada dni="091999999-A"
+expectError "Erro ao pegar proposta relacionada: dni invalido" pegarPropostaRelacionada dni="991999999-A"
 
 # salva o sistema em arquivos
 salvarSistema
