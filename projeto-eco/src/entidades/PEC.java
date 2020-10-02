@@ -37,9 +37,9 @@ public class PEC extends PropostaAbstract implements Serializable {
                String url, String artigos) {
         super(dni, ano, codigoLei, ementa, interesses, url);
         this.validador = new Validador();
-        this.validador.validaString(codigoLei, "Erro ao cadastrar projeto: codigo de lei nao pode ser vazio ou nulo");
+        this.validador.validaString(codigoLei, "Erro ao cadastrar projeto: código de lei não pode ser vazio ou nulo");
         this.validador.validaProjeto(dni, ano, ementa, interesses, url);
-        this.validador.validaString(artigos, "Erro ao cadastrar projeto: artigo nao pode ser vazio ou nulo");
+        this.validador.validaString(artigos, "Erro ao cadastrar projeto: artigo não pode ser vazio ou nulo");
         this.artigos = artigos;
         this.tipoDeProposicao = "PEC";
         this.conclusivo = false;
